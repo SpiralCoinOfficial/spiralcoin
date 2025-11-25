@@ -1,0 +1,27 @@
+body {
+    background: linear-gradient(135deg, #000000, #1a1a1a);
+    color: gold;
+    font-family: 'Arial Black', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+button {
+    background-color: gold;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #ffd700;
+}
+
+#main img {
+    width: 150px;
+    margin-bottom: 20px;
+}

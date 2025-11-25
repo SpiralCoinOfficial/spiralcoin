@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpiralCoin Portal</title>
+<style>
+html,body{margin:0;padding:0;font-family:Arial,sans-serif;height:100%;overflow:hidden;background:#000;color:#fff;}
+header{text-align:center;padding:1rem;font-size:2rem;font-weight:bold;color:#ffcc00;text-shadow:0 0 20px #ffcc00;}
+canvas#portal{position:fixed;top:0;left:0;z-index:-1;}
+section{position:relative;z-index:1;max-width:900px;margin:auto;padding:1rem;}
+.card{background:rgba(26,27,44,0.85);padding:1rem;margin:1rem 0;border-radius:12px;box-shadow:0 0 15px #ffcc00;}
+button{padding:.5rem 1rem;margin:.5rem 0;font-size:1rem;cursor:pointer;background:#ffcc00;border:none;color:#000;border-radius:6px;}
+input{padding:.5rem;margin:.5rem 0;width:100%;border-radius:6px;border:none;}
+pre{overflow-x:auto;max-height:300px;}
+</style>
+</head>
+<body>
+<canvas id="portal"></canvas>
+<header>SpiralCoin Portal Dashboard</header>
+<section>
+<div class="card">
+<h2>Wallet Info</h2>
+<pre id="walletInfo">Loading...</pre>
+<button onclick="getWalletInfo()">Refresh Wallet Info</button>
+</div>
+
+<div class="card">
+<h2>Send SpiralCoin</h2>
+<input type="text" id="sendAddress" placeholder="Recipient Address">
+<input type="number" id="sendAmount" placeholder="Amount">
+<button onclick="sendCoins()">Send</button>
+<pre id="sendResult"></pre>
+</div>
+
+<div class="card">
+<h2>Blockchain Info</h2>
+<pre id="blockInfo">Loading...</pre>
+<button onclick="getBlockCount()">Refresh Block Count</button>
+</div>
+</section>
+
+<script>
+const RPC_URL='http://127.0.0.1:8545/rpc';
+async function rpcCall(method,params=[]){const res=await fetch(RPC_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:1,method:method,params:params})}); return res.json();}
+async function getWalletInfo(){const res=await rpcCall('getwalletinfo'); document.getElementById('walletInfo').textContent=JSON.stringify(res.result,null,2);}
+async function sendCoins(){const addr=document.getElementById('sendAddress').value; const amount=parseInt(document.getElementById('sendAmount').value); if(!addr||!amount)return alert('Address and amount required'); const res=await rpcCall('sendtoaddress',[addr,amount]); document.getElementById('sendResult').textContent=JSON.stringify(res,null,2);}
+async function getBlockCount(){const res=await rpcCall('getblockcount'); document.getElementById('blockInfo').textContent='Blocks: '+res.result;}
+getWalletInfo(); getBlockCount(); setInterval(getBlockCount,5000);
+
+// Simple portal animation
+const canvas=document.getElementById('portal'); const ctx=canvas.getContext('2d'); let width,height; function resize(){width=canvas.width=window.innerWidth; height=canvas.height=window.innerHeight;} window.addEventListener('resize',resize); resize(); const particles=[]; const particleCount=300; for(let i=0;i<particleCount;i++) particles.push({x:Math.random()*width,y:Math.random()*height,r:Math.random()*2+1,speed:Math.random()*2+0.5}); function animate(){ctx.fillStyle='rgba(0,0,0,0.1)'; ctx.fillRect(0,0,width,height); particles.forEach(p=>{p.y-=p.speed; if(p.y<0){p.y=height;p.x=Math.random()*width;} const grd=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*5); grd.addColorStop(0,'#ffcc00'); grd.addColorStop(1,'rgba(255,204,0,0)'); ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();}); requestAnimationFrame(animate);} animate();
+</script>
+</body>
+</html>

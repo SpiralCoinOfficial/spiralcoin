@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SpiralCoin</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="main">
+        <img src="spiral_logo.png" alt="SpiralCoin Logo"/>
+        <h1>SpiralCoin-SPRC</h1>
+        <p>Current Price: <span id="price-display">$0.00</span></p>
+        <button onclick="getPrice()">Get Price</button>
+        <button onclick="updatePrice()">Update Price</button>
+        <button onclick="mineBlock()">Mine Block</button>
+        <button onclick="sendTransaction()">Send Transaction</button>
+        <button onclick="checkBalance()">Check Balance</button>
+        <button onclick="refreshStats()">Refresh Stats</button>
+        <div>
+            <p>Blocks: <span id="stats-blocks">0</span></p>
+            <p>Pending: <span id="stats-pending">0</span></p>
+            <p>Total Coins: <span id="stats-total">0</span></p>
+        </div>
+    </div>
+    <script>
+        const API_BASE = "https://www.spiralcoin.net/api";
+
+        async function getPrice() {
+            const res = await fetch(`${API_BASE}/market/price`);
+            const data = await res.json();
+            document.getElementById("price-display").innerText = `$${data.price.toFixed(2)}`;
+        }
+
+        async function updatePrice() {
+            const newPrice = parseFloat(prompt("Enter new SpiralCoin price:"));
+            if (isNaN(newPrice)) return alert("Invalid number");
+            const res = await fetch(`${API_BASE}/market/update`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ price: newPrice })
+            });
+            const data = await res.json();
+            alert(`Price updated: $${data.price}`);
+        }
+
+        async function mineBlock() {
+            const res = await fetch(`${API_BASE}/mining`, { method: "POST" });
+            const data = await res.json();
+            alert(`Block mined! Hash: ${data.block.hash}`);
+        }
+
+        async function sendTransaction() {
+            const from = prompt("From wallet address:");
+            const to = prompt("To wallet address:");
+            const amount = parseFloat(prompt("Amount:"));
+            const res = await fetch(`${API_BASE}/mining/transaction`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ from, to, amount })
+            });
+            const data = await res.json();
+            alert(`Transaction added! Pending: ${data.pendingTransactions.length}`);
+        }
+
+        async function checkBalance() {
+            const address = prompt("Enter wallet address:");
+            const res = await fetch(`${API_BASE}/wallet/balance/${address}`);
+            const data = await res.json();
+            alert(`Balance for ${address}: ${data.balance} SC`);
+        }
+
+        async function refreshStats() {
+            const res = await fetch(`${API_BASE}/stats`);
+            const data = await res.json();
+            document.getElementById("stats-blocks").innerText = data.blocks;
+            document.getElementById("stats-pending").innerText = data.pendingTransactions;
+            document.getElementById("stats-total").innerText = data.totalCoins;
+        }
+
+        getPrice(); refreshStats();
+    </script>
+</body>
+</html>
