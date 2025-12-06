@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import crypto from "crypto";
 import path from "path";
 import { fileURLToPath } from "url";
+import rateLimit from "express-rate-limit";
 
 import { marketRouter } from "./routes/market.js";
 import { blockchainRouter } from "./routes/blockchain.js";
@@ -40,8 +41,15 @@ if (chain.length === 0) chain.push(createGenesisBlock());
 // Serve frontend
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Rate limiter: max 100 requests per 15 minutes per IP
+const rateLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+});
+
 app.use(express.static(path.join(__dirname, "public")));
-app.get("/", (req, res) => {
+app.get("/", rateLimiter, (req, res) => {
     res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
