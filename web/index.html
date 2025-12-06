@@ -1,55 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>SpiralCoin Portal</title>
 <style>
-html,body{margin:0;padding:0;font-family:Arial,sans-serif;height:100%;overflow:hidden;background:#000;color:#fff;}
-header{text-align:center;padding:1rem;font-size:2rem;font-weight:bold;color:#ffcc00;text-shadow:0 0 20px #ffcc00;}
-canvas#portal{position:fixed;top:0;left:0;z-index:-1;}
-section{position:relative;z-index:1;max-width:900px;margin:auto;padding:1rem;}
-.card{background:rgba(26,27,44,0.85);padding:1rem;margin:1rem 0;border-radius:12px;box-shadow:0 0 15px #ffcc00;}
-button{padding:.5rem 1rem;margin:.5rem 0;font-size:1rem;cursor:pointer;background:#ffcc00;border:none;color:#000;border-radius:6px;}
-input{padding:.5rem;margin:.5rem 0;width:100%;border-radius:6px;border:none;}
-pre{overflow-x:auto;max-height:300px;}
+  :root{
+    --bg:#000;
+    --card-bg: rgba(26,27,44,0.9);
+    --accent:#ffcc00;
+    --text:#fff;
+    --muted:#cfcfcf;
+    --radius:12px;
+    --card-max-width:900px;
+  }
+  html,body{height:100%;margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,Arial,sans-serif;overflow:hidden;}
+  header{
+    text-align:center;padding:1rem;font-size:1.75rem;font-weight:700;color:var(--accent);
+    text-shadow:0 0 18px rgba(255,204,0,0.25);
+    position:relative;z-index:2;
+  }
+  #portal{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;}
+  main{position:relative;z-index:2;max-width:var(--card-max-width);margin:1rem auto;padding:1rem;overflow:auto;height:calc(100% - 120px);}
+  .card{background:var(--card-bg);padding:1rem;margin:1rem 0;border-radius:var(--radius);box-shadow:0 6px 30px rgba(0,0,0,0.6);}
+  .row{display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;}
+  label{display:block;font-size:0.9rem;color:var(--muted);margin-bottom:0.25rem;}
+  input[type="text"], input[type="number"], input[type="url"]{
+    width:100%;padding:0.5rem;border-radius:8px;border:none;background:#111;color:var(--text);
+    box-sizing:border-box;
+  }
+  button{padding:0.5rem 0.9rem;margin-top:0.5rem;font-size:1rem;cursor:pointer;background:var(--accent);border:none;color:#000;border-radius:8px;}
+  pre{background:#0b0b0b;padding:0.6rem;border-radius:8px;overflow:auto;color:var(--muted);white-space:pre-wrap;word-wrap:break-word;}
+  .small{font-size:0.9rem;color:var(--muted);}
+  .flex{display:flex;gap:0.5rem;align-items:center;}
+  .grow{flex:1;}
+  footer{position:relative;z-index:2;text-align:center;padding:0.5rem;color:var(--muted);font-size:0.9rem;}
+  .status{font-size:0.9rem;padding:0.4rem 0.5rem;border-radius:8px;background:rgba(255,255,255,0.02);display:inline-block;}
+  @media (max-width:600px){
+    header{font-size:1.25rem;}
+  }
 </style>
 </head>
 <body>
-<canvas id="portal"></canvas>
+<canvas id="portal" aria-hidden="true"></canvas>
+
 <header>SpiralCoin Portal Dashboard</header>
-<section>
-<div class="card">
-<h2>Wallet Info</h2>
-<pre id="walletInfo">Loading...</pre>
-<button onclick="getWalletInfo()">Refresh Wallet Info</button>
-</div>
 
-<div class="card">
-<h2>Send SpiralCoin</h2>
-<input type="text" id="sendAddress" placeholder="Recipient Address">
-<input type="number" id="sendAmount" placeholder="Amount">
-<button onclick="sendCoins()">Send</button>
-<pre id="sendResult"></pre>
-</div>
+<main>
+  <div class="card" id="connectionCard">
+    <h2>Connection</h2>
+    <label for="rpcUrl">RPC URL</label>
+    <input id="rpcUrl" type="url" placeholder="http://127.0.0.1:8545/rpc" value="http://127.0.0.1:8545/rpc" />
+    <label for="rpcAuth" class="small">(Optional) RPC Authorization header value (e.g. Basic ...)</label>
+    <input id="rpcAuth" type="text" placeholder="Leave empty if none" />
+    <div class="row">
+      <button id="connectBtn">Connect / Refresh</button>
+      <div class="status" id="connStatus">Not connected</div>
+    </div>
+    <p class="small">If your node is remote you must enable CORS or proxy the RPC endpoint to avoid browser CORS restrictions.</p>
+  </div>
 
-<div class="card">
-<h2>Blockchain Info</h2>
-<pre id="blockInfo">Loading...</pre>
-<button onclick="getBlockCount()">Refresh Block Count</button>
-</div>
-</section>
+  <div class="card">
+    <h2>Wallet Info</h2>
+    <pre id="walletInfo">—</pre>
+    <div class="row">
+      <button id="refreshWallet">Refresh Wallet Info</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Send SpiralCoin</h2>
+    <label for="sendAddress">Recipient Address</label>
+    <input id="sendAddress" type="text" placeholder="Enter recipient address" />
+    <label for="sendAmount">Amount</label>
+    <input id="sendAmount" type="number" step="any" min="0" placeholder="Amount" />
+    <div class="row">
+      <button id="sendBtn">Send</button>
+      <div id="sendSpinner" class="small" style="display:none">Sending...</div>
+    </div>
+    <pre id="sendResult">—</pre>
+  </div>
+
+  <div class="card">
+    <h2>Blockchain Info</h2>
+    <pre id="blockInfo">—</pre>
+    <div class="row">
+      <button id="refreshBlocks">Refresh Block Count</button>
+      <div class="small" id="lastUpdated">Last updated: —</div>
+    </div>
+  </div>
+</main>
+
+<footer>SpiralCoin • Local RPC • Dashboard</footer>
 
 <script>
-const RPC_URL='http://127.0.0.1:8545/rpc';
-async function rpcCall(method,params=[]){const res=await fetch(RPC_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:1,method:method,params:params})}); return res.json();}
-async function getWalletInfo(){const res=await rpcCall('getwalletinfo'); document.getElementById('walletInfo').textContent=JSON.stringify(res.result,null,2);}
-async function sendCoins(){const addr=document.getElementById('sendAddress').value; const amount=parseInt(document.getElementById('sendAmount').value); if(!addr||!amount)return alert('Address and amount required'); const res=await rpcCall('sendtoaddress',[addr,amount]); document.getElementById('sendResult').textContent=JSON.stringify(res,null,2);}
-async function getBlockCount(){const res=await rpcCall('getblockcount'); document.getElementById('blockInfo').textContent='Blocks: '+res.result;}
-getWalletInfo(); getBlockCount(); setInterval(getBlockCount,5000);
+(function(){
+  "use strict";
 
-// Simple portal animation
-const canvas=document.getElementById('portal'); const ctx=canvas.getContext('2d'); let width,height; function resize(){width=canvas.width=window.innerWidth; height=canvas.height=window.innerHeight;} window.addEventListener('resize',resize); resize(); const particles=[]; const particleCount=300; for(let i=0;i<particleCount;i++) particles.push({x:Math.random()*width,y:Math.random()*height,r:Math.random()*2+1,speed:Math.random()*2+0.5}); function animate(){ctx.fillStyle='rgba(0,0,0,0.1)'; ctx.fillRect(0,0,width,height); particles.forEach(p=>{p.y-=p.speed; if(p.y<0){p.y=height;p.x=Math.random()*width;} const grd=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*5); grd.addColorStop(0,'#ffcc00'); grd.addColorStop(1,'rgba(255,204,0,0)'); ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();}); requestAnimationFrame(animate);} animate();
+  // Elements
+  const rpcUrlEl = document.getElementById('rpcUrl');
+  const rpcAuthEl = document.getElementById('rpcAuth');
+  const connStatusEl = document.getElementById('connStatus');
+  const connectBtn = document.getElementById('connectBtn');
+
+  const walletInfoEl = document.getElementById('walletInfo');
+  const refreshWalletBtn = document.getElementById('refreshWallet');
+
+  const sendAddressEl = document.getElementById('sendAddress');
+  const sendAmountEl = document.getElementById('sendAmount');
+  const sendBtn = document.getElementById('sendBtn');
+  const sendResultEl = document.getElementById('sendResult');
+  const sendSpinnerEl = document.getElementById('sendSpinner');
+
+  const blockInfoEl = document.getElementById('blockInfo');
+  const refreshBlocksBtn = document.getElementById('refreshBlocks');
+  const lastUpdatedEl = document.getElementById('lastUpdated');
+
+  let rpcURL = rpcUrlEl.value.trim();
+  let rpcAuth = rpcAuthEl.value.trim();
+  let isConnected = false;
+  let pollInterval = null;
+
+  // Utility: safe JSON stringify
+  function safeStringify(v){
+    try{return JSON.stringify(v,null,2);}
+    catch(e){return String(v);}
+  }
+
+  // Generic JSON-RPC call with error handling
+  async function rpcCall(method, params = []){
+    const url = rpcURL;
+    const body = { jsonrpc: "2.0", id: Date.now(), method, params };
+    const headers = { 'Content-Type': 'application/json' };
+    if(rpcAuth) headers['Authorization'] = rpcAuth;
+
+    try{
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body),
+        mode: 'cors',
+        cache: 'no-store',
+      });
+
+      // Network-level error
+      if(!resp.ok){
+        const text = await resp.text().catch(()=>'(no body)');
+        return { ok:false, error: `Network error: ${resp.status} ${resp.statusText}. Body: ${text}` };
+      }
+
+      const json = await resp.json().catch(()=>null);
+      if(!json) return { ok:false, error: 'Invalid JSON response from RPC endpoint.' };
+
+      if(json.error) return { ok:false, error: json.error };
+      return { ok:true, result: json.result };
+    }catch(err){
+      return { ok:false, error: err.message || String(err) };
+    }
+  }
+
+  async function updateConnectionStatus(){
+    connStatusEl.textContent = 'Checking...';
+    const test = await rpcCall('getblockcount', []);
+    if(test.ok){
+      isConnected = true;
+      connStatusEl.textContent = 'Connected';
+      connStatusEl.style.color = '';
+    } else {
+      isConnected = false;
+      connStatusEl.textContent = 'Not connected: ' + String(test.error).slice(0,120);
+      connStatusEl.style.color = '#ff6b6b';
+    }
+  }
+
+  // Wallet info
+  async function getWalletInfo(){
+    walletInfoEl.textContent = 'Loading...';
+    const res = await rpcCall('getwalletinfo', []);
+    if(res.ok){
+      walletInfoEl.textContent = safeStringify(res.result);
+    } else {
+      walletInfoEl.textContent = 'Error: ' + safeStringify(res.error);
+    }
+  }
+
+  // Send coins
+  async function sendCoins(){
+    const address = sendAddressEl.value.trim();
+    const amountRaw = sendAmountEl.value;
+    const amount = Number(amountRaw);
+    if(!address){
+      return alert('Please enter a recipient address.');
+    }
+    if(!amount || isNaN(amount) || amount <= 0){
+      return alert('Please enter a valid amount greater than 0.');
+    }
+
+    if(!confirm(`Send ${amount} to ${address}?`)) return;
+
+    sendSpinnerEl.style.display = 'inline';
+    sendResultEl.textContent = 'Sending...';
+
+    // Common RPC method: sendtoaddress <address> <amount>
+    const res = await rpcCall('sendtoaddress', [address, amount]);
+    sendSpinnerEl.style.display = 'none';
+
+    if(res.ok){
+      sendResultEl.textContent = 'Transaction sent. TXID: ' + String(res.result);
+      // refresh wallet and block info after sending
+      setTimeout(()=>{ getWalletInfo(); getBlockCount(); }, 1500);
+    } else {
+      sendResultEl.textContent = 'Error sending: ' + safeStringify(res.error);
+    }
+  }
+
+  // Block count + simple info
+  async function getBlockCount(){
+    blockInfoEl.textContent = 'Loading...';
+    const res = await rpcCall('getblockcount', []);
+    if(res.ok){
+      let text = 'Blocks: ' + String(res.result);
+      blockInfoEl.textContent = text;
+      lastUpdatedEl.textContent = 'Last updated: ' + new Date().toLocaleTimeString();
+    } else {
+      blockInfoEl.textContent = 'Error: ' + safeStringify(res.error);
+      lastUpdatedEl.textContent = 'Last updated: —';
+    }
+  }
+
+  // Wire up buttons
+  connectBtn.addEventListener('click', async ()=>{
+    rpcURL = rpcUrlEl.value.trim();
+    rpcAuth = rpcAuthEl.value.trim();
+    await updateConnectionStatus();
+    if(isConnected){
+      await getWalletInfo();
+      await getBlockCount();
+      if(pollInterval) clearInterval(pollInterval);
+      pollInterval = setInterval(getBlockCount, 5000);
+    } else {
+      if(pollInterval){ clearInterval(pollInterval); pollInterval = null; }
+    }
+  });
+
+  refreshWalletBtn.addEventListener('click', getWalletInfo);
+  refreshBlocksBtn.addEventListener('click', getBlockCount);
+  sendBtn.addEventListener('click', sendCoins);
+
+  // Auto-connect on load
+  (async function init(){
+    rpcURL = rpcUrlEl.value.trim();
+    rpcAuth = rpcAuthEl.value.trim();
+    await updateConnectionStatus();
+    if(isConnected){
+      getWalletInfo();
+      getBlockCount();
+      if(pollInterval) clearInterval(pollInterval);
+      pollInterval = setInterval(getBlockCount, 5000);
+    }
+  })();
+
+  // ------- Canvas Portal Animation -------
+  const canvas = document.getElementById('portal');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  let w=0,h=0, cx=0, cy=0, t0=0;
+  function resize(){
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    w = canvas.width = Math.floor(window.innerWidth * dpr);
+    h = canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    cx = window.innerWidth / 2;
+    cy = window.innerHeight / 2;
+  }
+  window.addEventListener('resize', resize, { passive: true });
+  resize();
+
+  function drawPortal(time){
+    if(!t0) t0 = time;
+    const elapsed = (time - t0) / 1000;
+    ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
+
+    // subtle background gradient
+    const g = ctx.createRadialGradient(cx, cy, Math.min(w,h)*0.05, cx, cy, Math.max(w,h));
+    g.addColorStop(0, 'rgba(12,8,30,0.7)');
+    g.addColorStop(0.6, 'rgba(6,4,10,0.4)');
+    g.addColorStop(1, 'rgba(0,0,0,0.85)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,window.innerWidth, window.innerHeight);
+
+    // dynamic spiral layers
+    const layers = 12;
+    for(let i=0;i<layers;i++){
+      const progress = (i / layers) + (elapsed * 0.05);
+      const radius = Math.min(cx,cy) * (0.15 + 0.85 * Math.abs(Math.sin(progress * Math.PI * 2)));
+      const angle = elapsed * (0.2 + i*0.02);
+      const hue = (elapsed*20 + i*30) % 360;
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(angle);
+      ctx.beginPath();
+      const steps = 180;
+      for(let s=0;s<=steps;s++){
+        const a = s / steps * Math.PI * 2 * (1 + i*0.03);
+        const r = radius * (0.6 + 0.4 * Math.sin(a * (1+i*0.2) + elapsed));
+        const x = Math.cos(a) * r;
+        const y = Math.sin(a) * r;
+        if(s===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.closePath();
+
+      const alpha = 0.06 + 0.08 * Math.max(0, Math.cos(elapsed + i));
+      ctx.fillStyle = `hsla(${hue},85%,60%,${alpha})`;
+      ctx.fill();
+
+      ctx.lineWidth = 1 + i*0.15;
+      ctx.strokeStyle = `hsla(${hue},85%,55%,${0.07 + 0.05*Math.abs(Math.sin(elapsed + i))})`;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // center glow
+    const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(cx,cy)*0.8);
+    glow.addColorStop(0, 'rgba(255,204,0,0.25)');
+    glow.addColorStop(0.2, 'rgba(255,204,0,0.06)');
+    glow.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0,0,window.innerWidth, window.innerHeight);
+
+    // subtle stars
+    const starCount = 40;
+    for(let s=0;s<starCount;s++){
+      const sx = (Math.sin(s*12.9898 + elapsed*1.1)*43758.5453) % 1;
+      const sy = (Math.cos(s*78.233 + elapsed*0.9)*43758.5453) % 1;
+      const x = Math.abs(sx)*window.innerWidth;
+      const y = Math.abs(sy)*window.innerHeight;
+      const size = (Math.abs(Math.sin(elapsed + s)) * 1.2) + 0.2;
+      ctx.fillStyle = `rgba(255,240,200,${0.06 + 0.04*Math.abs(Math.sin(elapsed*2 + s))})`;
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    // small centered emblem text
+    ctx.font = "600 20px Inter, Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "rgba(255,204,0,0.06)";
+    ctx.fillText("SPIRAL COIN", cx, cy - 6);
+    ctx.font = "400 12px Inter, Arial, sans-serif";
+    ctx.fillStyle = "rgba(255,204,0,0.03)";
+    ctx.fillText("Portal", cx, cy + 14);
+
+    requestAnimationFrame(drawPortal);
+  }
+
+  requestAnimationFrame(drawPortal);
+
+  // Clean up on unload
+  window.addEventListener('beforeunload', ()=> {
+    if(pollInterval) clearInterval(pollInterval);
+  });
+
+})();
 </script>
 </body>
 </html>
