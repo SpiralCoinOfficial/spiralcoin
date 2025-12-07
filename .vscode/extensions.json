@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "shevaua.phpcs",
+        "dbaeumer.vscode-eslint",
+        "pz.vscode"
+    ]
+}

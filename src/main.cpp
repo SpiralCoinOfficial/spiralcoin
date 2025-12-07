@@ -15,7 +15,7 @@ using json = nlohmann::json;
 
 bool running = true;
 std::mutex db_mutex;
-const std::string DATA_DIR = "/root/spiralcoin/data/";
+const std::string DATA_DIR = "/workspaces/spiralcoin/data/";
 const std::string BLOCKCHAIN_FILE = DATA_DIR + "blockchain.json";
 const std::string WALLETS_FILE = DATA_DIR + "wallets.json";
 const std::string PRIMARY_ADDRESS = "0x928072b3A3A42e7dFD577a91167DfAa08f0E653E";

@@ -1,0 +1,5 @@
+[ 25%] Building CXX object CMakeFiles/spiralcoind.dir/src/evm_integration.cpp.o
+[ 50%] Building CXX object CMakeFiles/spiralcoind.dir/src/main.cpp.o
+[ 75%] Building CXX object CMakeFiles/spiralcoind.dir/src/state_db_impl.cpp.o
+[100%] Linking CXX executable spiralcoind
+[100%] Built target spiralcoind
