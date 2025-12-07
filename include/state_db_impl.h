@@ -1,5 +1,9 @@
 #pragma once
-#include "state_db.h"
+#include "state_db"
+#include <string>
+#include <vector>
+#include <cstdint>
+
 class StateDBImpl : public StateDB {
 public:
 #ifdef HAVE_EVMONE

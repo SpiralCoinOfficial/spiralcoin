@@ -17,6 +17,7 @@ file(GLOB SRC_FILES
 # Include directories
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src
     /usr/local/include
     /usr/include
 )
@@ -38,23 +39,29 @@ find_library(PTHREAD_LIB pthread)
 find_library(EVMC_LOADER_LIB evmc-loader HINTS /usr/local/lib)
 find_library(EVMC_INSTRUCTIONS_LIB evmc-instructions HINTS /usr/local/lib)
 
-# Collect EVMC libs (only existing ones)
-set(EVMC_LIBS "")
-if(EVMC_LOADER_LIB)
-    list(APPEND EVMC_LIBS ${EVMC_LOADER_LIB})
+# Collect libraries only if they were actually found (not set to <VAR>-NOTFOUND)
+set(THIRD_PARTY_LIBS "")
+if(DEFINED LEVELDB_LIB AND NOT LEVELDB_LIB MATCHES "NOTFOUND$")
+    list(APPEND THIRD_PARTY_LIBS ${LEVELDB_LIB})
 endif()
-if(EVMC_INSTRUCTIONS_LIB)
-    list(APPEND EVMC_LIBS ${EVMC_INSTRUCTIONS_LIB})
+if(DEFINED SSL_LIB AND NOT SSL_LIB MATCHES "NOTFOUND$")
+    list(APPEND THIRD_PARTY_LIBS ${SSL_LIB})
+endif()
+if(DEFINED CRYPTO_LIB AND NOT CRYPTO_LIB MATCHES "NOTFOUND$")
+    list(APPEND THIRD_PARTY_LIBS ${CRYPTO_LIB})
+endif()
+if(DEFINED PTHREAD_LIB AND NOT PTHREAD_LIB MATCHES "NOTFOUND$")
+    list(APPEND THIRD_PARTY_LIBS ${PTHREAD_LIB})
+endif()
+if(DEFINED EVMC_LOADER_LIB AND NOT EVMC_LOADER_LIB MATCHES "NOTFOUND$")
+    list(APPEND THIRD_PARTY_LIBS ${EVMC_LOADER_LIB})
+endif()
+if(DEFINED EVMC_INSTRUCTIONS_LIB AND NOT EVMC_INSTRUCTIONS_LIB MATCHES "NOTFOUND$")
+    list(APPEND THIRD_PARTY_LIBS ${EVMC_INSTRUCTIONS_LIB})
 endif()
 
-# Link everything
-target_link_libraries(${EXECUTABLE_NAME}
-    ${LEVELDB_LIB}
-    ${SSL_LIB}
-    ${CRYPTO_LIB}
-    ${PTHREAD_LIB}
-    ${EVMC_LIBS}
-)
+# Link only the libraries we found
+target_link_libraries(${EXECUTABLE_NAME} ${THIRD_PARTY_LIBS})
 
 # Print build summary
 message(STATUS "==== SpiralCoin Build Configuration ====")
