@@ -1,0 +1,136 @@
+import express from "express";
+import axios from "axios";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+
+dotenv.config({ path: "/etc/spiralcoin.env" }); // primary
+dotenv.config(); // fallback to .env in cwd if present
+
+const PORT = process.env.PORT || 4000;
+const HOST = process.env.HOST || "0.0.0.0";
+const COINGECKO = process.env.COINGECKO_API || "https://api.coingecko.com/api/v3";
+const NEWSAPI_KEY = process.env.NEWSAPI_KEY || "";
+const FMP_API_KEY = process.env.FMP_API_KEY || "";
+const SPLC_CG_ID = process.env.SPLC_CG_ID || "";
+const SPLC_PRICE_URL = process.env.SPLC_PRICE_URL || "";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+app.use(express.json());
+app.use(express.static(__dirname));
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
+
+// Health
+app.get("/api/health", (_req, res) => res.json({ ok: true, ts: Date.now() }));
+
+// Helper: fetch SPLC from either CoinGecko or custom node
+async function fetchSPLC() {
+  try {
+    if (SPLC_CG_ID) {
+      const r = await axios.get(`${COINGECKO}/simple/price`, {
+        params: { ids: SPLC_CG_ID, vs_currencies: "usd", include_market_cap: "true" },
+        timeout: 8000
+      });
+      if (r.data && r.data[SPLC_CG_ID]) {
+        const row = r.data[SPLC_CG_ID];
+        return { id: SPLC_CG_ID, symbol: (process.env.SPLIT_SYMBOL || "SPLC"), price_usd: row.usd, market_cap_usd: row.usd_market_cap || null, source: "coingecko" };
+      }
+    }
+    if (SPLC_PRICE_URL) {
+      const r = await axios.get(SPLC_PRICE_URL, { timeout: 8000 });
+      const d = r.data;
+      if (d && typeof d.price_usd !== "undefined") {
+        return { id: "spiralcoin", symbol: (process.env.SPLIT_SYMBOL || "SPLC"), price_usd: d.price_usd, market_cap_usd: d.market_cap_usd || null, source: "custom" };
+      }
+    }
+  } catch (e) {
+    // silent
+  }
+  return { id: "spiralcoin", symbol: "SPLC", price_usd: null, market_cap_usd: null, source: "unavailable" };
+}
+
+// GET /api/prices?ids=bitcoin,ethereum
+app.get("/api/prices", async (req, res) => {
+  try {
+    // client can supply ids; ensure btc/eth included
+    const clientIds = (req.query.ids || "").toString().split(",").map(s => s.trim()).filter(Boolean);
+    const baseIds = Array.from(new Set([...clientIds, "bitcoin", "ethereum"]));
+    const cgUrl = `${COINGECKO}/simple/price`;
+    const cgRes = await axios.get(cgUrl, {
+      params: { ids: baseIds.join(","), vs_currencies: "usd", include_market_cap: "true" },
+      timeout: 9000
+    });
+    const out = [];
+    for (const id of baseIds) {
+      const d = cgRes.data[id];
+      if (d) out.push({ id, symbol: id.toUpperCase(), price_usd: d.usd, market_cap_usd: d.usd_market_cap || null, source: "coingecko" });
+    }
+    // insert SPLC at the front
+    const splc = await fetchSPLC();
+    out.unshift(splc);
+    res.json({ assets: out });
+  } catch (err) {
+    res.status(502).json({ error: "price_fetch_failed", detail: err.message });
+  }
+});
+
+// GET /api/ticker  -> top 50 coins (market cap)
+app.get("/api/ticker", async (_req, res) => {
+  try {
+    const r = await axios.get(`${COINGECKO}/coins/markets`, {
+      params: { vs_currency: "usd", order: "market_cap_desc", per_page: 50, page: 1, price_change_percentage: "24h" },
+      timeout: 10000
+    });
+    const list = r.data.map(row => ({
+      id: row.id, symbol: row.symbol.toUpperCase(), name: row.name,
+      price: row.current_price, mcap: row.market_cap, chg24h: row.price_change_percentage_24h
+    }));
+    res.json({ list });
+  } catch (err) {
+    res.status(502).json({ error: "ticker_fetch_failed", detail: err.message });
+  }
+});
+
+// GET /api/news -> aggregated crypto + stock news (NewsAPI or FMP)
+app.get("/api/news", async (_req, res) => {
+  try {
+    if (NEWSAPI_KEY && NEWSAPI_KEY !== "your_newsapi_key_here") {
+      const base = "https://newsapi.org/v2/top-headlines";
+      const [cRes, sRes] = await Promise.all([
+        axios.get(base, { params: { q: "crypto OR bitcoin OR ethereum", language: "en", pageSize: 8, apiKey: NEWSAPI_KEY }, timeout: 9000 }),
+        axios.get(base, { params: { q: "stocks OR markets OR trading", language: "en", pageSize: 8, apiKey: NEWSAPI_KEY }, timeout: 9000 })
+      ]);
+      const uniq = new Map();
+      [...(cRes.data.articles || []), ...(sRes.data.articles || [])].forEach(a => { if (a && a.url) uniq.set(a.url, { title: a.title, url: a.url, source: a.source?.name || "", publishedAt: a.publishedAt }); });
+      return res.json({ articles: Array.from(uniq.values()).slice(0, 12) });
+    } else if (FMP_API_KEY && FMP_API_KEY !== "your_fmp_key_here") {
+      const r = await axios.get(`https://financialmodelingprep.com/api/v3/stock_news`, {
+        params: { limit: 12, apikey: FMP_API_KEY }, timeout: 9000
+      });
+      return res.json({ articles: r.data || [] });
+    }
+    // default: empty
+    return res.json({ articles: [] });
+  } catch (err) {
+    res.status(502).json({ error: "news_fetch_failed", detail: err.message, articles: [] });
+  }
+});
+
+// Serve index.html at root
+app.get("/", (_req, res) => {
+  const indexPath = path.join(__dirname, "index.html");
+  if (fs.existsSync(indexPath)) return res.sendFile(indexPath);
+  return res.status(404).send("Index not found");
+});
+
+// Start
+app.listen(PORT, HOST, () => {
+  console.log(`SpiralCoin backend listening on ${HOST}:${PORT}`);
+});

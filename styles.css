@@ -1,0 +1,13 @@
+body{margin:0;font-family:Arial,sans-serif;background-color:#000;color:#FFD700;}
+#spiralcoin-panel{background-color:#111;padding:2em;border-radius:2em;box-shadow:0 0 30px rgba(255,215,0,0.4);text-align:center;}
+#spiralcoin-panel h1,#spiralcoin-panel h2,#spiralcoin-panel p{color:#FFD700;}
+canvas{background-color:#111;border-radius:1em;}
+#leaderboard-panel table{width:100%;border-collapse:collapse;background-color:#111;}
+#leaderboard-panel th,#leaderboard-panel td{border:1px solid #FFD700;padding:0.5em;text-align:center;color:#FFD700;}
+#leaderboard-panel th{background-color:#222;}
+#search-panel input,#search-panel button{background-color:#222;border:1px solid #FFD700;color:#FFD700;}
+#search-panel input::placeholder{color:rgba(255,215,0,0.6);}
+#news-analytics ul{list-style:none;padding-left:0;}
+#news-analytics li a{color:#FFD700;text-decoration:none;}
+#news-analytics li a:hover{text-decoration:underline;}
+#refreshRateSlider{width:100%;}

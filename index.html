@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SpiralCoin — SPRC</title>
+
+<!-- Chart.js + financial + zoom plugin + axios -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@3.0.0/dist/chartjs-chart-financial.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.1.1/dist/chartjs-plugin-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<style>
+:root {
+  --bg:#08080a; --panel:#0f1113; --muted:#9aa3ad; --accent:#ffd24d; --card:#121417; --glass:rgba(255,255,255,0.03);
+}
+html,body{height:100%;margin:0;font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:#e6eef6;}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);border-bottom:1px solid rgba(255,255,255,0.02);position:sticky;top:0;z-index:40;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand img{height:44px;width:auto;display:block;}
+.brand h1{margin:0;font-size:20px;color:var(--accent);letter-spacing:0.6px;}
+nav{display:flex;gap:6px;align-items:center;}
+nav button{background:transparent;color:#cfe3ff;border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:6px;cursor:pointer;}
+nav button:hover{background:var(--glass);color:white;border-color:rgba(255,210,77,0.15);}
+.layout{display:grid;grid-template-columns:320px 1fr 360px;gap:16px;padding:18px;box-sizing:border-box;align-items:start;}
+.sidebar{background:var(--card);padding:14px;border-radius:10px;height:calc(100vh - 110px);overflow:auto;box-shadow:0 6px 18px rgba(0,0,0,0.6);}
+.sidebar section{margin-bottom:12px;}
+.pair{display:flex;justify-content:space-between;padding:8px;border-radius:6px;cursor:pointer;align-items:center;}
+.pair:hover{background: rgba(255,255,255,0.02);}
+.pair .sym{font-weight:600;}
+.pair .price{color:var(--muted);font-size:13px;}
+.main{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:10px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.6);}
+.chart-toolbar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
+.chart-actions{margin-left:auto;display:flex;gap:8px;align-items:center;}
+.chart-card{background:var(--card);padding:12px;border-radius:10px;}
+.chart-wrapper{height:520px;width:100%;}
+.right{background:var(--card);padding:14px;border-radius:10px;height:calc(100vh - 110px);overflow:auto;box-shadow:0 6px 18px rgba(0,0,0,0.6);}
+.panel{margin-bottom:12px;}
+.panel h3{margin:0 0 8px 0;font-size:14px;color:var(--accent);display:flex;justify-content:space-between;align-items:center;}
+.panel ul{list-style:none;margin:0;padding:0;}
+.panel li{padding:8px;border-radius:6px;display:flex;justify-content:space-between;gap:8px;}
+.panel li:hover{background: rgba(255,255,255,0.01);}
+.controls{display:flex;gap:8px;align-items:center;}
+input[type="text"],input[type="number"],select{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;color:#e6eef6;border-radius:6px;min-width:140px;}
+.big-btn{background:var(--accent);color:#081018;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;border:none;}
+.outline-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:7px 10px;border-radius:6px;color:#e6eef6;cursor:pointer;}
+.modal-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:80;}
+.modal{width:950px;max-width:95%;background:#0b0d10;border-radius:10px;padding:18px;box-shadow:0 30px 60px rgba(0,0,0,0.75);color:#dfeafc;}
+.modal .row{display:flex;gap:10px;}
+.close{float:right;cursor:pointer;color:var(--muted);}
+footer{padding:10px 18px;color:var(--muted);text-align:center;font-size:13px;}
+@media(max-width:1100px){.layout{grid-template-columns:1fr;}.chart-wrapper{height:420px;}.sidebar,.right{height:auto;}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="brand">
+<img src="/SpiralCoin.png" alt="SpiralCoin" />
+<h1>SpiralCoin — SPRC</h1>
+</div>
+<nav>
+<button id="btnOrderbook" onclick="openOrderBook()">Order Book</button>
+<button id="btnNotifications" onclick="openNotifications()">Notifications</button>
+<button onclick="openLogin()">Login</button>
+</nav>
+</header>
+
+<main class="layout">
+<aside class="sidebar" aria-label="Market pairs & search">
+<section>
+<div style="display:flex;gap:8px;align-items:center;">
+<input id="searchPair" type="text" placeholder="Search markets (SPRC, BTC...)" onkeydown="if(event.key==='Enter') quickSearch()" />
+<button class="outline-btn" onclick="quickSearch()">Go</button>
+</div>
+</section>
+<section>
+<h3 style="color:var(--accent);margin:0 0 8px 0;">Markets</h3>
+<div id="marketsList" role="list"></div>
+</section>
+<section>
+<h3 style="color:var(--accent);margin:10px 0 8px 0;">Watchlist</h3>
+<div id="watchlist"></div>
+</section>
+</aside>
+
+<section class="main">
+<div class="chart-card">
+<div class="chart-toolbar">
+<div class="controls">
+<select id="pairSelect" onchange="onPairChange()">
+<option value="spiralcoin">SPRC / USD</option>
+<option value="bitcoin">BTC / USD</option>
+<option value="ethereum">ETH / USD</option>
+</select>
+<select id="timeframe" onchange="onTFChange()">
+<option value="1">1m</option>
+<option value="5" selected>5m</option>
+<option value="15">15m</option>
+<option value="60">1h</option>
+<option value="1440">1d</option>
+</select>
+<select id="chartStyle" onchange="onChartStyle()">
+<option value="candlestick">Candlestick</option>
+<option value="line" selected>Line</option>
+<option value="area">Area</option>
+</select>
+<select id="indicators" onchange="onIndicatorChange()">
+<option value="none">Indicators</option>
+<option value="SMA">SMA</option>
+<option value="EMA">EMA</option>
+<option value="RSI">RSI</option>
+</select>
+</div>
+<div class="chart-actions">
+<button class="outline-btn" onclick="zoomReset()">Reset Zoom</button>
+<button class="big-btn" onclick="toggleTradePanel()">Trade</button>
+</div>
+</div>
+<div class="chart-wrapper"><canvas id="masterChart"></canvas></div>
+</div>
+
+<div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap;">
+<div style="flex:1;min-width:320px;" class="chart-card">
+<h3 style="margin:0 0 8px 0;">Buy / Sell / Mine</h3>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+<input id="tradeWallet" type="text" placeholder="Wallet address" value="0x928072b3A3A42e7dFD577a91167DfAa08f0E653E" />
+<input id="tradeAmount" type="number" placeholder="Amount" />
+<button class="big-btn" onclick="doBuy()">Buy</button>
+<button class="outline-btn" onclick="doSell()">Sell</button>
+<button class="outline-btn" onclick="doMine()">Mine</button>
+</div>
+<div style="margin-top:10px;color:var(--muted);font-size:13px;">
+<div>Total supply: <strong>77,110,000,000,000 SPRC</strong></div>
+<div>Founder supply: <strong>20,000,000,000,000 SPRC</strong> (preloaded)</div>
+<div>Mining pool initial: <strong>1,000,000,000,000 SPRC</strong></div>
+</div>
+</div>
+
+<div style="width:340px;" class="chart-card" id="tradePanel" hidden>
+<h3 style="margin:0 0 8px 0;">Trade Panel</h3>
+<div style="display:flex;flex-direction:column;gap:8px;">
+<select id="sideSelect"><option value="buy">Buy</option><option value="sell">Sell</option></select>
+<input id="orderAmount" type="number" placeholder="Amount" />
+<input id="orderPrice" type="number" placeholder="Price (USD)" />
+<button class="big-btn" onclick="placeOrder()">Place Order</button>
+<button class="outline-btn" onclick="cancelOrder()">Cancel</button>
+</div>
+</div>
+</section>
+
+<aside class="right">
+<div class="panel">
+<h3>Order Book</h3>
+<ul id="orderBook"><li>Loading...</li></ul>
+</div>
+
+<div class="panel">
+<h3>Top Movers</h3>
+<ul id="topMovers"><li>Loading...</li></ul>
+</div>
+
+<div class="panel">
+<h3>Market News</h3>
+<ul id="marketNews"><li>Loading...</li></ul>
+</div>
+
+<div class="panel">
+<h3>Most Active Crypto</h3>
+<ul id="mostActive"><li>Loading...</li></ul>
+</div>
+</aside>
+</main>
+
+<footer>
+&copy; 2025 SpiralCoin — The Future of Crypto. All rights reserved.
+</footer>
+
+<div class="modal-backdrop" id="modalBackdrop">
+<div class="modal" id="modalContent">
+<span class="close" onclick="closeModal()">×</span>
+<div id="modalBody"></div>
+</div>
+</div>
+
+<script>
+// === Modal / UI Helpers ===
+function openOrderBook(){showModal('Order Book','<ul id="modalOrderBook"></ul>'); fetchOrderBook();}
+function openNotifications(){showModal('Notifications','<p>No new notifications.</p>');}
+function openLogin(){showModal('Login','<p>Login coming soon.</p>');}
+function showModal(title,content){document.getElementById('modalBody').innerHTML='<h3>'+title+'</h3>'+content;document.getElementById('modalBackdrop').style.display='flex';}
+function closeModal(){document.getElementById('modalBackdrop').style.display='none';}
+function toggleTradePanel(){let p=document.getElementById('tradePanel');p.hidden=!p.hidden;}
+function quickSearch(){const val=document.getElementById('searchPair').value; alert('Searching: '+val);}
+function onPairChange(){updateChart();}
+function onTFChange(){updateChart();}
+function onChartStyle(){updateChart();}
+function onIndicatorChange(){updateChart();}
+function zoomReset(){if(masterChart) masterChart.resetZoom();}
+
+// === Chart Setup ===
+const ctx = document.getElementById('masterChart').getContext('2d');
+let masterChart = new Chart(ctx,{
+    type:'line',
+    data:{labels:[],datasets:[{label:'Price',data:[],borderColor:'#ffd24d',backgroundColor:'rgba(255,210,77,0.1)',fill:true,lineTension:0.2}]},
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{zoom:{pan:{enabled:true,mode:'x'},zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x'}}},
+        scales:{x:{type:'time',time:{unit:'minute'}},y:{beginAtZero:false}}
+    }
+});
+
+// === Live Data Functions ===
+async function updateChart(){
+    try{
+        const pair=document.getElementById('pairSelect').value;
+        const tf=document.getElementById('timeframe').value;
+        const res=await axios.get(`/api/chart?pair=${pair}&tf=${tf}`);
+        const data=res.data; // [{time, price}, ...]
+        masterChart.data.labels=data.map(d=>new Date(d.time));
+        masterChart.data.datasets[0].data=data.map(d=>d.price);
+        masterChart.update();
+    }catch(err){console.error('Chart update error',err);}
+}
+
+async function loadMarkets(){
+    try{
+        const res=await axios.get('/api/markets');
+        const markets=res.data; // [{symbol, price},...]
+        document.getElementById('marketsList').innerHTML=markets.map(m=>`<div class="pair"><span class="sym">${m.symbol}</span><span class="price">$${m.price}</span></div>`).join('');
+    }catch(err){console.error(err);}
+}
+
+async function loadTopMovers(){
+    try{
+        const res=await axios.get('/api/top-movers');
+        const movers=res.data;
+        document.getElementById('topMovers').innerHTML=movers.map(m=>`<li>${m}</li>`).join('');
+    }catch(err){console.error(err);}
+}
+
+async function loadMostActive(){
+    try{
+        const res=await axios.get('/api/most-active');
+        const active=res.data;
+        document.getElementById('mostActive').innerHTML=active.map(a=>`<li>${a}</li>`).join('');
+    }catch(err){console.error(err);}
+}
+
+async function loadMarketNews(){
+    try{
+        const res=await axios.get('/api/news');
+        const news=res.data;
+        document.getElementById('marketNews').innerHTML=news.map(n=>`<li>${n}</li>`).join('');
+    }catch(err){console.error(err);}
+}
+
+// === Trade Functions ===
+async function doBuy(){
+    const wallet=document.getElementById('tradeWallet').value;
+    const amount=document.getElementById('tradeAmount').value;
+    try{
+        const res=await axios.post('/api/buy',{wallet,amount});
+        alert('Buy success: '+res.data.txHash);
+    }catch(err){alert('Buy failed: '+(err.response?.data?.error||err.message));}
+}
+
+async function doSell(){
+    const wallet=document.getElementById('tradeWallet').value;
+    const amount=document.getElementById('tradeAmount').value;
+    try{
+        const res=await axios.post('/api/sell',{wallet,amount});
+        alert('Sell success: '+res.data.txHash);
+    }catch(err){alert('Sell failed: '+(err.response?.data?.error||err.message));}
+}
+
+async function doMine(){
+    const wallet=document.getElementById('tradeWallet').value;
+    try{
+        const res=await axios.post('/api/mine',{wallet});
+        alert('Mined: '+res.data.amount+' SPRC');
+    }catch(err){alert('Mining failed: '+(err.response?.data?.error||err.message));}
+}
+
+// === Order Panel ===
+async function placeOrder(){
+    const side=document.getElementById('sideSelect').value;
+    const amount=document.getElementById('orderAmount').value;
+    const price=document.getElementById('orderPrice').value;
+    try{
+        const res=await axios.post('/api/order/place',{side,amount,price});
+        alert('Order placed! ID: '+res.data.orderId);
+    }catch(err){alert('Place order failed: '+(err.response?.data?.error||err.message));}
+}
+
+async function cancelOrder(){
+    const orderId=prompt('Enter Order ID to cancel:');
+    if(!orderId) return;
+    try{
+        const res=await axios.post('/api/order/cancel',{orderId});
+        alert('Order cancelled!');
+    }catch(err){alert('Cancel failed: '+(err.response?.data?.error||err.message));}
+}
+
+// === Order Book Modal ===
+async function fetchOrderBook(){
+    try{
+        const res=await axios.get('/api/orderbook');
+        const ob=res.data; // [{price,amount,side}]
+        const html=ob.map(o=>`<li>${o.side.toUpperCase()} $${o.price} x ${o.amount}</li>`).join('');
+        document.getElementById('modalOrderBook').innerHTML=html;
+    }catch(err){console.error(err);}
+}
+
+// === Refresh all live panels ===
+async function refreshData(){
+    await Promise.all([
+        updateChart(),
+        loadMarkets(),
+        loadTopMovers(),
+        loadMostActive(),
+        loadMarketNews()
+    ]);
+}
+
+// Initialize
+refreshData();
+setInterval(refreshData,15000);
+</script>
+</body>
+</html>

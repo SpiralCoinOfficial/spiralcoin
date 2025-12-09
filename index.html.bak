@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SpiralCoin | Billionaire-Level Crypto</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: black;
+      color: gold;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 20px;
+      flex: 1;
+    }
+    .card {
+      background: #111;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+    }
+    h2 {
+      margin-top: 0;
+      color: gold;
+    }
+    .price {
+      font-size: 1.2rem;
+      margin: 8px 0;
+    }
+    ul { list-style: none; padding: 0; }
+    li { margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="SpiralCoin.png" alt="SpiralCoin Logo" style="height:60px;vertical-align:middle;margin-right:10px;">
+    SpiralCoin – The Trillionaire Standard
+  </header>
+
+  <div class="content">
+    <div class="card">
+      <h2>Live Prices</h2>
+      <div id="prices">Loading...</div>
+    </div>
+    <div class="card">
+      <h2>Market News</h2>
+      <ul id="news">Loading...</ul>
+    </div>
+  </div>
+
+  <script>
+    async function loadPrices() {
+      const res = await fetch('/api/prices');
+      const data = await res.json();
+      document.getElementById('prices').innerHTML = `
+        <div class="price">SpiralCoin (SPLC): $${data.spiralcoin.usd.toLocaleString()} | MC: $${(data.spiralcoin.usd_market_cap/1e12).toFixed(2)}T</div>
+        <div class="price">Bitcoin (BTC): $${data.bitcoin.usd.toLocaleString()} | MC: $${(data.bitcoin.usd_market_cap/1e12).toFixed(2)}T</div>
+        <div class="price">Ethereum (ETH): $${data.ethereum.usd.toLocaleString()} | MC: $${(data.ethereum.usd_market_cap/1e12).toFixed(2)}T</div>
+      `;
+    }
+
+    async function loadNews() {
+      const res = await fetch('/api/news');
+      const data = await res.json();
+      document.getElementById('news').innerHTML = data.map(n => `<li><a href="${n.url}" target="_blank" style="color:gold;">${n.title}</a></li>`).join('');
+    }
+
+    setInterval(loadPrices, 10000);
+    setInterval(loadNews, 30000);
+    loadPrices();
+    loadNews();
+  </script>
+</body>
+</html>

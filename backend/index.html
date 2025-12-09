@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpiralCoin SPLC</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #0a0a0a; color: #fff; margin: 0; padding: 20px; }
+  h1 { color: gold; text-align: center; }
+  #dashboard, #top-movers { margin: 20px auto; max-width: 600px; }
+  .block { background: #111; padding: 15px; margin: 10px 0; border-radius: 8px; }
+  input, button { padding: 8px; margin: 5px; border-radius: 5px; border: none; }
+  button { background: gold; color: #000; cursor: pointer; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>SpiralCoin SPLC</h1>
+
+<div id="wallet-section" class="block">
+  <input id="wallet-input" type="text" placeholder="Enter Wallet Address" />
+  <button id="set-wallet-btn">Set Wallet</button>
+</div>
+
+<div id="dashboard" class="block">
+  <h2>Blockchain Info</h2>
+  <p>Latest Block: <span id="latest-block">0</span></p>
+  <p>Total Supply: <span id="total-supply">0</span> SPLC</p>
+  <p>Market Cap: $<span id="market-cap">0</span></p>
+
+  <input id="buy-amount" type="number" placeholder="Buy Amount" />
+  <button id="buy-btn">Buy</button>
+
+  <input id="sell-amount" type="number" placeholder="Sell Amount" />
+  <button id="sell-btn">Sell</button>
+
+  <button id="mine-btn">Mine SPLC</button>
+</div>
+
+<div id="top-movers" class="block">
+  <h2>Top Movers</h2>
+  <div>Loading...</div>
+</div>
+
+<script>
+// --------------------
+// In-Browser SPLC Data
+// --------------------
+let userWallet = "";
+let data = {
+  users: [
+    { username: "Alice", balance: 5000 },
+    { username: "Bob", balance: 3000 },
+    { username: "Charlie", balance: 1200 }
+  ],
+  chain: {
+    latestBlock: 1,
+    totalSupply: 10000,
+    marketCap: 48000
+  }
+};
+
+// --------------------
+// Wallet Functions
+// --------------------
+function setWallet(address) {
+  if (!address) return alert("Enter a wallet address");
+  userWallet = address;
+  localStorage.setItem("userWallet", address);
+  alert("Wallet set: " + address);
+}
+
+// --------------------
+// Blockchain Functions
+// --------------------
+function loadChain() {
+  const chain = data.chain;
+  document.getElementById("latest-block").innerText = chain.latestBlock;
+  document.getElementById("total-supply").innerText = chain.totalSupply;
+  document.getElementById("market-cap").innerText = chain.marketCap;
+}
+
+function loadUsers() {
+  const usersDiv = document.getElementById("top-movers");
+  usersDiv.innerHTML = data.users
+    .map(u => `<div>${u.username} (${u.balance} SPLC)</div>`)
+    .join("");
+}
+
+// --------------------
+// SPLC Actions
+// --------------------
+function buy(amount) {
+  if (!userWallet) return alert("Set your wallet first");
+  if (!amount || amount <= 0) return alert("Enter valid amount");
+  let user = data.users.find(u => u.username === userWallet);
+  if (!user) { user = { username: userWallet, balance: 0 }; data.users.push(user); }
+  user.balance += amount;
+  data.chain.totalSupply += amount;
+  alert(`You bought ${amount} SPLC!`);
+  loadChain(); loadUsers();
+}
+
+function sell(amount) {
+  if (!userWallet) return alert("Set your wallet first");
+  if (!amount || amount <= 0) return alert("Enter valid amount");
+  let user = data.users.find(u => u.username === userWallet);
+  if (!user || user.balance < amount) return alert("Insufficient balance");
+  user.balance -= amount;
+  data.chain.totalSupply -= amount;
+  alert(`You sold ${amount} SPLC!`);
+  loadChain(); loadUsers();
+}
+
+function mine() {
+  if (!userWallet) return alert("Set your wallet first");
+  let mined = Math.floor(Math.random() * 10) + 1;
+  let user = data.users.find(u => u.username === userWallet);
+  if (!user) { user = { username: userWallet, balance: 0 }; data.users.push(user); }
+  user.balance += mined;
+  data.chain.latestBlock += 1;
+  data.chain.totalSupply += mined;
+  alert(`You mined ${mined} SPLC!`);
+  loadChain(); loadUsers();
+}
+
+// --------------------
+// Live Updates
+// --------------------
+function startLiveUpdates() {
+  loadChain();
+  loadUsers();
+  setInterval(() => {
+    loadChain();
+    loadUsers();
+  }, 5000);
+}
+
+// --------------------
+// Event Listeners
+// --------------------
+window.onload = function() {
+  const walletInput = document.getElementById("wallet-input");
+  const walletBtn = document.getElementById("set-wallet-btn");
+  walletBtn.onclick = () => setWallet(walletInput.value);
+
+  document.getElementById("buy-btn").onclick = () => buy(parseFloat(document.getElementById("buy-amount").value));
+  document.getElementById("sell-btn").onclick = () => sell(parseFloat(document.getElementById("sell-amount").value));
+  document.getElementById("mine-btn").onclick = () => mine();
+
+  // Load wallet from localStorage
+  const savedWallet = localStorage.getItem("userWallet");
+  if (savedWallet) userWallet = savedWallet;
+
+  startLiveUpdates();
+};
+</script>
+
+</body>
+</html>

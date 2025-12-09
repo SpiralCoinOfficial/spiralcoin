@@ -1,0 +1,9 @@
+body { font-family: Arial, sans-serif; background:#121212; color:#fff; margin:0; padding:0;}
+header { display:flex; align-items:center; padding:20px; background:#1c1c1c;}
+#logo { width:80px; height:auto; margin-right:20px;}
+h1,h2 { color:#f5d22c; }
+section { padding:20px; margin:10px;}
+table { width:100%; border-collapse: collapse; }
+th,td { border:1px solid #333; padding:10px; text-align:left; }
+button { padding:10px 20px; margin:5px; cursor:pointer; background:#f5d22c; border:none; color:#000; font-weight:bold; }
+input { padding:8px; margin:5px; width:120px; }
