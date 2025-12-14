@@ -1,0 +1,66 @@
+name: Summarize new issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  summary:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      models: read
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run AI inference
+        id: inference
+        uses: actions/ai-inference@v1
+        with:
+          prompt: |
+            Summarize the following GitHub issue in one paragraph:
+            Title: ${{ github.event.issue.title }}
+            Body: ${{ github.event.issue.body }}
+
+      - name: Comment with AI summary
+        run: |
+          gh issue comment $ISSUE_NUMBER --body '${{ steps.inference.outputs.response }}'
+
+                      - name: django-migration-fixer
+  
+  # You may pin to the exact commit or the version.
+  # uses: tj-django/django-migration-fixer@306c48b412beda9aeb193f0da83bb12ee20594d0
+  uses: tj-django/django-migration-fixer@v1.3.6
+  with:
+    # The location of manage.py.
+    managepy-path: # default is ./manage.py
+    # The default branch or target branch of a Pull request: Defaults to github.base_ref
+    default-branch: # optional, default is ${{ github.base_ref }}
+    # Force update the target branch locally when git fetch fails.
+    force-update: # optional
+    # Skip pulling the latest changes from the default branch.
+    skip-default-branch-update: # optional
+          
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          RESPONSE: ${{ steps.inference.outputs.response }}
+            
+            - name: fix-whitespace-action
+  # You may pin to the exact commit or the version.
+  # uses: andreasabel/fix-whitespace-action@e60f45943b1dfbd36fbc0412a4783945de29102b
+  uses: andreasabel/fix-whitespace-action@v1.2.0
+  with:
+    # Version of fix-whitespace program
+    version: # default is 0.1
+    # Name of fix-whitespace configuration file
+    configfile: # default is fix-whitespace.yaml
+    # Fix whitespace violations?
+    fix: 
+    # Report violation locations?
+    verbose: 
+          
+          
