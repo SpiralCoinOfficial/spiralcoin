@@ -1,0 +1,6 @@
+{
+    "platformio-ide.activateProjectOnTextEditorChange": true,
+    "platformio-ide.autoPreloadEnvTasks": true,
+    "platformio-ide.useDevelopmentPIOCore": true,
+    "CodeGPT.apiKey": "CodeGPT Plus Beta"
+}
