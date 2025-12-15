@@ -1,4 +1,4 @@
-#if HAVE_EVMONE
+#if (HAVE_EVMONE)
 #include "state_db_impl.h"
 #include <evmone/evmone.h>
 #include <iostream>

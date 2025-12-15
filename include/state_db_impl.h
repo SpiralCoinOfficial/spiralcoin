@@ -3,7 +3,7 @@
 #include <vector>
 class StateDBImpl : public StateDB {
 public:
-#if HAVE_EVMONE
+#if (HAVE_EVMONE)
     std::string address_to_string(const evmc::address& addr) const override;
     bool account_exists(const evmc::address& addr) const override;
     uint64_t get_balance(const evmc::address& addr) const override;

@@ -3,13 +3,13 @@
 #include <vector>
 #include <cstdint>
 #include "dqve_calculator.h"
-#if HAVE_EVMONE
+#if (HAVE_EVMONE)
 #include <evmone/evmone.h>
 #endif
 class StateDB {
 public:
     virtual ~StateDB() = default;
-#if HAVE_EVMONE
+#if (HAVE_EVMONE)
     virtual std::string address_to_string(const evmc::address& addr) const = 0;
     virtual bool account_exists(const evmc::address& addr) const = 0;
     virtual uint64_t get_balance(const evmc::address& addr) const = 0;

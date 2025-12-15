@@ -1,6 +1,6 @@
 #include "state_db_impl.h"
 #include <iostream>
-#if HAVE_EVMONE
+#if (HAVE_EVMONE)
 std::string StateDBImpl::address_to_string(const evmc::address& addr) const {
     char buf[43];
     snprintf(buf, sizeof(buf), "0x%02x%02x%02x%02x...", addr.bytes[0], addr.bytes[1], addr.bytes[2], addr.bytes[3]);
