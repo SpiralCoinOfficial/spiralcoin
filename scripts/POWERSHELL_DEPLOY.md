@@ -253,6 +253,6 @@ exit
 
 ---
 
-✅ **Server working?** → Use SSH session to run commands  
-⚠️ **Connection timeout?** → Check DigitalOcean dashboard  
+✅ **Server working?** → Use SSH session to run commands
+⚠️ **Connection timeout?** → Check DigitalOcean dashboard
 ❌ **Nothing works?** → Use Droplet Console or restart droplet
