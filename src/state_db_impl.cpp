@@ -16,3 +16,31 @@ bool StateDBImpl::account_has_code(const evmc::address& addr) const { return fal
 bool StateDBImpl::transfer(const evmc::address& from, const evmc::address& to, uint64_t value) { return true; }
 #endif
 void StateDBImpl::commit() { std::cout << "[*] Committing state..." << std::endl; }
+
+// DQVE integration implementation
+DQVECalculator::DQVEResult StateDBImpl::calculateDQVE() {
+    if (marketHistory.empty()) {
+        // Return default result if no market data available
+        DQVECalculator::DQVEResult result;
+        result.valuation = currentMarketData.price;
+        result.confidence = 0.0;
+        result.trendStrength = 0.0;
+        result.momentum = 0.0;
+        result.recommendation = "INSUFFICIENT_DATA";
+        result.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        return result;
+    }
+
+    return dqveCalculator.calculateDQVE(marketHistory, currentMarketData);
+}
+
+void StateDBImpl::updateMarketData(const DQVECalculator::MarketData& data) {
+    currentMarketData = data;
+
+    // Maintain market history (keep last 100 data points)
+    marketHistory.push_back(data);
+    if (marketHistory.size() > 100) {
+        marketHistory.erase(marketHistory.begin());
+    }
+}

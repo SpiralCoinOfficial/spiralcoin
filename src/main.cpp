@@ -296,8 +296,8 @@ void setupRPCServer() {
         }
     });
 
-    std::cout << "[*] Starting RPC server on port 8332..." << std::endl;
-    svr.listen("0.0.0.0", 8332);
+    std::cout << "[*] Starting RPC server on port 8545..." << std::endl;
+    svr.listen("0.0.0.0", 8545);
 }
 
 int main() {

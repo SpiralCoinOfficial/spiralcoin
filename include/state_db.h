@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include "dqve_calculator.h"
 #ifdef HAVE_EVMONE
 #include <evmone/evmone.h>
 #endif
@@ -20,4 +21,8 @@ public:
     virtual bool transfer(const evmc::address& from, const evmc::address& to, uint64_t value) = 0;
 #endif
     virtual void commit() = 0;
+
+    // DQVE integration
+    virtual DQVECalculator::DQVEResult calculateDQVE() = 0;
+    virtual void updateMarketData(const DQVECalculator::MarketData& data) = 0;
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "state_db.h"
+#include <vector>
 class StateDBImpl : public StateDB {
 public:
 #ifdef HAVE_EVMONE
@@ -14,4 +15,13 @@ public:
     bool transfer(const evmc::address& from, const evmc::address& to, uint64_t value) override;
 #endif
     void commit() override;
+
+    // DQVE integration
+    DQVECalculator::DQVEResult calculateDQVE() override;
+    void updateMarketData(const DQVECalculator::MarketData& data) override;
+
+private:
+    DQVECalculator dqveCalculator;
+    std::vector<DQVECalculator::MarketData> marketHistory;
+    DQVECalculator::MarketData currentMarketData;
 };

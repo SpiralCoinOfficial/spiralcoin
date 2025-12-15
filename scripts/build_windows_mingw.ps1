@@ -26,7 +26,9 @@ $cmd = @(
     $srcPattern,
     "-o", $out,
     "-pthread",
-    "-D", "HAVE_EVMONE=0"
+    "-D", "HAVE_EVMONE=0",
+    "-lws2_32",
+    "-lcrypt32"
 ) | ForEach-Object { $_ }
 
 Write-Host "Building with: $GxxPath"

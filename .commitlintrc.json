@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "header-max-length": [0, "never", 0],
+    "body-max-line-length": [0, "never", 0],
+    "footer-max-line-length": [0, "never", 0]
+  }
+}

@@ -52,9 +52,15 @@ target_link_libraries(${EXECUTABLE_NAME}
     ${LEVELDB_LIB}
     ${SSL_LIB}
     ${CRYPTO_LIB}
-    ${PTHREAD_LIB}
     ${EVMC_LIBS}
 )
+
+# Windows-specific libraries
+if (WIN32)
+    target_link_libraries(${EXECUTABLE_NAME} ws2_32 crypt32)
+else()
+    target_link_libraries(${EXECUTABLE_NAME} ${PTHREAD_LIB})
+endif()
 
 # Print build summary
 message(STATUS "==== SpiralCoin Build Configuration ====")

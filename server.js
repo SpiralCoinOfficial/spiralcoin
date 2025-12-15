@@ -1,14 +1,14 @@
-import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import dotenv from "dotenv";
 import crypto from "crypto";
+import dotenv from "dotenv";
+import express from "express";
+import rateLimit from "express-rate-limit";
 import path from "path";
 import { fileURLToPath } from "url";
-import rateLimit from "express-rate-limit";
 
-import { marketRouter } from "./routes/market.js";
 import { blockchainRouter } from "./routes/blockchain.js";
+import { marketRouter } from "./routes/market.js";
 import { miningRouter } from "./routes/mining.js";
 import { statsRouter } from "./routes/stats.js";
 import { walletRouter } from "./routes/wallet.js";
@@ -19,6 +19,10 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+// Basic rate limiter
+const limiter = rateLimit({ windowMs: 60 * 1000, max: 120 });
+app.use(limiter);
 
 // Global blockchain and pending transactions
 export let chain = [];
@@ -42,15 +46,22 @@ if (chain.length === 0) chain.push(createGenesisBlock());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Rate limiter: max 100 requests per 15 minutes per IP
-const rateLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+app.use(express.static(path.join(__dirname, "public")));
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
-app.use(express.static(path.join(__dirname, "public")));
-app.get("/", rateLimiter, (req, res) => {
-    res.sendFile(path.join(__dirname, "public/index.html"));
+app.get('/health', (_req, res) => {
+  res.status(200).json({ status: 'healthy', ts: new Date().toISOString() });
+});
+
+app.get('/api/stats', (_req, res) => {
+  res.json({
+    ok: true,
+    uptime: process.uptime(),
+    node: process.version,
+    ts: new Date().toISOString()
+  });
 });
 
 // Routes

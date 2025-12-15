@@ -2,267 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-        "name": "Attach by Process ID",
-        "processId": "${command:PickProcess}",
-        "request": "attach",
-        "skipFiles": [
-            "<node_internals>/**"
-        ],
-        "type": "node"
-    },
-    {
-        "name": "(gdb) Bash on Windows Attach",
-        "type": "cppdbg",
-        "request": "attach",
-        "program": "enter program name, for example ${workspaceFolder}/a.exe",
-        "processId": "${command:pickRemoteProcess}",
-        "pipeTransport": {
-            "debuggerPath": "/usr/bin/gdb",
-            "pipeProgram": "${env:windir}\\system32\\bash.exe",
-            "pipeArgs": ["-c"],
-            "pipeCwd": ""
-        },
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            },
-            {
-                "description": "Set Disassembly Flavor to Intel",
-                "text": "-gdb-set disassembly-flavor intel",
-                "ignoreFailures": true
-            }
-        ]
-    },
-    {
-        "type": "java",
-        "name": "Attach",
-        "request": "attach",
-        "hostName": "localhost",
-        "port": 5005
-    },
-    {
-        "type": "java",
-        "name": "Launch Java Program",
-        "request": "launch",
-        "mainClass": "com.example.Main"
-    },
-    {
-        "name": "Launch test function",
-        "type": "go",
-        "request": "launch",
-        "mode": "test",
-        "program": "${workspaceFolder}",
-        "args": [
-            "-test.run",
-            "MyTestFunction"
-        ]
-    },
-    {
-        "name": "Launch Package",
-        "type": "go",
-        "request": "launch",
-        "mode": "auto",
-        "program": "${workspaceFolder}"
-    },
-    {
-        "name": "Launch file",
-        "type": "go",
-        "request": "launch",
-        "mode": "debug",
-        "program": "${file}"
-    },
-    {
-        "name": "Connect to server",
-        "type": "go",
-        "request": "attach",
-        "mode": "remote",
-        "remotePath": "${workspaceFolder}",
-        "port": 2345,
-        "host": "127.0.0.1"
-    },
-    {
-        "name": "Attach to Process",
-        "type": "go",
-        "request": "attach",
-        "mode": "local",
-        "processId": "${command:pickProcess}"
-    },
-    {
-        "args": [
-            "-u",
-            "tdd",
-            "--timeout",
-            "999999",
-            "--colors",
-            "${workspaceFolder}/test"
-        ],
-        "internalConsoleOptions": "openOnSessionStart",
-        "name": "Mocha Tests",
-        "program": "mocha",
-        "request": "launch",
-        "skipFiles": [
-            "<node_internals>/**"
-        ],
-        "type": "node"
-    },
-    {
-        "args": [
-            "task"
-        ],
-        "name": "Gulp task",
-        "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
-        "request": "launch",
-        "skipFiles": [
-            "<node_internals>/**"
-        ],
-        "type": "node"
-    },
-    {
-        "name": "Electron Main",
-        "program": "${workspaceFolder}/main.js",
-        "request": "launch",
-        "runtimeExecutable": "electron",
-        "skipFiles": [
-            "<node_internals>/**"
-        ],
-        "type": "node"
-    },
-    {
-        "args": [
-            "--extensionDevelopmentPath=${workspaceFolder}"
-        ],
-        "name": "Launch Extension",
-        "outFiles": [
-            "${workspaceFolder}/out/**/*.js"
-        ],
-        "preLaunchTask": "npm",
-        "request": "launch",
-        "type": "extensionHost"
-    },
-    {
-        "command": "npm start",
-        "name": "Run npm start",
-        "request": "launch",
-        "type": "node-terminal"
-    },
-    {
-        "name": "(gdb) Attach",
-        "type": "cppdbg",
-        "request": "attach",
-        "program": "enter program name, for example ${workspaceFolder}/a.exe",
-        "MIMode": "gdb",
-        "miDebuggerPath": "/path/to/gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            },
-            {
-                "description": "Set Disassembly Flavor to Intel",
-                "text": "-gdb-set disassembly-flavor intel",
-                "ignoreFailures": true
-            }
-        ]
-    },
-    {
-        "name": "(gdb) Pipe Launch",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "enter program name, for example ${workspaceFolder}/a.exe",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${fileDirname}",
-        "environment": [],
-        "externalConsole": false,
-        "pipeTransport": {
-            "debuggerPath": "/usr/bin/gdb",
-            "pipeProgram": "<full path to pipe program such as plink.exe>",
-            "pipeArgs": [],
-            "pipeCwd": ""
-        },
-        "MIMode": "gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            },
-            {
-                "description": "Set Disassembly Flavor to Intel",
-                "text": "-gdb-set disassembly-flavor intel",
-                "ignoreFailures": true
-            }
-        ]
-    },
-    {
-        "type": "node",
-        "request": "attach",
-        "name": "Containers: Attach to Node",
-        "address": "localhost",
-        "port": 9229,
-        "localRoot": "${workspaceFolder}",
-        "remoteRoot": "/usr/src/app"
-    },
-    {
-        "name": "(gdb) Launch",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "enter program name, for example ${workspaceFolder}/a.exe",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${fileDirname}",
-        "environment": [],
-        "externalConsole": false,
-        "MIMode": "gdb",
-        "miDebuggerPath": "/path/to/gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            },
-            {
-                "description": "Set Disassembly Flavor to Intel",
-                "text": "-gdb-set disassembly-flavor intel",
-                "ignoreFailures": true
-            }
-        ]
-    },
-    {
-        "name": "(gdb) Attach",
-        "type": "cppdbg",
-        "request": "attach",
-        "program": "enter program name, for example ${workspaceFolder}/a.exe",
-        "MIMode": "gdb",
-        "miDebuggerPath": "/path/to/gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            },
-            {
-                "description": "Set Disassembly Flavor to Intel",
-                "text": "-gdb-set disassembly-flavor intel",
-                "ignoreFailures": true
-            }
-        ]
-    },
-    {
-      "name": "Debug SpiralCoin (MSVC)",
-      "type": "cppvsdbg",
-      "request": "launch",
-      "program": "${workspaceFolder}/build/spiralcoind.exe",
-      "args": [],
-      "stopAtEntry": false,
-      "cwd": "${workspaceFolder}",
-      "environment": [],
-      "console": "integratedTerminal"
-    },
-    {
       "name": "Debug SpiralCoin (MinGW gdb)",
       "type": "cppdbg",
       "request": "launch",
@@ -273,7 +12,27 @@
       "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",
-      "miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe"
+      "miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe",
+      "preLaunchTask": "Build SpiralCoin (MinGW g++)"
+    },
+    {
+      "name": "Debug SpiralCoin (MSVC)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/spiralcoind.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "preLaunchTask": "Build SpiralCoin (MSVC cl)"
+    },
+    {
+      "name": "Run MarketFeed (Node)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/marketfeed/server.js",
+      "cwd": "${workspaceFolder}/marketfeed",
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }
