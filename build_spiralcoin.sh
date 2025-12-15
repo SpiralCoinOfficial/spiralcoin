@@ -5,7 +5,7 @@ echo "======================================="
 echo "   SpiralCoin Direct Build Installer    "
 echo "======================================="
 apt-get update -y
-DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential libssl-dev libboost-all-dev git
+DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential libssl-dev libboost-all-dev git nlohmann-json3-dev
 mkdir -p "$SRC_DIR/build"
 cd "$SRC_DIR/build"
 echo "[*] Compiling SpiralCoin..."
