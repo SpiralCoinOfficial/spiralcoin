@@ -12,7 +12,7 @@ DOMAIN="spiralcoin.net"
 WWW_DOMAIN="www.spiralcoin.net"
 SERVER_IP="174.138.37.6"
 SSH_USER="root"
-SSH_PORT="8454"
+SSH_PORT="22"
 REMOTE_PATH="/var/www/spiralcoin.net"
 
 # Colors for output
