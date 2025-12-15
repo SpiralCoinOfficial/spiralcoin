@@ -46,19 +46,10 @@
     {
       "label": "Build SpiralCoin (MinGW g++)",
       "type": "shell",
-      "command": "C:/msys64/mingw64/bin/g++.exe",
+      "command": "C:/msys64/usr/bin/bash.exe",
       "args": [
-        "-std=c++20",
-        "-I",
-        "include",
-        "src/*.cpp",
-        "-o",
-        "build/spiralcoind.exe",
-        "-pthread",
-        "-D",
-        "HAVE_EVMONE=0",
-        "-lws2_32",
-        "-lcrypt32"
+        "-lc",
+        "/mingw64/bin/g++ -std=c++20 -I include src/*.cpp -o build/spiralcoind.exe -pthread -D HAVE_EVMONE=0 -lws2_32 -lcrypt32"
       ],
       "options": { "cwd": "${workspaceFolder}" },
       "problemMatcher": ["$gcc"],
