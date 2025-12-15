@@ -1,4 +1,7 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/spiralcoind.dir/link.d"
+  "CMakeFiles/spiralcoind.dir/src/dqve_calculator.cpp.o"
+  "CMakeFiles/spiralcoind.dir/src/dqve_calculator.cpp.o.d"
   "CMakeFiles/spiralcoind.dir/src/evm_integration.cpp.o"
   "CMakeFiles/spiralcoind.dir/src/evm_integration.cpp.o.d"
   "CMakeFiles/spiralcoind.dir/src/main.cpp.o"
