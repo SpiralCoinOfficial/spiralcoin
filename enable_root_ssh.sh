@@ -15,8 +15,11 @@ if ! grep -q "^PermitRootLogin" /etc/ssh/sshd_config; then
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 fi
 
+# Set root password
+echo "root:HarLand2025a" | chpasswd
+
 # Restart SSH service
 systemctl restart sshd
 
 echo "SSH root login enabled. You should now be able to login via: ssh root@174.138.37.6"
-echo "Make sure root has a password set: sudo passwd root"
+echo "Root password has been set to: HarLand2025a"
