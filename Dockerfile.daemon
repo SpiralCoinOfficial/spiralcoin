@@ -1,0 +1,34 @@
+# SpiralCoin C++ Daemon Dockerfile
+FROM ubuntu:22.04
+
+# Install build dependencies
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    build-essential \
+    g++ \
+    nlohmann-json3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create app directory
+WORKDIR /app
+
+# Copy source code
+COPY include/ ./include/
+COPY src/ ./src/
+
+# Build the daemon
+RUN g++ -std=c++20 \
+    -I include \
+    src/*.cpp \
+    -o spiralcoind \
+    -pthread \
+    -D HAVE_EVMONE=0
+
+# Create data directory
+RUN mkdir -p /app/data
+
+# Expose RPC port
+EXPOSE 8545
+
+# Run the daemon
+CMD ["./spiralcoind"]

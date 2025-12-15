@@ -1,0 +1,21 @@
+# SpiralCoin MarketFeed Dockerfile
+FROM node:lts-alpine
+
+ENV NODE_ENV=production
+
+WORKDIR /app
+
+# Copy package files
+COPY marketfeed/package*.json ./
+
+# Install dependencies
+RUN npm install --production --silent
+
+# Copy source
+COPY marketfeed/ ./
+
+# Expose port
+EXPOSE 4000
+
+# Run the service
+CMD ["node", "server.js"]
