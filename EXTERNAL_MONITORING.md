@@ -116,7 +116,7 @@ UptimeRobot provides:
 ```
 Main Dashboard:
 ✓ SpiralCoin Main        99.9% uptime (5 monitors)
-  ✓ Web UI               99.9% uptime  
+  ✓ Web UI               99.9% uptime
   ✓ Backend API          99.9% uptime
   ✓ RPC Daemon           99.9% uptime
   ✓ MarketFeed           99.9% uptime
@@ -442,7 +442,7 @@ Possible causes:
 
 ---
 
-**Status**: Ready for external monitoring  
-**Time to Setup**: 10 minutes  
-**Cost**: Free (with paid options)  
+**Status**: Ready for external monitoring
+**Time to Setup**: 10 minutes
+**Cost**: Free (with paid options)
 **Value**: Peace of mind + data-driven reliability

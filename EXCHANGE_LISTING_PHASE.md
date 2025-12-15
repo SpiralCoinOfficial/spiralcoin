@@ -474,8 +474,8 @@ FOR IMMEDIATE RELEASE
 
 SpiralCoin Launches Trading Platform with Revolutionary EVM-Compatible RPC
 
-[City, Date] – SpiralCoin, a blockchain innovation platform, 
-announces public trading availability on Uniswap V3 (Ethereum) 
+[City, Date] – SpiralCoin, a blockchain innovation platform,
+announces public trading availability on Uniswap V3 (Ethereum)
 and PancakeSwap (BSC).
 
 Key highlights:
@@ -623,7 +623,7 @@ Email: press@spiralcoin.net
 
 ---
 
-**Status**: Ready to begin Phase 3 - Exchange Preparation  
-**Timeline**: 8 weeks to DEX launch  
-**Investment**: $50,000+ (audit + liquidity + marketing)  
+**Status**: Ready to begin Phase 3 - Exchange Preparation
+**Timeline**: 8 weeks to DEX launch
+**Investment**: $50,000+ (audit + liquidity + marketing)
 **Potential ROI**: $50M+ market cap in 6 months with execution

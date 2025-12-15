@@ -722,7 +722,7 @@ rm -rf /tmp/spiralcoin-test
 
 ---
 
-**Status**: Operations infrastructure ready  
-**Time to Mastery**: 1-2 weeks  
-**Support**: Full documentation + automation scripts  
+**Status**: Operations infrastructure ready
+**Time to Mastery**: 1-2 weeks
+**Support**: Full documentation + automation scripts
 **Objective**: Reliable, hands-off 24/7 operations
