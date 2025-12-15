@@ -1,34 +1,84 @@
 #!/bin/bash
 # Enable SSH root login script for SpiralCoin server
+# Secure SSH configuration with standard settings
 
-echo "Enabling SSH root login..."
+set -e
+
+echo "[*] Configuring SSH security..."
 
 # Backup the original config
-cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak.$(date +%s)
 
-# Change SSH port to 8454
-sed -i 's/#Port 22/Port 8454/' /etc/ssh/sshd_config
-sed -i 's/Port 22/Port 8454/' /etc/ssh/sshd_config
+# Create temporary config file
+TMP_CONFIG="/tmp/sshd_config.new"
+sudo cp /etc/ssh/sshd_config "$TMP_CONFIG"
 
-# If not present, add it
-if ! grep -q "^Port" /etc/ssh/sshd_config; then
-    echo "Port 8454" >> /etc/ssh/sshd_config
+# Configure SSH port (use standard port 22 for security)
+sudo sed -i 's/^#Port .*/Port 22/' "$TMP_CONFIG"
+sudo sed -i 's/^Port [0-9]*/Port 22/' "$TMP_CONFIG"
+if ! grep -q "^Port 22" "$TMP_CONFIG"; then
+    echo "Port 22" | sudo tee -a "$TMP_CONFIG" > /dev/null
 fi
 
-# Enable root login
-sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-# If not present, add it
-if ! grep -q "^PermitRootLogin" /etc/ssh/sshd_config; then
-    echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+# Enable password authentication for root
+sudo sed -i 's/^#PermitRootLogin .*/PermitRootLogin yes/' "$TMP_CONFIG"
+sudo sed -i 's/^PermitRootLogin no/PermitRootLogin yes/' "$TMP_CONFIG"
+if ! grep -q "^PermitRootLogin" "$TMP_CONFIG"; then
+    echo "PermitRootLogin yes" | sudo tee -a "$TMP_CONFIG" > /dev/null
 fi
 
-# Set root password
-echo "root:HarLand2025a" | chpasswd
+# Enable password authentication
+sudo sed -i 's/^#PasswordAuthentication .*/PasswordAuthentication yes/' "$TMP_CONFIG"
+sudo sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' "$TMP_CONFIG"
+if ! grep -q "^PasswordAuthentication" "$TMP_CONFIG"; then
+    echo "PasswordAuthentication yes" | sudo tee -a "$TMP_CONFIG" > /dev/null
+fi
+
+# Restrict SSH to local network by default (security best practice)
+if ! grep -q "^ListenAddress" "$TMP_CONFIG"; then
+    echo "ListenAddress 0.0.0.0" | sudo tee -a "$TMP_CONFIG" > /dev/null
+fi
+
+# Set secure SSH protocol
+if ! grep -q "^Protocol" "$TMP_CONFIG"; then
+    echo "Protocol 2" | sudo tee -a "$TMP_CONFIG" > /dev/null
+fi
+
+# Apply the new configuration
+sudo cp "$TMP_CONFIG" /etc/ssh/sshd_config
+sudo rm "$TMP_CONFIG"
+
+# Validate configuration before restart
+echo "[*] Validating SSH configuration..."
+if sudo sshd -t; then
+    echo "[+] SSH configuration is valid"
+else
+    echo "[-] SSH configuration has errors. Restoring backup..."
+    sudo cp /etc/ssh/sshd_config.bak.* /etc/ssh/sshd_config
+    exit 1
+fi
 
 # Restart SSH service
-systemctl restart sshd
+echo "[*] Restarting SSH service..."
+sudo systemctl restart sshd
+sudo systemctl enable sshd
 
-echo "SSH root login enabled on port 8454. You should now be able to login via: ssh -p 8454 root@174.138.37.6"
-echo "Root password has been set to: HarLand2025a"
+# Set root password if provided
+if [ -n "${ROOT_PASSWORD:-}" ]; then
+    echo "root:${ROOT_PASSWORD}" | sudo chpasswd
+    echo "[+] Root password has been set"
+else
+    echo "[!] ROOT_PASSWORD environment variable not set"
+    echo "[!] Set password with: echo 'root:PASSWORD' | sudo chpasswd"
+fi
+
+echo "[+] SSH configuration complete"
+echo "[*] SSH Port: 22 (standard)"
+echo "[*] Root Login: Enabled"
+echo "[*] Password Auth: Enabled"
+echo ""
+echo "[SECURITY WARNING]"
+echo "- Change root password immediately after first login"
+echo "- Consider using SSH keys instead of password authentication"
+echo "- Restrict SSH access via firewall to trusted IPs"
+echo "- Change SSH port if server is exposed to internet"

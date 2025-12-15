@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
-echo "[*] Installing SpiralCoin Market Feed + WebSocket proxy (Part: marketfeed)"
+echo "[*] Installing SpiralCoin Market Feed + WebSocket proxy"
 
-BASE=~/spiralcoin
-MF_DIR=$BASE/marketfeed
-RPC_HOST="127.0.0.1"
-RPC_PORT=8545
+BASE="${BASE:-~/spiralcoin}"
+MF_DIR="$BASE/marketfeed"
+RPC_HOST="${RPC_HOST:-127.0.0.1}"
+RPC_PORT="${RPC_PORT:-8545}"
 RPC_URL="http://${RPC_HOST}:${RPC_PORT}/rpc"
-EXT_FEED="http://174.138.37.6:8485"   # external/global feed (may be unreachable — script handles that)
-NODE_PORT=3000
+EXT_FEED="${EXT_FEED:-http://127.0.0.1:5000/api/market/feed}"
+NODE_PORT="${NODE_PORT:-4000}"
 
 # 1) Create folder
 mkdir -p "$MF_DIR"

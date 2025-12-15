@@ -7,19 +7,19 @@ set -e
 echo "🚀 SpiralCoin Trading Platform Deployment"
 echo "========================================="
 
-# Configuration
-DOMAIN="spiralcoin.net"
-WWW_DOMAIN="www.spiralcoin.net"
-SERVER_IP="174.138.37.6"
-SSH_USER="root"
-SSH_PORT="8454"
-REMOTE_PATH="/var/www/spiralcoin.net"
+# Configuration - Update these values for your deployment
+DOMAIN="${DOMAIN:-spiralcoin.net}"
+WWW_DOMAIN="${WWW_DOMAIN:-www.spiralcoin.net}"
+SERVER_IP="${SERVER_IP:-127.0.0.1}"
+SSH_USER="${SSH_USER:-root}"
+SSH_PORT="${SSH_PORT:-22}"
+REMOTE_PATH="${REMOTE_PATH:-/var/www/spiralcoin.net}"
 
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
 # Check if domain is configured
 check_domain() {
@@ -47,13 +47,13 @@ setup_nginx() {
     echo -e "${YELLOW}Setting up nginx configuration...${NC}"
 
     # Create nginx site configuration
-    cat > spiralcoin.net.conf << EOF
+    cat > spiralcoin.net.conf << 'EOF'
 server {
     listen 80;
     server_name spiralcoin.net www.spiralcoin.net;
 
     # Redirect HTTP to HTTPS
-    return 301 https://\$server_name\$request_uri;
+    return 301 https://$server_name$request_uri;
 }
 
 server {
@@ -70,7 +70,7 @@ server {
     ssl_prefer_server_ciphers off;
 
     # Root directory
-    root $REMOTE_PATH;
+    root /var/www/spiralcoin.net;
     index index.html;
 
     # Security headers
@@ -92,27 +92,39 @@ server {
         add_header Cache-Control "public, immutable";
     }
 
-    # API proxy to local services
+    # API proxy to local services (port 5000)
     location /api/ {
         proxy_pass http://127.0.0.1:5000;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    # Market feed proxy
+    # Market feed proxy (port 4000)
     location /feed/ {
         proxy_pass http://127.0.0.1:4000;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # WebSocket support for market feed
+    location /ws {
+        proxy_pass http://127.0.0.1:4000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     # Main location
     location / {
-        try_files \$uri \$uri/ =404;
+        try_files $uri $uri/ /index.html;
 
         # Disable access to hidden files
         location ~ /\. {
@@ -202,9 +214,10 @@ setup_ssl() {
 setup_firewall() {
     echo -e "${YELLOW}Configuring firewall...${NC}"
 
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ufw allow 80/tcp"
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ufw allow 443/tcp"
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ufw --force enable"
+    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ufw allow 22/tcp" || true
+    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ufw allow 80/tcp" || true
+    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ufw allow 443/tcp" || true
+    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ufw --force enable" || true
 
     echo -e "${GREEN}Firewall configured${NC}"
 }
@@ -219,7 +232,7 @@ setup_web_server() {
     # Copy nginx configuration
     scp -P $SSH_PORT spiralcoin.net.conf $SSH_USER@$SERVER_IP:/tmp/
     ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo mv /tmp/spiralcoin.net.conf /etc/nginx/sites-available/"
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ln -sf /etc/nginx/sites-available/spiralcoin.net.conf /etc/nginx/sites-enabled/"
+    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ln -sf /etc/nginx/sites-available/spiralcoin.net.conf /etc/nginx/sites-enabled/" || true
 
     # Remove default site
     ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo rm -f /etc/nginx/sites-enabled/default"
@@ -234,9 +247,28 @@ setup_web_server() {
     echo -e "${GREEN}Web server configured${NC}"
 }
 
+# Check prerequisites
+check_prerequisites() {
+    if ! command -v scp &> /dev/null; then
+        echo -e "${RED}Error: scp command not found. Please install OpenSSH client.${NC}"
+        exit 1
+    fi
+
+    if ! command -v ssh &> /dev/null; then
+        echo -e "${RED}Error: ssh command not found. Please install OpenSSH client.${NC}"
+        exit 1
+    fi
+}
+
 # Main deployment function
 main() {
     echo -e "${GREEN}Starting SpiralCoin Trading Platform deployment...${NC}"
+    echo -e "${YELLOW}Configuration:${NC}"
+    echo "  Domain: $DOMAIN"
+    echo "  Server IP: $SERVER_IP"
+    echo "  SSH User: $SSH_USER"
+    echo "  SSH Port: $SSH_PORT"
+    echo ""
 
     check_domain
     setup_nginx
@@ -247,32 +279,19 @@ main() {
 
     echo -e "${GREEN}🎉 Deployment complete!${NC}"
     echo -e "${YELLOW}Your trading platform is now live at:${NC}"
-    echo -e "${GREEN}https://spiralcoin.net${NC}"
-    echo -e "${GREEN}https://www.spiralcoin.net${NC}"
+    echo -e "${GREEN}https://$DOMAIN${NC}"
+    echo -e "${GREEN}https://$WWW_DOMAIN${NC}"
+
+    echo -e "\n${YELLOW}API Endpoints:${NC}"
+    echo "  https://$DOMAIN/api/          -> http://127.0.0.1:5000"
+    echo "  https://$DOMAIN/feed/         -> http://127.0.0.1:4000"
+    echo "  wss://$DOMAIN/ws              -> ws://127.0.0.1:4000"
 
     echo -e "\n${YELLOW}Next steps:${NC}"
-    echo "1. Test the website functionality"
-    echo "2. Deploy your SpiralCoin blockchain services"
-    echo "3. Set up monitoring and analytics"
-    echo "4. Configure domain redirects if needed"
-}
-
-# Check prerequisites
-check_prerequisites() {
-    if ! command -v dig &> /dev/null; then
-        echo -e "${YELLOW}Installing dig for DNS checks...${NC}"
-        # dig is in dnsutils package
-    fi
-
-    if ! command -v scp &> /dev/null; then
-        echo -e "${RED}Error: scp command not found. Please install OpenSSH client.${NC}"
-        exit 1
-    fi
-
-    if ! command -v ssh &> /dev/null; then
-        echo -e "${RED}Error: ssh command not found. Please install OpenSSH client.${NC}"
-        exit 1
-    fi
+    echo "1. Verify the website is accessible at https://$DOMAIN"
+    echo "2. Test API connectivity: curl https://$DOMAIN/api/blockchain"
+    echo "3. Monitor logs on server: ssh -p $SSH_PORT $SSH_USER@$SERVER_IP"
+    echo "4. Configure monitoring and analytics"
 }
 
 # Run prerequisite check
