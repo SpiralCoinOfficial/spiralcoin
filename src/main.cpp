@@ -22,6 +22,8 @@ const std::string DATA_DIR = "data/";
 const std::string BLOCKCHAIN_FILE = DATA_DIR + "blockchain.json";
 const std::string WALLETS_FILE = DATA_DIR + "wallets.json";
 const std::string PRIMARY_ADDRESS = "0x928072b3A3A42e7dFD577a91167DfAa08f0E653E";
+const std::string SUPPLY_WALLET = "0xSPRC1111111111111111111111111111SupplyVault";
+const long long INITIAL_SUPPLY = 20000000000000LL; // 20 trillion SPRC
 
 struct Transaction { std::string from, to, txid; int amount; };
 struct Block { int height; std::string hash; std::vector<Transaction> txs; };
