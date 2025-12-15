@@ -7,7 +7,7 @@ MF_DIR=$BASE/marketfeed
 RPC_HOST="127.0.0.1"
 RPC_PORT=8545
 RPC_URL="http://${RPC_HOST}:${RPC_PORT}/rpc"
-EXT_FEED="http://174.138.37.6:8485"   # external/global feed (may be unreachable — script handles that)
+EXT_FEED="http://174.138.37.6:4000"   # external/global feed (market feed service, may be unreachable — script handles that)
 NODE_PORT=3000
 
 # 1) Create folder

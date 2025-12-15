@@ -9,7 +9,7 @@ RPC_WAIT_INTERVAL=2
 WALLET_ADDRESS="0x928072b3A3A42e7dFD577a91167DfAa08f0E653E"
 
 # --- Step 1: Kill any existing SpiralCoin instances ---
-sudo killall spiralcoind 2>/dev/null
+killall spiralcoind 2>/dev/null || true
 
 # --- Step 2: Start SpiralCoin daemon in background ---
 nohup $SPIRALCOIND -daemon > ~/spiralcoin_daemon.log 2>&1 &

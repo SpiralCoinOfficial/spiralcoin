@@ -7,14 +7,14 @@ echo "Fixing SpiralCoin SSH configuration..."
 # Backup the original config
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 
-# Keep SSH on standard port 22 (DO NOT CHANGE)
-# Ensure Port 22 is set
-sed -i 's/^#Port 22/Port 22/' /etc/ssh/sshd_config
-sed -i 's/^Port [0-9]*/Port 22/' /etc/ssh/sshd_config
-
-if ! grep -q "^Port 22" /etc/ssh/sshd_config; then
-    sed -i '/^#Port/a Port 22' /etc/ssh/sshd_config
-fi
+# Use standard ports 22 and 2222 for SSH
+# Ensure both ports are set
+sed -i 's/^#Port.*/Port 22/' /etc/ssh/sshd_config
+sed -i '/^Port /d' /etc/ssh/sshd_config
+{
+    echo "Port 22"
+    echo "Port 2222"
+} >> /etc/ssh/sshd_config
 
 # Enable password authentication
 sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config

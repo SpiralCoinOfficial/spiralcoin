@@ -1,12 +1,41 @@
 services:
-  spiralcoin:
-    image: spiralcoin
+  spiralcoin-api:
+    image: spiralcoin-api
     build:
       context: .
       dockerfile: ./Dockerfile
+    container_name: spiralcoin-api-debug
     environment:
       NODE_ENV: development
+      PORT: 5000
     ports:
-      - 3000:3000
-      - 9229:9229
+      - "5000:5000"
+      - "9229:9229"
+    networks:
+      - spiralcoin-network
     command: ["node", "--inspect=0.0.0.0:9229", "server.js"]
+    restart: unless-stopped
+
+  spiralcoin-marketfeed:
+    image: spiralcoin-marketfeed
+    build:
+      context: ./marketfeed
+      dockerfile: ./Dockerfile
+    container_name: spiralcoin-marketfeed-debug
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      RPC_URL: http://spiralcoin-api:5000/api/blockchain
+    ports:
+      - "4000:4000"
+      - "9230:9230"
+    depends_on:
+      - spiralcoin-api
+    networks:
+      - spiralcoin-network
+    command: ["node", "--inspect=0.0.0.0:9230", "server.js"]
+    restart: unless-stopped
+
+networks:
+  spiralcoin-network:
+    driver: bridge

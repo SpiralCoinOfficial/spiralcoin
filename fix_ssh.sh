@@ -2,60 +2,76 @@
 # Quick SSH Fix for SpiralCoin Server
 # Run this on your server to fix SSH authentication permanently
 
-set -e
+set -euo pipefail
 
 echo "=== SPIRALCOIN SSH FIX ==="
 echo ""
 
+# Require root
+if [[ $EUID -ne 0 ]]; then
+  echo "ERROR: This script must be run as root."
+  exit 1
+fi
+
+SSHD_CONFIG="/etc/ssh/sshd_config"
+
 # Backup original
-cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak.$(date +%s)
+if [[ -f "$SSHD_CONFIG" ]]; then
+  cp "$SSHD_CONFIG" "$SSHD_CONFIG.bak.$(date +%s)"
+else
+  echo "ERROR: $SSHD_CONFIG not found."
+  exit 1
+fi
 
 # Fix SSH configuration
 echo "Configuring SSH for port 22..."
 
-# Ensure Port 22
-grep -q "^Port 22" /etc/ssh/sshd_config || {
-    sed -i '/^Port /d' /etc/ssh/sshd_config
-    sed -i '1s/^/Port 22\n/' /etc/ssh/sshd_config
-}
+# Ensure Ports 22 and 2222 (dual listeners)
+sed -i '/^[[:space:]]*#\?[[:space:]]*Port\b/d' "$SSHD_CONFIG"
+{ printf '%s\n' "Port 22" "Port 2222"; } >> "$SSHD_CONFIG"
 
 # Enable password authentication
-sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
-sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
-grep -q "^PasswordAuthentication yes" /etc/ssh/sshd_config || echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+sed -i 's/^[[:space:]]*#\?[[:space:]]*PasswordAuthentication[[:space:]].*/PasswordAuthentication yes/' "$SSHD_CONFIG"
+grep -q '^PasswordAuthentication yes$' "$SSHD_CONFIG" || echo "PasswordAuthentication yes" >> "$SSHD_CONFIG"
 
 # Enable root login
-sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
-sed -i 's/^PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-sed -i 's/^PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config
-grep -q "^PermitRootLogin yes" /etc/ssh/sshd_config || echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+sed -i 's/^[[:space:]]*#\?[[:space:]]*PermitRootLogin[[:space:]].*/PermitRootLogin yes/' "$SSHD_CONFIG"
+grep -q '^PermitRootLogin yes$' "$SSHD_CONFIG" || echo "PermitRootLogin yes" >> "$SSHD_CONFIG"
 
 # Allow pubkey auth too
-sed -i 's/^#PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
-grep -q "^PubkeyAuthentication yes" /etc/ssh/sshd_config || echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
+sed -i 's/^[[:space:]]*#\?[[:space:]]*PubkeyAuthentication[[:space:]].*/PubkeyAuthentication yes/' "$SSHD_CONFIG"
+grep -q '^PubkeyAuthentication yes$' "$SSHD_CONFIG" || echo "PubkeyAuthentication yes" >> "$SSHD_CONFIG"
 
 # Verify configuration
 echo "Validating SSH configuration..."
-sshd -t || { echo "ERROR: Invalid SSH configuration!"; exit 1; }
+if command -v sshd >/dev/null 2>&1; then
+  sshd -t
+elif [[ -x /usr/sbin/sshd ]]; then
+  /usr/sbin/sshd -t
+else
+  echo "WARNING: sshd binary not found; skipping validation."
+fi
 
 # Restart SSH
 echo "Restarting SSH service..."
-systemctl restart ssh || systemctl restart sshd
+if command -v systemctl >/dev/null 2>&1; then
+  systemctl restart sshd 2>/dev/null || systemctl restart ssh 2>/dev/null
+  systemctl is-active --quiet sshd || systemctl is-active --quiet ssh || { echo "ERROR: SSH service failed to restart."; exit 1; }
+else
+  service sshd restart 2>/dev/null || service ssh restart 2>/dev/null || { echo "ERROR: Could not restart SSH service."; exit 1; }
+fi
 
-# Set root password
-echo "Setting root password..."
-echo "root:0478cb10c91480bb5d5e838b0" | chpasswd
+# Optionally set root password from env var
+if [[ -n "${ROOT_PASSWORD:-}" ]]; then
+  echo "Setting root password from ROOT_PASSWORD env var..."
+  echo "root:${ROOT_PASSWORD}" | chpasswd
+else
+  echo "Root password unchanged (set ROOT_PASSWORD env var to update)."
+fi
 
 echo ""
 echo "=== SSH FIX COMPLETE ==="
-echo "✓ Port: 22 (standard)"
+echo "✓ Ports: 22 and 2222"
 echo "✓ Password auth: ENABLED"
 echo "✓ Root login: ENABLED"
-echo ""
-echo "Connect with:"
-echo "  ssh -p 22 root@174.138.37.6"
-echo "  ssh root@174.138.37.6"
-echo ""
-echo "Credentials:"
-echo "  User: root"
-echo "  Password: 0478cb10c91480bb5d5e838b0"
+echo "✓ Pubkey auth: ENABLED"

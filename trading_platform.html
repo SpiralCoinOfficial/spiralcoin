@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpiralCoin Exchange - Professional Trading Platform</title>
+    <meta name="description" content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
+    <link rel="icon" type="image/png" sizes="64x64" href="public/assets/SpiralCoin_logo.png">
+    <link rel="apple-touch-icon" href="public/assets/SpiralCoin_logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SpiralCoin Exchange">
+    <meta property="og:description" content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
+    <meta property="og:image" content="public/assets/SpiralCoin_logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SpiralCoin Exchange">
+    <meta name="twitter:description" content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
+    <meta name="twitter:image" content="public/assets/SpiralCoin_logo.png">
     <style>
         :root {
             --primary: #ffcc00;
@@ -59,9 +70,12 @@
         .logo img {
             width: 40px;
             height: 40px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
             border-radius: 50%;
             border: 2px solid var(--primary);
             box-shadow: 0 0 10px var(--primary);
+            image-rendering: auto;
         }
 
         .nav-links {
@@ -447,7 +461,15 @@
 <body>
     <header class="header">
         <div class="logo">
-            <img src="https://github.com/[YOUR_GITHUB_USERNAME].png?size=80" alt="SpiralCoin Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNmZmNjMDAiLz4KPHRleHQgeD0iMjAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMxYTE4MmUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxPR088L3RleHQ+Cjwvc3ZnPg=='">
+            <img
+            src="public/assets/SpiralCoin_logo.png"
+                srcset="public/assets/SpiralCoin_logo.png 1x, public/assets/SpiralCoin_logo.png 2x"
+                sizes="40px"
+                width="40" height="40"
+                alt="SpiralCoin Logo"
+                decoding="async"
+                fetchpriority="high"
+                onerror="this.src='public/assets/SpiralCoin_logo.png'"/>
             SpiralCoin Exchange
         </div>
         <nav class="nav-links">
@@ -467,22 +489,22 @@
     <main class="main-content">
         <div class="market-data">
             <div class="market-card">
-                <div class="market-pair">SPC/USDT</div>
+                <div class="market-pair">SPRC/USDT</div>
                 <div class="market-price">$1.25</div>
                 <div class="market-change">+2.45%</div>
             </div>
             <div class="market-card">
-                <div class="market-pair">SPC/BTC</div>
+                <div class="market-pair">SPRC/BTC</div>
                 <div class="market-price">0.000025 BTC</div>
                 <div class="market-change">+1.23%</div>
             </div>
             <div class="market-card">
-                <div class="market-pair">SPC/ETH</div>
+                <div class="market-pair">SPRC/ETH</div>
                 <div class="market-price">0.00035 ETH</div>
                 <div class="market-change">-0.87%</div>
             </div>
             <div class="market-card">
-                <div class="market-pair">SPC/USD</div>
+                <div class="market-pair">SPRC/USD</div>
                 <div class="market-price">$1.24</div>
                 <div class="market-change">+1.89%</div>
             </div>
@@ -549,30 +571,30 @@
                         <button class="tab-btn active">Buy</button>
                         <button class="tab-btn">Sell</button>
                     </div>
-                    <form class="order-form">
+                    <form class="order-form" id="order-form">
                         <div class="form-group">
-                            <label>Order Type</label>
-                            <select>
-                                <option>Market Order</option>
-                                <option>Limit Order</option>
-                                <option>Stop Order</option>
+                            <label for="order-type">Order Type</label>
+                            <select id="order-type" name="orderType">
+                                <option value="market">Market Order</option>
+                                <option value="limit">Limit Order</option>
+                                <option value="stop">Stop Order</option>
                             </select>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Amount (SPRC)</label>
-                                <input type="number" placeholder="0.00">
+                                <label for="amount-input">Amount (SPRC)</label>
+                                <input id="amount-input" type="number" placeholder="0.00" min="0" step="0.01">
                             </div>
                             <div class="form-group">
-                                <label>Price (USDT)</label>
-                                <input type="number" placeholder="1.25">
+                                <label for="price-input">Price (USDT)</label>
+                                <input id="price-input" type="number" placeholder="1.25" min="0" step="0.0001">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Total</label>
-                            <input type="number" placeholder="0.00" readonly>
+                            <label for="total-input">Total</label>
+                            <input id="total-input" type="number" placeholder="0.00" readonly>
                         </div>
-                        <div class="percentage-btns">
+                        <div class="percentage-btns" id="percentage-btns">
                             <button type="button" class="percentage-btn">25%</button>
                             <button type="button" class="percentage-btn">50%</button>
                             <button type="button" class="percentage-btn">75%</button>
@@ -640,7 +662,7 @@
             </div>
             <div class="balance-item">
                 <div>
-                    <div class="balance-symbol">SPC</div>
+                    <div class="balance-symbol">SPRC</div>
                     <div style="color: var(--text-secondary); font-size: 0.9rem;">SpiralCoin</div>
                 </div>
                 <div class="balance-amount">
@@ -684,36 +706,52 @@
                 });
             });
 
-            // Form calculations
-            const amountInput = document.querySelector('input[placeholder="0.00"]:nth-of-type(1)');
-            const priceInput = document.querySelector('input[placeholder="1.25"]');
-            const totalInput = document.querySelector('input[placeholder="0.00"]:nth-of-type(2)');
+            // Form calculations (use stable IDs to avoid nulls)
+            const amountInput = document.getElementById('amount-input');
+            const priceInput = document.getElementById('price-input');
+            const totalInput = document.getElementById('total-input');
+            const orderForm = document.getElementById('order-form');
 
             function updateTotal() {
-                const amount = parseFloat(amountInput.value) || 0;
-                const price = parseFloat(priceInput.value) || 0;
+                const amount = parseFloat(amountInput?.value) || 0;
+                const price = parseFloat(priceInput?.value) || 0;
                 totalInput.value = (amount * price).toFixed(2);
             }
 
-            amountInput.addEventListener('input', updateTotal);
-            priceInput.addEventListener('input', updateTotal);
-
-            // Percentage buttons
-            const percentageBtns = document.querySelectorAll('.percentage-btn');
-            percentageBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const percentage = parseInt(btn.textContent) / 100;
-                    const available = 1250; // Example balance
-                    amountInput.value = (available * percentage / 1.25).toFixed(2); // Assuming current price
+            if (amountInput) amountInput.addEventListener('input', updateTotal);
+            if (priceInput) priceInput.addEventListener('input', updateTotal);
+            if (orderForm) {
+                orderForm.addEventListener('submit', (e) => {
+                    e.preventDefault(); // prevent page reload for demo
                     updateTotal();
+                    alert('Order submitted (demo).');
                 });
-            });
+            }
+
+            // Percentage buttons (scope to the form)
+            const percentageContainer = document.getElementById('percentage-btns');
+            if (percentageContainer) {
+                const percentageBtns = percentageContainer.querySelectorAll('.percentage-btn');
+                percentageBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const percentage = parseInt(btn.textContent, 10) / 100;
+                        const available = 1250; // Example balance in USDT
+                        const currentPrice = parseFloat(priceInput.value) || 1.25;
+                        amountInput.value = (available * percentage / currentPrice).toFixed(2);
+                        updateTotal();
+                    });
+                });
+            }
 
             // Connect wallet placeholder
-            const connectBtn = document.querySelector('.btn-secondary');
-            connectBtn.addEventListener('click', () => {
-                alert('Wallet connection functionality would integrate with MetaMask, Trust Wallet, or SpiralCoin wallet');
-            });
+            const connectBtn = document.querySelector('.btn.btn-secondary');
+            if (connectBtn) {
+                connectBtn.addEventListener('click', () => {
+                    const msg = 'Wallet connection would integrate with MetaMask, ' +
+                                'Trust Wallet, or SpiralCoin wallet';
+                    alert(msg);
+                });
+            }
         });
     </script>
 </body>

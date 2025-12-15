@@ -12,7 +12,27 @@ DOMAIN="spiralcoin.net"
 WWW_DOMAIN="www.spiralcoin.net"
 SERVER_IP="174.138.37.6"
 SSH_USER="root"
-SSH_PORT="22"
+SSH_PORTS=(22 2222)
+ssh_try() {
+    local cmd="$1"
+    for p in "${SSH_PORTS[@]}"; do
+        if ssh -o StrictHostKeyChecking=no -p "$p" "$SSH_USER@$SERVER_IP" "true" 2>/dev/null; then
+            ssh -o StrictHostKeyChecking=no -p "$p" "$SSH_USER@$SERVER_IP" "$cmd"
+            return $?
+        fi
+    done
+    echo -e "${RED}SSH connection failed on ports: ${SSH_PORTS[*]}${NC}" >&2
+    return 1
+}
+
+scp_try() {
+    local src="$1" dest="$2"
+    for p in "${SSH_PORTS[@]}"; do
+        scp -o StrictHostKeyChecking=no -P "$p" "$src" "$SSH_USER@$SERVER_IP:$dest" && return 0
+    done
+    echo -e "${RED}SCP failed on ports: ${SSH_PORTS[*]}${NC}" >&2
+    return 1
+}
 REMOTE_PATH="/var/www/spiralcoin.net"
 
 # Colors for output
@@ -134,13 +154,13 @@ deploy_files() {
     echo -e "${YELLOW}Deploying files to server...${NC}"
 
     # Create remote directory
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo mkdir -p $REMOTE_PATH"
+    ssh_try "sudo mkdir -p $REMOTE_PATH"
 
     # Copy trading platform files
-    scp -P $SSH_PORT trading_platform.html $SSH_USER@$SERVER_IP:$REMOTE_PATH/index.html
+    scp_try "trading_platform.html" "$REMOTE_PATH/index.html"
 
     # Create additional pages
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "cat > $REMOTE_PATH/404.html" << 'EOF'
+    ssh_try "cat > $REMOTE_PATH/404.html" << 'EOF'
 <!DOCTYPE html>
 <html>
 <head>
@@ -159,7 +179,7 @@ deploy_files() {
 </html>
 EOF
 
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "cat > $REMOTE_PATH/50x.html" << 'EOF'
+    ssh_try "cat > $REMOTE_PATH/50x.html" << 'EOF'
 <!DOCTYPE html>
 <html>
 <head>
@@ -179,8 +199,8 @@ EOF
 EOF
 
     # Set proper permissions
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo chown -R www-data:www-data $REMOTE_PATH"
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo chmod -R 755 $REMOTE_PATH"
+    ssh_try "sudo chown -R www-data:www-data $REMOTE_PATH"
+    ssh_try "sudo chmod -R 755 $REMOTE_PATH"
 
     echo -e "${GREEN}Files deployed successfully${NC}"
 }
@@ -190,10 +210,10 @@ setup_ssl() {
     echo -e "${YELLOW}Setting up SSL certificates...${NC}"
 
     # Install certbot if not present
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo apt update && sudo apt install -y certbot python3-certbot-nginx"
+    ssh_try "sudo apt update && sudo apt install -y certbot python3-certbot-nginx"
 
     # Obtain SSL certificate
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo certbot certonly --standalone -d $DOMAIN -d $WWW_DOMAIN --agree-tos --email admin@$DOMAIN --no-eff-email"
+    ssh_try "sudo certbot certonly --standalone -d $DOMAIN -d $WWW_DOMAIN --agree-tos --email admin@$DOMAIN --no-eff-email"
 
     echo -e "${GREEN}SSL certificates configured${NC}"
 }
@@ -202,9 +222,9 @@ setup_ssl() {
 setup_firewall() {
     echo -e "${YELLOW}Configuring firewall...${NC}"
 
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ufw allow 80/tcp"
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ufw allow 443/tcp"
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ufw --force enable"
+    ssh_try "sudo ufw allow 80/tcp"
+    ssh_try "sudo ufw allow 443/tcp"
+    ssh_try "sudo ufw --force enable"
 
     echo -e "${GREEN}Firewall configured${NC}"
 }
@@ -214,22 +234,22 @@ setup_web_server() {
     echo -e "${YELLOW}Setting up web server...${NC}"
 
     # Install nginx
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo apt install -y nginx"
+    ssh_try "sudo apt install -y nginx"
 
     # Copy nginx configuration
-    scp -P $SSH_PORT spiralcoin.net.conf $SSH_USER@$SERVER_IP:/tmp/
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo mv /tmp/spiralcoin.net.conf /etc/nginx/sites-available/"
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo ln -sf /etc/nginx/sites-available/spiralcoin.net.conf /etc/nginx/sites-enabled/"
+    scp_try "spiralcoin.net.conf" "/tmp/spiralcoin.net.conf"
+    ssh_try "sudo mv /tmp/spiralcoin.net.conf /etc/nginx/sites-available/"
+    ssh_try "sudo ln -sf /etc/nginx/sites-available/spiralcoin.net.conf /etc/nginx/sites-enabled/"
 
     # Remove default site
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo rm -f /etc/nginx/sites-enabled/default"
+    ssh_try "sudo rm -f /etc/nginx/sites-enabled/default"
 
     # Test nginx configuration
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo nginx -t"
+    ssh_try "sudo nginx -t"
 
     # Restart nginx
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo systemctl restart nginx"
-    ssh -p $SSH_PORT $SSH_USER@$SERVER_IP "sudo systemctl enable nginx"
+    ssh_try "sudo systemctl restart nginx"
+    ssh_try "sudo systemctl enable nginx"
 
     echo -e "${GREEN}Web server configured${NC}"
 }

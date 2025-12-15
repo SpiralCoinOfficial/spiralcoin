@@ -1,17 +1,20 @@
 # SpiralCoin Logo Update Instructions
 
-## Update Logo to Match Your GitHub Profile Photo
+## Update Logo
 
-The trading platform has been updated to include a logo image that matches your GitHub profile photo. Follow these steps to complete the logo integration:
+The trading platform now ships with a bundled logo (`public/assets/SpiralCoin_logo.png`) and still supports pulling your GitHub profile photo if you prefer. Follow these steps to complete the logo integration:
 
-### Step 1: Get Your GitHub Username
-Your GitHub profile URL is typically: `https://github.com/YOUR_USERNAME`
-Replace `YOUR_USERNAME` in the URL below with your actual GitHub username.
+### Option A: Use the bundled SpiralCoin logo (no action needed)
+`trading_platform.html` already points to `public/assets/SpiralCoin_logo.png` with correct sizing. Nothing to change if you want to keep the shipped logo.
+
+### Option B: Match your GitHub profile photo
+1) Get your GitHub username (profile URL looks like `https://github.com/YOUR_USERNAME`).
+2) Replace `[YOUR_GITHUB_USERNAME]` in the `onerror` fallback URL below with your username if you want your avatar as the fallback.
 
 ### Step 2: Update the Logo URL
 In `trading_platform.html`, find this line:
 ```html
-<img src="https://github.com/[YOUR_GITHUB_USERNAME].png?size=80" alt="SpiralCoin Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNmZmNjMDAiLz4KPHRleHQgeD0iMjAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMxYTE4MmUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxPR088L3RleHQ+Cjwvc3ZnPg=='">
+<img src="public/assets/SpiralCoin_logo.png" srcset="public/assets/SpiralCoin_logo.png 1x, public/assets/SpiralCoin_logo.png 2x" sizes="40px" width="40" height="40" alt="SpiralCoin Logo" decoding="async" fetchpriority="high" onerror="this.src='https://github.com/[SpiralCoin].png?size=80'">
 ```
 
 Replace `[YOUR_GITHUB_USERNAME]` with your actual GitHub username. For example, if your GitHub username is "johndoe", it should become:

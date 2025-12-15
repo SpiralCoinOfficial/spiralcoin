@@ -13,6 +13,6 @@ marketRouter.post("/update", (req, res) => {
         currentPrice = price;
         res.json({ price: currentPrice });
     } else {
-        res.status(400).json({ error: "Invalid price" }); 
- }
+        res.status(400).json({ error: "Invalid price" });
+    }
 });

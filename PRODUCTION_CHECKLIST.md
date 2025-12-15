@@ -17,14 +17,14 @@
 ### Server Details
 - **IP**: 174.138.37.6
 - **Domain**: spiralcoin.net
-- **SSH Port**: 8454
+- **SSH Port**: 22
 - **Access**: root@174.138.37.6
 
 ### Deployment Steps
 
 #### 1. Install Docker (if needed)
 ```bash
-ssh -p 8454 root@174.138.37.6
+ssh root@174.138.37.6
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 docker --version
@@ -146,7 +146,7 @@ certbot --nginx -d spiralcoin.net -d www.spiralcoin.net --non-interactive --agre
 
 ### Configure Firewall
 ```bash
-ufw allow 8454/tcp  # SSH
+ufw allow 22/tcp    # SSH
 ufw allow 80/tcp    # HTTP
 ufw allow 443/tcp   # HTTPS
 ufw --force enable
@@ -318,7 +318,7 @@ curl https://spiralcoin.net/health
 
 ### Quick Restart
 ```bash
-ssh -p 8454 root@174.138.37.6
+ssh root@174.138.37.6
 cd /root/spiralcoin
 docker compose restart
 ```
@@ -341,11 +341,11 @@ docker compose up -d
 
 ## 📊 Current Status
 
-**Repository**: ✅ Pushed to GitHub  
-**Docker Stack**: ✅ Created and tested locally  
-**Documentation**: ✅ Complete  
+**Repository**: ✅ Pushed to GitHub
+**Docker Stack**: ✅ Created and tested locally
+**Documentation**: ✅ Complete
 **Next Action**: 🚀 Deploy to production server (174.138.37.6)
 
-**Founder Wallet**: 0x928072b3A3A42e7dFD577a91167DfAa08f0E653E (30,562,600 SPRC)  
-**Supply Wallet**: 0xSPRC1111111111111111111111111111SupplyVault (20,000,000,000,000 SPRC)  
+**Founder Wallet**: 0x928072b3A3A42e7dFD577a91167DfAa08f0E653E (30,562,600 SPRC)
+**Supply Wallet**: 0xSPRC1111111111111111111111111111SupplyVault (20,000,000,000,000 SPRC)
 **Total Supply**: 20,000,030,562,600 SPRC

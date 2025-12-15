@@ -21,6 +21,7 @@ cp /etc/ssh/sshd_config /root/ssh_backup/sshd_config.bak.$(date +%s)
 cat > /etc/ssh/sshd_config.new << 'SSHEOF'
 # SpiralCoin SSH Configuration - Fixed for root access with password auth
 Port 22
+Port 2222
 AddressFamily any
 ListenAddress 0.0.0.0
 ListenAddress ::
@@ -113,7 +114,7 @@ echo "  SSH FIX COMPLETE"
 echo "=========================================="
 echo ""
 echo "Configuration:"
-echo "  Port: 22"
+echo "  Ports: 22, 2222"
 echo "  Root Login: ENABLED"
 echo "  Password Auth: ENABLED"
 echo "  User: root"

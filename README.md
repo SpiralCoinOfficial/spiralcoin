@@ -164,7 +164,7 @@ curl -X POST http://localhost:8545/rpc \
 
 ## Security
 
-- SSH access is configured with custom port (8454) and secure password
+- SSH access is configured with dual ports (22 primary, 2222 fallback) and secure password
 - Sensitive data is excluded from version control
 - Rate limiting enabled on API endpoints
 - CORS configured for web dashboard access
@@ -237,3 +237,12 @@ For issues and questions:
 - Create an issue on GitHub
 - Check the documentation
 - Review the API endpoints
+3. **Post-deploy health check**
+```bash
+# From your workstation (PowerShell)
+pwsh -File scripts/prod_health_check.ps1 -Server 174.138.37.6
+
+# Or on the server (bash)
+cd /root/spiralcoin
+bash scripts/prod_health_check.sh
+```

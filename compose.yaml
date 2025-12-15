@@ -52,15 +52,17 @@ services:
     networks:
       - spiralcoin-network
 
-  # Web Dashboard (Optional - serving trading platform)
+  # Web Dashboard (Static Nginx)
   web:
     image: nginx:alpine
     container_name: spiralcoin-web
     ports:
       - "3000:80"
     volumes:
-      - ./trading_platform.html:/usr/share/nginx/html/index.html:ro
-      - ./public:/usr/share/nginx/html/public:ro
+      - ./public:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
+      - marketfeed
     restart: unless-stopped
     networks:
       - spiralcoin-network

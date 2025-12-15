@@ -1,5 +1,5 @@
-import express from "express";
 import crypto from "crypto";
+import express from "express";
 import { chain, pendingTransactions } from "../server.js";
 
 export const miningRouter = express.Router();
@@ -21,7 +21,9 @@ miningRouter.post("/", (req, res) => {
 
 miningRouter.post("/transaction", (req, res) => {
     const { from, to, amount } = req.body;
-    if (!from || !to || !amount || amount <= 0) return res.status(400).json({ error: "Invalid transaction" });
+    if (!from || !to || !amount || amount <= 0) {
+        return res.status(400).json({ error: "Invalid transaction" });
+    }
     pendingTransactions.push({ from, to, amount });
     res.json({ pendingTransactions });
 });

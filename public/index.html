@@ -1,84 +1,503 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SpiralCoin</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiralCoin - Next Generation Cryptocurrency Platform</title>
+    <meta name="description" content="SpiralCoin is a fast, secure, and scalable cryptocurrency platform with EVM smart contracts, real-time trading, and enterprise-grade security.">
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/SpiralCoin_logo.png">
+    <link rel="apple-touch-icon" href="assets/SpiralCoin_logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SpiralCoin - Next Generation Cryptocurrency Platform">
+    <meta property="og:description" content="Fast, secure, and scalable blockchain with pro trading, EVM smart contracts, and enterprise-grade security.">
+    <meta property="og:image" content="assets/SpiralCoin_logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SpiralCoin - Next Generation Cryptocurrency Platform">
+    <meta name="twitter:description" content="Fast, secure, and scalable blockchain with pro trading, EVM smart contracts, and enterprise-grade security.">
+    <meta name="twitter:image" content="assets/SpiralCoin_logo.png">
+    <link rel="stylesheet" href="style.css" id="main-css" media="all" fetchpriority="high">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 <body>
-    <div id="main">
-        <img src="spiral_logo.png" alt="SpiralCoin Logo"/>
-        <h1>SpiralCoin-SPRC</h1>
-        <p>Current Price: <span id="price-display">$0.00</span></p>
-        <button onclick="getPrice()">Get Price</button>
-        <button onclick="updatePrice()">Update Price</button>
-        <button onclick="mineBlock()">Mine Block</button>
-        <button onclick="sendTransaction()">Send Transaction</button>
-        <button onclick="checkBalance()">Check Balance</button>
-        <button onclick="refreshStats()">Refresh Stats</button>
-        <div>
-            <p>Blocks: <span id="stats-blocks">0</span></p>
-            <p>Pending: <span id="stats-pending">0</span></p>
-            <p>Total Coins: <span id="stats-total">0</span></p>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a class="logo" href="#" aria-label="SpiralCoin home">
+                <div class="logo-icon" aria-hidden="true">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                </div>
+                <span>SpiralCoin</span>
+            </a>
+            <div class="nav-links" id="primary-navigation">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#technology" class="nav-link">Technology</a>
+                <a href="#stats" class="nav-link">Stats</a>
+                <a href="#trading" class="nav-link">Trading</a>
+                <a href="#community" class="nav-link">Community</a>
+                <a href="#trading" class="btn btn-primary">Get Started</a>
+            </div>
+            <button class="hamburger" aria-label="Toggle navigation" aria-controls="primary-navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
-    </div>
-    <script>
-        const API_BASE = "https://www.spiralcoin.net/api";
+    </nav>
 
-        async function getPrice() {
-            const res = await fetch(`${API_BASE}/market/price`);
-            const data = await res.json();
-            document.getElementById("price-display").innerText = `$${data.price.toFixed(2)}`;
-        }
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="stars"></div>
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    The Future of <span class="gradient-text">Decentralized Finance</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Experience next-generation blockchain technology with SpiralCoin. Fast, secure, and scalable cryptocurrency for everyone.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-lg">Start Trading Now</button>
+                    <button class="btn btn-secondary btn-lg">Learn More</button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-box">
+                        <div class="stat-number" data-target="1000000">0</div>
+                        <div class="stat-label">Transactions/Day</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" data-target="50000">0</div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" data-target="99.9">0</div>
+                        <div class="stat-label">Uptime %</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-card card-1">
+                    <div class="card-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="card-text">
+                        <div class="card-value">$2.5B</div>
+                        <div class="card-label">Market Cap</div>
+                    </div>
+                </div>
+                <div class="floating-card card-2">
+                    <div class="card-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="card-text">
+                        <div class="card-value">0.5s</div>
+                        <div class="card-label">Block Time</div>
+                    </div>
+                </div>
+                <div class="floating-card card-3">
+                    <div class="card-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="card-text">
+                        <div class="card-value">150+</div>
+                        <div class="card-label">Countries</div>
+                    </div>
+                </div>
+                <svg class="blob" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="url(#gradient)" d="M100,50 Q150,0 200,0 Q250,0 300,50 Q350,100 350,200 Q350,300 300,350 Q250,400 200,400 Q150,400 100,350 Q50,300 50,200 Q50,100 100,50 Z" />
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ffcc00;stop-opacity:0.3" />
+                            <stop offset="100%" style="stop-color:#ff6b6b;stop-opacity:0.3" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </section>
 
-        async function updatePrice() {
-            const newPrice = parseFloat(prompt("Enter new SpiralCoin price:"));
-            if (isNaN(newPrice)) return alert("Invalid number");
-            const res = await fetch(`${API_BASE}/market/update`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ price: newPrice })
-            });
-            const data = await res.json();
-            alert(`Price updated: $${data.price}`);
-        }
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose SpiralCoin?</h2>
+                <p>Industry-leading features designed for modern cryptocurrency trading</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Sub-second block times with advanced consensus algorithm. Experience true real-time transactions with minimal latency.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Bank-Grade Security</h3>
+                    <p>Military-grade encryption and multi-signature wallets. Your assets are protected with cutting-edge security protocols.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Advanced Trading</h3>
+                    <p>Professional trading platform with real-time charts, advanced order types, and comprehensive market analysis tools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Smart Contracts</h3>
+                    <p>EVM-compatible smart contracts. Build and deploy decentralized applications with full compatibility.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community Driven</h3>
+                    <p>Governed by the community through transparent voting. Your voice matters in SpiralCoin's future direction.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Eco-Friendly</h3>
+                    <p>Proof-of-Stake consensus mechanism. Energy-efficient blockchain with minimal environmental impact.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        async function mineBlock() {
-            const res = await fetch(`${API_BASE}/mining`, { method: "POST" });
-            const data = await res.json();
-            alert(`Block mined! Hash: ${data.block.hash}`);
-        }
+    <!-- Technology Section -->
+    <section id="technology" class="technology">
+        <div class="container">
+            <div class="section-header">
+                <h2>Cutting-Edge Technology Stack</h2>
+                <p>Built with the most advanced blockchain technologies</p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-logo">C++</div>
+                    <h3>Blockchain Core</h3>
+                    <p>High-performance C++ daemon for maximum efficiency and speed</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">EVM</div>
+                    <h3>Smart Contracts</h3>
+                    <p>Ethereum Virtual Machine compatibility for universal dApp support</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">Node.js</div>
+                    <h3>REST API</h3>
+                    <p>Scalable API server with comprehensive blockchain endpoints</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">WebSocket</div>
+                    <h3>Real-Time Feeds</h3>
+                    <p>Live market data and blockchain event streaming</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">Docker</div>
+                    <h3>Containerized</h3>
+                    <p>Easy deployment with Docker and Kubernetes support</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">REST</div>
+                    <h3>JSON-RPC</h3>
+                    <p>Standard blockchain RPC interface for full node integration</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        async function sendTransaction() {
-            const from = prompt("From wallet address:");
-            const to = prompt("To wallet address:");
-            const amount = parseFloat(prompt("Amount:"));
-            const res = await fetch(`${API_BASE}/mining/transaction`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ from, to, amount })
-            });
-            const data = await res.json();
-            alert(`Transaction added! Pending: ${data.pendingTransactions.length}`);
-        }
+    <!-- Stats Section -->
+    <section id="stats" class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stats-card">
+                    <div class="stats-number" data-target="2500000000">0</div>
+                    <div class="stats-label">Total Circulating</div>
+                    <div class="stats-unit">SPRC</div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-number" data-target="15000">0</div>
+                    <div class="stats-label">Active Validators</div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-number" data-target="125">0</div>
+                    <div class="stats-label">Countries Supported</div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-number" data-target="0.3">0</div>
+                    <div class="stats-label">Avg. Transaction Fee</div>
+                    <div class="stats-unit">SPRC</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        async function checkBalance() {
-            const address = prompt("Enter wallet address:");
-            const res = await fetch(`${API_BASE}/wallet/balance/${address}`);
-            const data = await res.json();
-            alert(`Balance for ${address}: ${data.balance} SC`);
-        }
+    <!-- Trading Platform Preview -->
+    <section id="trading" class="trading-preview">
+        <div class="container">
+            <div class="section-header">
+                <h2>Professional Trading Platform</h2>
+                <p>Everything you need for successful crypto trading</p>
+            </div>
+            <div class="trading-content">
+                <div class="trading-features">
+                    <div class="trading-feature">
+                        <div class="feature-num">01</div>
+                        <h3>Real-Time Charts</h3>
+                        <p>Advanced candlestick charts with technical analysis tools and multiple timeframes</p>
+                    </div>
+                    <div class="trading-feature">
+                        <div class="feature-num">02</div>
+                        <h3>Order Management</h3>
+                        <p>Limit, market, and stop-loss orders with advanced execution algorithms</p>
+                    </div>
+                    <div class="trading-feature">
+                        <div class="feature-num">03</div>
+                        <h3>Portfolio Tracking</h3>
+                        <p>Real-time portfolio valuation and performance metrics</p>
+                    </div>
+                    <div class="trading-feature">
+                        <div class="feature-num">04</div>
+                        <h3>Mobile Trading</h3>
+                        <p>Full-featured native apps for iOS and Android devices</p>
+                    </div>
+                </div>
+                <div class="trading-image">
+                    <div class="chart-placeholder">
+                        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 20 180 L 50 150 L 80 160 L 110 120 L 140 100 L 170 130 L 200 80 L 230 110 L 260 90 L 290 60 L 320 80 L 350 50 L 380 30" stroke="#ffcc00" stroke-width="2" fill="none" opacity="0.8"/>
+                            <path d="M 20 180 L 50 150 L 80 160 L 110 120 L 140 100 L 170 130 L 200 80 L 230 110 L 260 90 L 290 60 L 320 80 L 350 50 L 380 30 L 380 200 L 20 200 Z" fill="url(#chartGradient)" opacity="0.2"/>
+                            <defs>
+                                <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#ffcc00;stop-opacity:0.5" />
+                                    <stop offset="100%" style="stop-color:#ffcc00;stop-opacity:0" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        async function refreshStats() {
-            const res = await fetch(`${API_BASE}/stats`);
-            const data = await res.json();
-            document.getElementById("stats-blocks").innerText = data.blocks;
-            document.getElementById("stats-pending").innerText = data.pendingTransactions;
-            document.getElementById("stats-total").innerText = data.totalCoins;
-        }
+    <!-- Security Section -->
+    <section class="security">
+        <div class="container">
+            <div class="section-header">
+                <h2>Enterprise-Grade Security</h2>
+                <p>Your assets are protected with industry-leading security measures</p>
+            </div>
+            <div class="security-grid">
+                <div class="security-card">
+                    <div class="security-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Multi-Signature Wallets</h3>
+                    <p>Require multiple private keys for transaction approval</p>
+                </div>
+                <div class="security-card">
+                    <div class="security-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h3>Cold Storage</h3>
+                    <p>Offline storage for maximum protection against cyber attacks</p>
+                </div>
+                <div class="security-card">
+                    <div class="security-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Regular Audits</h3>
+                    <p>Third-party security audits and penetration testing</p>
+                </div>
+                <div class="security-card">
+                    <div class="security-icon">
+                        <i class="fas fa-shield"></i>
+                    </div>
+                    <h3>DDoS Protection</h3>
+                    <p>Advanced network protection against distributed attacks</p>
+                </div>
+                <div class="security-card">
+                    <div class="security-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <h3>Whitelist Management</h3>
+                    <p>Control which addresses can receive funds from your account</p>
+                </div>
+                <div class="security-card">
+                    <div class="security-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Real-Time Alerts</h3>
+                    <p>Instant notifications for all account activities</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        getPrice(); refreshStats();
-    </script>
+    <!-- Community Section -->
+    <section id="community" class="community">
+        <div class="container">
+            <div class="section-header">
+                <h2>Join Our Growing Community</h2>
+                <p>Connect with thousands of traders and developers worldwide</p>
+            </div>
+            <div class="community-grid">
+                <div class="community-card">
+                    <div class="community-icon">
+                        <i class="fab fa-discord"></i>
+                    </div>
+                    <h3>Discord Server</h3>
+                    <p>50,000+ members</p>
+                    <button class="btn btn-secondary">Join Server</button>
+                </div>
+                <div class="community-card">
+                    <div class="community-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <h3>Telegram Channel</h3>
+                    <p>75,000+ followers</p>
+                    <button class="btn btn-secondary">Join Channel</button>
+                </div>
+                <div class="community-card">
+                    <div class="community-icon">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <h3>Twitter Community</h3>
+                    <p>125,000+ followers</p>
+                    <button class="btn btn-secondary">Follow Us</button>
+                </div>
+                <div class="community-card">
+                    <div class="community-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3>GitHub Repository</h3>
+                    <p>Open source development</p>
+                    <button class="btn btn-secondary">View Repo</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section class="roadmap">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Vision & Roadmap</h2>
+                <p>Ambitious plans for the future of SpiralCoin</p>
+            </div>
+            <div class="roadmap-timeline">
+                <div class="roadmap-item">
+                    <div class="roadmap-marker">Q1 2024</div>
+                    <div class="roadmap-content">
+                        <h3>Foundation</h3>
+                        <ul>
+                            <li>Mainnet Launch</li>
+                            <li>Initial Exchange Listings</li>
+                            <li>Developer Program</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-marker">Q2 2024</div>
+                    <div class="roadmap-content">
+                        <h3>Expansion</h3>
+                        <ul>
+                            <li>Mobile App Release</li>
+                            <li>Layer 2 Solutions</li>
+                            <li>Partner Integrations</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-marker">Q3 2024</div>
+                    <div class="roadmap-content">
+                        <h3>Innovation</h3>
+                        <ul>
+                            <li>AI Trading Features</li>
+                            <li>Cross-Chain Bridges</li>
+                            <li>DAO Governance</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-marker">Q4 2024</div>
+                    <div class="roadmap-content">
+                        <h3>Enterprise</h3>
+                        <ul>
+                            <li>Institutional Support</li>
+                            <li>Regulated Trading</li>
+                            <li>Global Expansion</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Get Started?</h2>
+            <p>Join thousands of traders and investors in the SpiralCoin ecosystem</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary btn-lg">Launch Trading Platform</button>
+                <button class="btn btn-secondary btn-lg">Read Documentation</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About SpiralCoin</h4>
+                    <p>Next-generation cryptocurrency platform built for speed, security, and scalability.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#technology">Technology</a></li>
+                        <li><a href="#trading">Trading</a></li>
+                        <li><a href="#community">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Status</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SpiralCoin. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Disclaimer</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
