@@ -1,4 +1,8 @@
-import express from "express";
+{
+  "git.enableCommitSigning": false,
+  "git.alwaysSignOff": false,
+  "git.tagSigning": false
+}import express from "express";
 
 const app = express();
 
