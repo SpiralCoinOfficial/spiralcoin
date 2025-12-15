@@ -341,11 +341,11 @@ docker compose up -d
 
 ## 📊 Current Status
 
-**Repository**: ✅ Pushed to GitHub  
-**Docker Stack**: ✅ Created and tested locally  
-**Documentation**: ✅ Complete  
+**Repository**: ✅ Pushed to GitHub
+**Docker Stack**: ✅ Created and tested locally
+**Documentation**: ✅ Complete
 **Next Action**: 🚀 Deploy to production server (174.138.37.6)
 
-**Founder Wallet**: 0x928072b3A3A42e7dFD577a91167DfAa08f0E653E (30,562,600 SPRC)  
-**Supply Wallet**: 0xSPRC1111111111111111111111111111SupplyVault (20,000,000,000,000 SPRC)  
+**Founder Wallet**: 0x928072b3A3A42e7dFD577a91167DfAa08f0E653E (30,562,600 SPRC)
+**Supply Wallet**: 0xSPRC1111111111111111111111111111SupplyVault (20,000,000,000,000 SPRC)
 **Total Supply**: 20,000,030,562,600 SPRC

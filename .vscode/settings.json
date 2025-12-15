@@ -6,7 +6,14 @@
   "cmake.generator": "MinGW Makefiles",
   "C_Cpp.default.compilerPath": "C:/msys64/mingw64/bin/g++.exe",
   "C_Cpp.intelliSenseEngine": "default",
-  "git.inputValidation": false,
-  "git.inputValidationSubjectLength": 1000,
-  "git.inputValidationBodyLength": 2000
+  "git.inputValidation": true,
+  "git.inputValidationSubjectLength": 72,
+  "git.inputValidationBodyLength": 1000,
 }
+curl -fsSL https://get.docker.com | sh
+cd /root && git clone https://github.com/SpiralCoinOfficial/spiralcoin.git
+cd spiralcoin && docker compose up -d --build
+docker compose pscurl -fsSL https://get.docker.com | sh
+cd /root && git clone https://github.com/SpiralCoinOfficial/spiralcoin.git
+cd spiralcoin && docker compose up -d --build
+docker compose ps
