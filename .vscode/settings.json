@@ -1,7 +1,11 @@
 {
   "git.enableCommitSigning": false,
   "git.alwaysSignOff": false,
-  "git.tagSigning": false
+  "git.tagSigning": false,
+  "cmake.configureOnOpen": false,
+  "cmake.generator": "MinGW Makefiles",
+  "C_Cpp.default.compilerPath": "C:/msys64/mingw64/bin/g++.exe",
+  "C_Cpp.intelliSenseEngine": "default"
 }import express from "express";
 
 const app = express();

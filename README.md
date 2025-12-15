@@ -55,6 +55,21 @@ The services will be available at:
 - Boost libraries
 - OpenSSL
 
+#### Windows (MSYS2 MinGW) Quick Start
+
+1. Install MSYS2: https://www.msys2.org/
+2. In the MSYS2 terminal (MINGW64):
+  ```bash
+  pacman -Syu
+  pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb mingw-w64-x86_64-nlohmann-json
+  ```
+3. In VS Code, select the `Win32-MinGW` C/C++ configuration (status bar) and run the default build task "Build SpiralCoin (MinGW g++)".
+4. Or run the helper script in PowerShell:
+  ```powershell
+  ./scripts/build_windows_mingw.ps1
+  ```
+5. Run the daemon: `build/spiralcoind.exe`
+
 #### Build Steps
 
 1. **Build C++ Daemon**
