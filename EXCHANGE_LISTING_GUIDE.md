@@ -1,6 +1,6 @@
 # SpiralCoin Exchange Listing Guide
 
-This guide outlines the process for listing SpiralCoin (SPC) on major cryptocurrency exchanges and setting up the official trading platform website.
+This guide outlines the process for listing SpiralCoin (SPRC) on major cryptocurrency exchanges and setting up the official trading platform website.
 
 ## 📈 Exchange Listing Strategy
 
@@ -13,7 +13,7 @@ This guide outlines the process for listing SpiralCoin (SPC) on major cryptocurr
 - Provide initial liquidity
 
 **Steps:**
-1. Deploy ERC-20 contract for SPC on Ethereum
+1. Deploy ERC-20 contract for SPRC on Ethereum
 2. Create liquidity pool on Uniswap V3
 3. Add to Uniswap interface
 4. Promote pool on social media
