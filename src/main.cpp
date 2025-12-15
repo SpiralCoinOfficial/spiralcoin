@@ -1,4 +1,34 @@
-#include <iostream>
+```cpp
+------- SEARCH
+            else if(method=="getinfo") jres["result"]={ {"status","SpiralCoin Node OK"}, {"blocks",db.getBlockCount()}, {"connections",1} };
+            else jres["error"]="Unknown method";
+=======
+            else if(method=="getinfo") jres["result"]={ {"status","SpiralCoin Node OK"}, {"blocks",db.getBlockCount()}, {"connections",1} };
+            else if(method=="getdqve") {
+                auto dqveResult = db.calculateDQVE();
+                json dqveJson;
+                dqveJson["valuation"] = dqveResult.valuation;
+                dqveJson["confidence"] = dqveResult.confidence;
+                dqveJson["trend_strength"] = dqveResult.trendStrength;
+                dqveJson["momentum"] = dqveResult.momentum;
+                dqveJson["recommendation"] = dqveResult.recommendation;
+                dqveJson["factors"] = dqveResult.factors;
+                dqveJson["timestamp"] = dqveResult.timestamp;
+                jres["result"] = dqveJson;
+            }
+            else if(method=="updatedqve") {
+                // Update market data for DQVE calculations
+                if(jreq["params"].size() >= 5) {
+                    DQVECalculator::MarketData marketData;
+                    marketData.price = jreq["params"][0].get<double>();
+                    marketData.volume = jreq["params"][1].get<double>();
+                    marketData.marketCap = jreq["params"][2].get<double>();
+                    marketData.volatility = jreq["params"][3].get<double>();
+                    marketData.liquidity = jreq["params"][4].get<double>();
+                    marketData.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        std::chrono::system_clock::now().time_since_epoch()).count(),
+
+                 } #include <iostream>
 #include <thread>
 #include <chrono>
 #include <csignal>

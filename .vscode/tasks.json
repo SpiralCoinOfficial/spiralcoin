@@ -1,4 +1,53 @@
 {
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CMake: build SpiralCoin (MSVC)",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S", "${workspaceFolder}",
+        "-B", "${workspaceFolder}/build",
+        "-G", "Ninja",
+        "-DCMAKE_C_COMPILER=cl",
+        "-DCMAKE_CXX_COMPILER=cl"
+      ],
+      "problemMatcher": ["$msCompile"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "CMake: build SpiralCoin (MinGW)",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S", "${workspaceFolder}",
+        "-B", "${workspaceFolder}/build",
+        "-G", "MinGW Makefiles",
+        "-DCMAKE_C_COMPILER=gcc",
+        "-DCMAKE_CXX_COMPILER=g++"
+      ],
+      "problemMatcher": ["$gcc"],
+      "group": "build"
+    },
+    {
+      "label": "Compile main.cpp (g++)",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-std=c++20",
+        "-I${workspaceFolder}/include",
+        "${workspaceFolder}/src/main.cpp",
+        "-o",
+        "${workspaceFolder}/build/spiralcoind.exe"
+      ],
+      "problemMatcher": ["$gcc"],
+      "group": "build"
+    }
+  ]
+}{
 	"version": "2.0.0",
 	"tasks": [
 		{
