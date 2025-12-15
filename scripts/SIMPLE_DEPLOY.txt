@@ -2,12 +2,18 @@
   SPIRALCOIN - SIMPLE 3-COMMAND DEPLOYMENT
 ═══════════════════════════════════════════════════════════════
 
-Copy and paste these 3 commands into your terminal.
+⚠️  WINDOWS POWERSHELL USERS: Read scripts\POWERSHELL_DEPLOY.md first!
+    Or run: .\scripts\deploy-fix.ps1 for diagnostics
+
+Copy and paste these commands into your terminal.
 Press Enter after each one. Use password when prompted.
 
 Server: 174.138.37.6
 Username: root
 Password: HarLand2025!
+
+IMPORTANT: Run Command 1 first to connect to SSH.
+           Commands 2-3 run INSIDE the SSH session (not in PowerShell)
 
 ───────────────────────────────────────────────────────────────
 COMMAND 1: Connect and Restart Services
