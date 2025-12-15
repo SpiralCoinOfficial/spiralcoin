@@ -12,7 +12,6 @@
 #include "httplib.h"
 #include <nlohmann/json.hpp>
 #include "dqve_calculator.h"
-#include "state_db_impl.h"
 
 using json = nlohmann::json;
 

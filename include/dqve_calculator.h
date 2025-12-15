@@ -65,6 +65,18 @@ private:
     std::vector<double> extractVolumes(const std::vector<MarketData>& data);
     double normalizeValue(double value, double min, double max);
 
+    // Additional helper methods
+    double calculateConfidenceScore(const std::vector<MarketData>& historical,
+                                    const MarketData& current, double marketEfficiency);
+    double calculateTrendStrength(const std::vector<MarketData>& data);
+    std::string generateRecommendation(double valuation, double confidence,
+                                      double trendStrength, double momentum);
+    double calculateCorrelation(const std::vector<double>& x, const std::vector<double>& y);
+    double calculateMovingAverage(const std::vector<double>& data, size_t period);
+    double calculateRSI(const std::vector<double>& prices, size_t period);
+    std::pair<double, double> calculateMACD(const std::vector<double>& prices);
+    double calculateEMA(const std::vector<double>& data, size_t period);
+
     // Random number generator for AI simulations
     std::mt19937_64 rng;
     std::normal_distribution<double> normalDist;

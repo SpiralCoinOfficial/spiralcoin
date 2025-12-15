@@ -8,12 +8,5 @@
   "C_Cpp.intelliSenseEngine": "default",
   "git.inputValidation": true,
   "git.inputValidationSubjectLength": 72,
-  "git.inputValidationBodyLength": 1000,
+  "git.inputValidationBodyLength": 1000
 }
-curl -fsSL https://get.docker.com | sh
-cd /root && git clone https://github.com/SpiralCoinOfficial/spiralcoin.git
-cd spiralcoin && docker compose up -d --build
-docker compose pscurl -fsSL https://get.docker.com | sh
-cd /root && git clone https://github.com/SpiralCoinOfficial/spiralcoin.git
-cd spiralcoin && docker compose up -d --build
-docker compose ps
