@@ -9,7 +9,7 @@ $Host.UI.RawUI.WindowTitle = "SpiralCoin Status Monitor"
 
 function Test-Service {
     param($Name, $Port)
-    
+
     $result = Test-NetConnection -ComputerName $ServerIP -Port $Port -InformationLevel Quiet -WarningAction SilentlyContinue
     if ($result) {
         Write-Host "  ✅ $Name" -ForegroundColor Green -NoNewline

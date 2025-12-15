@@ -20,13 +20,15 @@ $connection = Test-NetConnection -ComputerName $ServerIP -Port $Port -Informatio
 if ($connection) {
     Write-Host "✅ Server reachable on port $Port" -ForegroundColor Green
 } else {
-    Write-Host "❌ Cannot reach server on port $Port" -ForegroundColor Red
+    Write-Host "⚠️  Cannot reach server on port $Port, trying alternate..." -ForegroundColor Yellow
     $connection2222 = Test-NetConnection -ComputerName $ServerIP -Port 2222 -InformationLevel Quiet -WarningAction SilentlyContinue
     if ($connection2222) {
         Write-Host "✅ Server reachable on alternate port 2222" -ForegroundColor Green
         $Port = 2222
     } else {
-        Write-Host "❌ Server not reachable" -ForegroundColor Red
+        Write-Host "❌ Server not reachable on any port" -ForegroundColor Red
+        Write-Host "   Check if server is online: ping $ServerIP" -ForegroundColor Gray
+        Write-Host "   Or check firewall settings" -ForegroundColor Gray
         $allPassed = $false
     }
 }
@@ -169,10 +171,12 @@ if ($allPassed) {
     Write-Host ""
     Write-Host "Review failed tests above and troubleshoot." -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "Common fixes:" -ForegroundColor Cyan
-    Write-Host "- Services down: ssh $Username@$ServerIP then 'docker compose restart'" -ForegroundColor White
-    Write-Host "- DNS not configured: Update registrar (see DNS_CONFIGURATION.md)" -ForegroundColor White
-    Write-Host "- Firewall issues: Check UFW rules on server" -ForegroundColor White
+    Write-Host "Quick Fix - Run these commands:" -ForegroundColor Cyan
+    Write-Host "  ssh $Username@$ServerIP" -ForegroundColor White
+    Write-Host "  Password: HarLand2025!" -ForegroundColor Yellow
+    Write-Host "  cd /root/spiralcoin && docker compose restart" -ForegroundColor White
+    Write-Host ""
+    Write-Host "Or see DEPLOY_NOW.md for complete instructions" -ForegroundColor Cyan
 }
 
 Write-Host ""

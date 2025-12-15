@@ -1,0 +1,72 @@
+═══════════════════════════════════════════════════════════════
+  SPIRALCOIN - SIMPLE 3-COMMAND DEPLOYMENT
+═══════════════════════════════════════════════════════════════
+
+Copy and paste these 3 commands into your terminal.
+Press Enter after each one. Use password when prompted.
+
+Server: 174.138.37.6
+Username: root
+Password: HarLand2025!
+
+───────────────────────────────────────────────────────────────
+COMMAND 1: Connect and Restart Services
+───────────────────────────────────────────────────────────────
+
+ssh root@174.138.37.6
+
+Then run:
+cd /root/spiralcoin && docker compose restart && docker compose ps
+
+Expected: All 4 containers show "Up"
+
+───────────────────────────────────────────────────────────────
+COMMAND 2: Deploy Automation (Backups + Monitoring)
+───────────────────────────────────────────────────────────────
+
+Still in SSH session, run:
+
+bash <(curl -fsSL https://raw.githubusercontent.com/SpiralCoinOfficial/spiralcoin/main/scripts/setup-automation.sh)
+
+Expected: "✅ Setup complete!" message
+
+───────────────────────────────────────────────────────────────
+COMMAND 3: Verify Everything Works
+───────────────────────────────────────────────────────────────
+
+Still in SSH session, run:
+
+/root/status.sh
+
+Expected: Dashboard showing all 4 services running
+
+───────────────────────────────────────────────────────────────
+CHECK CRON JOBS (Optional)
+───────────────────────────────────────────────────────────────
+
+crontab -l
+
+Expected: Shows 4-5 scheduled jobs for backup/monitoring
+
+───────────────────────────────────────────────────────────────
+DONE! ✅
+───────────────────────────────────────────────────────────────
+
+Your platform is now fully automated with:
+✅ Daily backups (2 AM)
+✅ Health monitoring (every 5 min)
+✅ Auto-restart on failures
+✅ Status dashboard
+
+═══════════════════════════════════════════════════════════════
+
+Daily Check (30 seconds):
+
+From local machine:
+  .\scripts\quick-status.ps1
+
+Or SSH to server:
+  ssh root@174.138.37.6
+  /root/status.sh
+
+═══════════════════════════════════════════════════════════════
