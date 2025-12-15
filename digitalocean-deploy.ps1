@@ -25,27 +25,18 @@ Write-Host "🚀 Starting SpiralCoin Deployment to DigitalOcean..." -ForegroundC
 # 1. Create Droplet
 Write-Host "`n📦 Creating DigitalOcean Droplet..." -ForegroundColor Yellow
 
-$dropletBody = @{
+$dropletObject = @{
     name = $AppName
     region = $Region
     size = "s-2vcpu-4gb"
     image = "ubuntu-22-04-x64"
     backups = $true
     ipv6 = $true
-    user_data = @"
-#!/bin/bash
-cd /root
-apt-get update
-apt-get install -y curl git
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-apt-get install -y nodejs
-git clone https://github.com/yourusername/spiralcoin.git
-cd spiralcoin
-npm install
-npm start
-"@
+    user_data = "#!/bin/bash`ncd /root`napt-get update`napt-get install -y curl git`ncurl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -`napt-get install -y nodejs`ngit clone https://github.com/SpiralCoinOfficial/spiralcoin.git`ncd spiralcoin`ngit pull origin main`nnpm install`nnpm start`n"
     tags = @("spiralcoin", "trading-platform")
-} | ConvertTo-Json
+}
+
+$dropletBody = $dropletObject | ConvertTo-Json
 
 $headers = @{
     "Authorization" = "Bearer $ApiToken"
@@ -100,6 +91,6 @@ try {
 
 }
 catch {
-    Write-Host "❌ Deployment failed: $_" -ForegroundColor Red
+    Write-Host "Error: Deployment failed - $($_)" -ForegroundColor Red
     exit 1
 }
