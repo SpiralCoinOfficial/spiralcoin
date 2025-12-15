@@ -51,6 +51,17 @@
             font-weight: bold;
             color: var(--primary);
             text-shadow: 0 0 10px var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 10px var(--primary);
         }
 
         .nav-links {
@@ -435,7 +446,10 @@
 </head>
 <body>
     <header class="header">
-        <div class="logo">SpiralCoin Exchange</div>
+        <div class="logo">
+            <img src="https://github.com/[YOUR_GITHUB_USERNAME].png?size=80" alt="SpiralCoin Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNmZmNjMDAiLz4KPHRleHQgeD0iMjAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMxYTE4MmUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxPR088L3RleHQ+Cjwvc3ZnPg=='">
+            SpiralCoin Exchange
+        </div>
         <nav class="nav-links">
             <a href="#trade" class="active">Trade</a>
             <a href="#markets">Markets</a>
