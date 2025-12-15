@@ -9,8 +9,8 @@ const axios = require('axios');
 const WebSocket = require('ws');
 const http = require('http');
 
-const RPC_URL = process.env.RPC_URL || '${RPC_URL}';
-const EXT_FEED = process.env.EXT_FEED || '${EXT_FEED}';
+const RPC_URL = process.env.RPC_URL || 'http://127.0.0.1:8545';
+const EXT_FEED = process.env.EXT_FEED || 'https://api.example.com/feed';
 const POLL_INTERVAL_MS = 3000;
 
 const app = express();
@@ -95,8 +95,9 @@ wss.on('connection', (ws, req) => {
   });
 });
 
-server.listen(${NODE_PORT}, '127.0.0.1', () => {
-  console.log("[marketfeed] listening on http://127.0.0.1:${NODE_PORT}");
+const NODE_PORT = process.env.NODE_PORT || 4000;
+server.listen(NODE_PORT, '127.0.0.1', () => {
+  console.log(`[marketfeed] listening on http://127.0.0.1:${NODE_PORT}`);
 });
 
 // start the poll loop

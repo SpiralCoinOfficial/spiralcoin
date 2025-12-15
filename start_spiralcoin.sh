@@ -6,7 +6,7 @@ SPIRALCOIND="/root/spiralcoin/build/spiralcoind"
 SPIRALCOIN_CLI="/usr/local/bin/spiralcoind-cli"
 WALLET_NAME="main"
 RPC_WAIT_INTERVAL=2
-WALLET_ADDRESS="YOUR_WALLET_ADDRESS_HERE"  # <-- replace with your actual address
+WALLET_ADDRESS="0x928072b3A3A42e7dFD577a91167DfAa08f0E653E"
 
 # --- Step 1: Kill any existing SpiralCoin instances ---
 sudo killall spiralcoind 2>/dev/null
