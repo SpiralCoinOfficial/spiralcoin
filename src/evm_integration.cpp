@@ -10,5 +10,6 @@ void run_evm_logic(StateDBImpl& db) {
 }
 #else
 #include <iostream>
-void run_evm_logic(...) { std::cout << "[*] EVMONE not available. Skipping EVM logic." << std::endl; }
+class StateDBImpl; // Forward declaration for non-EVM case
+void run_evm_logic(StateDBImpl& db) { std::cout << "[*] EVMONE not available. Skipping EVM logic." << std::endl; }
 #endif

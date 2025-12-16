@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(SpiralCoinCore LANGUAGES C CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -20,6 +20,13 @@ include_directories(
     /usr/local/include
     /usr/include
 )
+
+# Try to find nlohmann_json package, fall back to include path if not found
+find_package(nlohmann_json QUIET)
+if(NOT nlohmann_json_FOUND)
+    # Assume header-only nlohmann/json is available in include path
+    message(STATUS "nlohmann_json package not found, using header-only assumption")
+endif()
 
 # Library directories
 link_directories(

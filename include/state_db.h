@@ -3,9 +3,11 @@
 #include <vector>
 #include <cstdint>
 #include "dqve_calculator.h"
+
 #ifdef HAVE_EVMONE
 #include <evmone/evmone.h>
 #endif
+
 class StateDB {
 public:
     virtual ~StateDB() = default;

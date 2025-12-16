@@ -59,6 +59,21 @@ private:
     double calculateSharpeRatio(const std::vector<double>& returns);
     double calculateBetaCoefficient(const std::vector<double>& assetReturns,
                                   const std::vector<double>& marketReturns);
+    double calculateCorrelation(const std::vector<double>& x, const std::vector<double>& y);
+
+    // Technical indicators and confidence
+    double calculateConfidenceScore(const std::vector<MarketData>& historical,
+                                   const MarketData& current,
+                                   double efficiency);
+    double calculateTrendStrength(const std::vector<MarketData>& data);
+    std::string generateRecommendation(double valuation, double confidence,
+                                      double trendStrength, double momentum);
+
+    // Technical indicator helpers
+    double calculateMovingAverage(const std::vector<double>& data, size_t period);
+    double calculateRSI(const std::vector<double>& prices, size_t period);
+    std::pair<double, double> calculateMACD(const std::vector<double>& prices);
+    double calculateEMA(const std::vector<double>& data, size_t period);
 
     // Utility methods
     std::vector<double> extractPrices(const std::vector<MarketData>& data);

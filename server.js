@@ -13,6 +13,10 @@ import { miningRouter } from "./routes/mining.js";
 import { statsRouter } from "./routes/stats.js";
 import { walletRouter } from "./routes/wallet.js";
 
+// Set up __dirname for ES6 modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -43,12 +47,14 @@ function createGenesisBlock() {
 if (chain.length === 0) chain.push(createGenesisBlock());
 
 // Serve frontend
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 app.use(express.static(path.join(__dirname, "public")));
+
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/index.html"));
+    try {
+        res.sendFile(path.join(__dirname, "public/index.html"));
+    } catch (err) {
+        res.status(200).json({ status: 'SpiralCoin API Running' });
+    }
 });
 
 app.get('/health', (_req, res) => {
