@@ -1,4 +1,5 @@
 # SpiralCoin - Developer Quick Reference
+
 **Last Updated: December 16, 2025**
 
 ---
@@ -6,6 +7,7 @@
 ## 🚀 Quick Start
 
 ### Clone & Setup
+
 ```bash
 git clone https://github.com/SpiralCoinOfficial/spiralcoin.git
 cd spiralcoin
@@ -13,6 +15,7 @@ npm install
 ```
 
 ### Run Locally
+
 ```bash
 # Development
 npm start
@@ -42,6 +45,7 @@ node validate-deployment.js # Deployment validation (39 checks)
 ## 📊 API Endpoints
 
 ### Blockchain
+
 ```bash
 GET  /api/blockchain/stats
 POST /api/blockchain/send
@@ -49,6 +53,7 @@ GET  /api/blockchain/block/:id
 ```
 
 ### Wallet
+
 ```bash
 POST /api/wallet/create
 GET  /api/wallet/:address
@@ -56,6 +61,7 @@ GET  /api/wallet/:address/balance
 ```
 
 ### Market
+
 ```bash
 GET  /api/market/data
 GET  /api/market/price
@@ -63,6 +69,7 @@ GET  /api/market/history
 ```
 
 ### Mining
+
 ```bash
 GET  /api/mining/status
 POST /api/mining/start
@@ -123,6 +130,7 @@ spiralcoin/
 ## 📝 Common Tasks
 
 ### Build C++ Daemon
+
 ```bash
 cd build
 cmake --build .
@@ -130,17 +138,20 @@ cmake --build .
 ```
 
 ### Update Dependencies
+
 ```bash
 npm install
 npm audit fix
 ```
 
 ### View Blockchain
+
 ```bash
 cat data/blockchain.json | jq '.'
 ```
 
 ### Check Health
+
 ```bash
 curl -s http://localhost:5000/health | jq '.'
 ```
@@ -150,6 +161,7 @@ curl -s http://localhost:5000/health | jq '.'
 ## 🐛 Troubleshooting
 
 ### Port Already in Use
+
 ```bash
 # Find process
 lsof -i :5000
@@ -159,6 +171,7 @@ kill -9 <PID>
 ```
 
 ### Docker Issues
+
 ```bash
 # Rebuild containers
 docker-compose build --no-cache
@@ -169,6 +182,7 @@ docker-compose up -d
 ```
 
 ### Git Issues
+
 ```bash
 # Check status
 git status
@@ -242,10 +256,10 @@ docker-compose down
 
 ## 🎓 Learning Resources
 
-- Express.js: https://expressjs.com
-- Docker: https://docs.docker.com
-- CMake: https://cmake.org/cmake/help/v3.22/
-- Node.js: https://nodejs.org
+- Express.js: <https://expressjs.com>
+- Docker: <https://docs.docker.com>
+- CMake: <https://cmake.org/cmake/help/v3.22/>
+- Node.js: <https://nodejs.org>
 
 ---
 

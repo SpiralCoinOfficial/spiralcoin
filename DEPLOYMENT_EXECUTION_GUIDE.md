@@ -212,6 +212,7 @@ docker-compose -f docker-compose.prod.yaml up -d --scale backend=3
 ### Load Balancing
 
 Configure nginx as reverse proxy (see nginx.conf):
+
 ```
 upstream backend {
   server backend:5000;
