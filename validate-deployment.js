@@ -45,12 +45,12 @@ section('DOCKER COMPOSE CONFIGURATION');
 try {
   const composeContent = fs.readFileSync(path.join(__dirname, 'compose.yaml'), 'utf8');
   const composeDoc = parseYaml(composeContent);
-  
+
   if (!composeDoc.services) {
     fail('No services defined in compose.yaml');
   } else {
     pass('compose.yaml has services defined');
-    
+
     const requiredServices = ['daemon', 'backend', 'marketfeed', 'web'];
     requiredServices.forEach(svc => {
       if (composeDoc.services[svc]) {
@@ -60,13 +60,13 @@ try {
       }
     });
   }
-  
+
   if (composeDoc.networks) {
     pass('Docker networks defined');
   } else {
     warn('No custom networks defined');
   }
-  
+
   if (composeDoc.volumes) {
     pass('Docker volumes defined');
   } else {
@@ -100,7 +100,7 @@ section('ENVIRONMENT CONFIGURATION');
 if (fs.existsSync(path.join(__dirname, '.env'))) {
   pass('.env file exists');
   const envContent = fs.readFileSync(path.join(__dirname, '.env'), 'utf8');
-  
+
   const requiredVars = ['NODE_ENV', 'PORT'];
   requiredVars.forEach(variable => {
     if (envContent.includes(variable)) {
@@ -138,14 +138,14 @@ section('DATABASE PERSISTENCE');
 const dataDir = path.join(__dirname, 'data');
 if (fs.existsSync(dataDir)) {
   pass('data/ directory exists');
-  
+
   const dataFiles = fs.readdirSync(dataDir);
   if (dataFiles.includes('blockchain.json')) {
     pass('blockchain.json exists');
   } else {
     warn('blockchain.json will be created on startup');
   }
-  
+
   if (dataFiles.includes('wallet.json')) {
     pass('wallet.json exists');
   } else {
