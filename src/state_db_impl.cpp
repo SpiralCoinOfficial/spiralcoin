@@ -8,6 +8,11 @@ const std::string BLOCKCHAIN_FILE = DATA_DIR + "blockchain.json";
 const std::string WALLETS_FILE = DATA_DIR + "wallets.json";
 const std::string PRIMARY_ADDRESS = "0x928072b3A3A42e7dFD577a91167DfAa08f0E653E";
 
+// Helper function to check if a file is open and not empty
+static bool isFileReadable(std::ifstream& stream) {
+    return stream.is_open() && stream.peek() != std::char_traits<char>::eof();
+}
+
 StateDBImpl::StateDBImpl() {
     std::error_code ec;
     std::filesystem::create_directories(DATA_DIR, ec);
@@ -151,7 +156,7 @@ void StateDBImpl::saveState() {
 
 void StateDBImpl::loadState() {
     std::ifstream ifs(BLOCKCHAIN_FILE);
-    if (ifs.is_open() && ifs.peek() != std::ifstream::traits_type::eof()) {
+    if (isFileReadable(ifs)) {
         json j;
         ifs >> j;
         for (auto &[k, v] : j.items()) {
@@ -175,7 +180,7 @@ void StateDBImpl::loadState() {
         blockHeight = 1;
     }
     std::ifstream wifs(WALLETS_FILE);
-    if (wifs.is_open() && wifs.peek() != std::ifstream::traits_type::eof()) {
+    if (isFileReadable(wifs)) {
         json jw;
         wifs >> jw;
         for (auto &[addr, bal] : jw.items()) wallets[addr] = bal;
