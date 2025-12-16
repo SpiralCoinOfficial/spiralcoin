@@ -63,4 +63,5 @@ private:
     std::mutex db_mutex;
 
     void saveState();
-    void loadState();};
+    void loadState();
+};

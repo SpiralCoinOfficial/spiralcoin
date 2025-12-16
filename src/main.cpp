@@ -31,7 +31,7 @@ json handleGetBalance(const json &jreq) {
 }
 
 json handleGetWalletInfo(const json &jreq) {
-    return {{"result", json::parse(db.getWalletInfo())}};
+    return {{"result", json::parse(db->getWalletInfo())}};
 }
 
 json handleSendToAddress(const json &jreq) {
@@ -40,15 +40,15 @@ json handleSendToAddress(const json &jreq) {
     }
     std::string to = jreq["params"][0].get<std::string>();
     int amount = jreq["params"][1].get<int>();
-    return {{"result", db.sendToAddress(to, amount)}};
+    return {{"result", db->sendToAddress(to, amount)}};
 }
 
 json handleGetNewAddress(const json &jreq) {
-    return {{"result", db.getNewAddress()}};
+    return {{"result", db->getNewAddress()}};
 }
 
 json handleGetBlockCount(const json &jreq) {
-    return {{"result", db.getBlockCount()}};
+    return {{"result", db->getBlockCount()}};
 }
 
 json handleGetBlock(const json &jreq) {
@@ -56,15 +56,15 @@ json handleGetBlock(const json &jreq) {
         return {{"error", "Block height required"}};
     }
     int h = jreq["params"][0].get<int>();
-    return {{"result", json::parse(db.getBlock(h))}};
+    return {{"result", json::parse(db->getBlock(h))}};
 }
 
 json handleGetInfo(const json &jreq) {
-    return {{"result", {{"status", "SpiralCoin Node OK"}, {"blocks", db.getBlockCount()}, {"connections", 1}}}};
+    return {{"result", {{"status", "SpiralCoin Node OK"}, {"blocks", db->getBlockCount()}, {"connections", 1}}}};
 }
 
 json handleGetDQVE(const json &jreq) {
-    auto dqveResult = db.calculateDQVE();
+    auto dqveResult = db->calculateDQVE();
     json dqveJson;
     dqveJson["valuation"] = dqveResult.valuation;
     dqveJson["confidence"] = dqveResult.confidence;
@@ -89,7 +89,7 @@ json handleUpdateDQVE(const json &jreq) {
         marketData.liquidity = jreq["params"][4].get<double>();
         marketData.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count();
-        db.updateMarketData(marketData);
+        db->updateMarketData(marketData);
         return {{"result", "Market data updated successfully"}};
     } catch (const std::exception &e) {
         return {{"error", std::string("Parameter parsing error: ") + e.what()}};

@@ -151,7 +151,7 @@ void StateDBImpl::saveState() {
 
 void StateDBImpl::loadState() {
     std::ifstream ifs(BLOCKCHAIN_FILE);
-    if (ifs.is_open()) {
+    if (ifs.is_open() && ifs.peek() != std::ifstream::traits_type::eof()) {
         json j;
         ifs >> j;
         for (auto &[k, v] : j.items()) {
@@ -175,10 +175,11 @@ void StateDBImpl::loadState() {
         blockHeight = 1;
     }
     std::ifstream wifs(WALLETS_FILE);
-    if (wifs.is_open()) {
+    if (wifs.is_open() && wifs.peek() != std::ifstream::traits_type::eof()) {
         json jw;
         wifs >> jw;
         for (auto &[addr, bal] : jw.items()) wallets[addr] = bal;
         wifs.close();
     }
-    if (wallets.find(PRIMARY_ADDRESS) == wallets.end()) wallets[PRIMARY_ADDRESS] = 1000000;}
+    if (wallets.find(PRIMARY_ADDRESS) == wallets.end()) wallets[PRIMARY_ADDRESS] = 1000000;
+}

@@ -45,7 +45,11 @@ find_library(PTHREAD_LIB pthread)
 find_library(EVMC_LOADER_LIB evmc-loader HINTS /usr/local/lib)
 find_library(EVMC_INSTRUCTIONS_LIB evmc-instructions HINTS /usr/local/lib)
 
-# Collect EVMC libs (only existing ones)
+# Collect optional libs (only existing ones)
+set(OPTIONAL_LIBS "")
+if(LEVELDB_LIB)
+    list(APPEND OPTIONAL_LIBS ${LEVELDB_LIB})
+endif()
 set(EVMC_LIBS "")
 if(EVMC_LOADER_LIB)
     list(APPEND EVMC_LIBS ${EVMC_LOADER_LIB})
@@ -56,7 +60,7 @@ endif()
 
 # Link everything
 target_link_libraries(${EXECUTABLE_NAME}
-    ${LEVELDB_LIB}
+    ${OPTIONAL_LIBS}
     ${SSL_LIB}
     ${CRYPTO_LIB}
     ${EVMC_LIBS}
