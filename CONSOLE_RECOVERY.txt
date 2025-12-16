@@ -1,0 +1,99 @@
+═══════════════════════════════════════════════════════════════
+  QUICK RECOVERY - COPY & PASTE INTO DROPLET CONSOLE
+═══════════════════════════════════════════════════════════════
+
+DigitalOcean Console URL:
+https://cloud.digitalocean.com/droplets
+
+Login: root
+Password: HarLand2025!
+
+───────────────────────────────────────────────────────────────
+PASTE THIS COMMAND INTO THE CONSOLE:
+───────────────────────────────────────────────────────────────
+
+systemctl restart ssh && ufw allow 22/tcp && ufw reload && cd /root/spiralcoin && docker compose restart && docker compose ps && echo "" && echo "✅ RECOVERY COMPLETE! Test SSH now."
+
+───────────────────────────────────────────────────────────────
+
+This single command will:
+✅ Restart SSH service
+✅ Open firewall port 22
+✅ Restart all Docker containers
+✅ Show service status
+
+Expected output: All 4 containers show "Up"
+
+───────────────────────────────────────────────────────────────
+AFTER RUNNING THE COMMAND
+───────────────────────────────────────────────────────────────
+
+From your local machine, test SSH:
+
+  ssh root@174.138.37.6
+
+Once connected, deploy automation:
+
+  bash <(curl -fsSL https://raw.githubusercontent.com/SpiralCoinOfficial/spiralcoin/main/scripts/setup-automation.sh)
+
+Verify status:
+
+  /root/status.sh
+
+───────────────────────────────────────────────────────────────
+IF CONSOLE WON'T LOAD
+───────────────────────────────────────────────────────────────
+
+Alternative methods:
+
+1. Power cycle droplet:
+   - Droplet dashboard → Power → "Power Cycle"
+   - Wait 2 minutes
+   - Try SSH again
+
+2. Check droplet is running:
+   - Verify status shows "Active" with green dot
+   - Check IP is still 174.138.37.6
+
+3. Contact DigitalOcean Support:
+   - https://cloud.digitalocean.com/support
+   - Request console access assistance
+
+───────────────────────────────────────────────────────────────
+TROUBLESHOOTING
+───────────────────────────────────────────────────────────────
+
+If SSH still fails after recovery:
+
+  # In Droplet Console, check logs
+  journalctl -u ssh -n 50
+  tail -50 /var/log/auth.log
+
+If services don't start:
+
+  # Check Docker status
+  systemctl status docker
+  docker ps -a
+  docker compose logs --tail=50
+
+If disk is full:
+
+  # Check disk space
+  df -h
+  docker system prune -a
+
+───────────────────────────────────────────────────────────────
+SUCCESS CHECKLIST
+───────────────────────────────────────────────────────────────
+
+ [ ] Droplet Console accessible
+ [ ] Logged into console (root / HarLand2025!)
+ [ ] Recovery command completed successfully
+ [ ] All 4 containers show "Up"
+ [ ] SSH works from local machine
+ [ ] Web UI accessible (http://174.138.37.6:3000)
+ [ ] Backend API responding (http://174.138.37.6:5000/api/stats)
+ [ ] Automation deployed (crontab -l shows jobs)
+ [ ] Status dashboard works (/root/status.sh)
+
+═══════════════════════════════════════════════════════════════

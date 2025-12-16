@@ -1,7 +1,7 @@
 # SpiralCoin Server Recovery Plan
 
-**Date**: December 15, 2025  
-**Server**: 174.138.37.6  
+**Date**: December 15, 2025
+**Server**: 174.138.37.6
 **Issue**: SSH blocked, Backend API down, Web UI returning 404
 
 ---
@@ -47,18 +47,18 @@
    ```bash
    # Check SSH service status
    systemctl status ssh
-   
+
    # If not running, start it
    systemctl start ssh
    systemctl enable ssh
-   
+
    # Check firewall rules
    ufw status verbose
-   
+
    # Allow SSH if blocked
    ufw allow 22/tcp
    ufw reload
-   
+
    # Verify SSH is listening
    netstat -tlnp | grep :22
    ```
@@ -325,7 +325,7 @@ After recovery, investigate:
    ```bash
    # Check cron is running
    systemctl status cron
-   
+
    # Verify backup script works
    /root/spiralcoin-backup.sh
    ls -l /root/spiralcoin-backups/
@@ -379,7 +379,7 @@ ls -lt | head -5
 
 ---
 
-**Remember**: The Droplet Console is your emergency access method when SSH fails. Bookmark this URL:  
+**Remember**: The Droplet Console is your emergency access method when SSH fails. Bookmark this URL:
 https://cloud.digitalocean.com/droplets
 
 **Current Status**: Awaiting SSH access restoration to proceed with recovery.
