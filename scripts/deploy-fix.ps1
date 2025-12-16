@@ -100,9 +100,9 @@ Write-Host "When prompted for password, enter: $Password" -ForegroundColor Yello
 Write-Host ""
 Write-Host "Then run these commands ONE AT A TIME in the SSH session:" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  1) cd /root/spiralcoin && docker compose restart && docker compose ps" -ForegroundColor White
-Write-Host "  2) bash <(curl -fsSL https://raw.githubusercontent.com/SpiralCoinOfficial/spiralcoin/main/scripts/setup-automation.sh)" -ForegroundColor White
-Write-Host "  3) /root/status.sh" -ForegroundColor White
+Write-Host '  1) cd /root/spiralcoin && docker compose restart && docker compose ps' -ForegroundColor White
+Write-Host '  2) bash <(curl -fsSL https://raw.githubusercontent.com/SpiralCoinOfficial/spiralcoin/main/scripts/setup-automation.sh)' -ForegroundColor White
+Write-Host '  3) /root/status.sh' -ForegroundColor White
 Write-Host ""
 
 Write-Host "Option B: Single-Line Commands (if SSH works)" -ForegroundColor Yellow

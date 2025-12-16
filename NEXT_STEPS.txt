@@ -1,0 +1,141 @@
+═══════════════════════════════════════════════════════════════
+  SPIRALCOIN - SCAN RESULTS & NEXT STEPS
+═══════════════════════════════════════════════════════════════
+
+🔍 SCAN RESULTS (December 15, 2025)
+
+Server: 174.138.37.6
+Status: MIXED ⚠️
+
+✅ WORKING:
+   - Web UI (port 3000) - ONLINE
+   - RPC Daemon (port 8545) - ONLINE
+   - MarketFeed (port 4000) - ONLINE
+
+❌ DOWN:
+   - Backend API (port 5000) - OFFLINE
+   - SSH (port 22) - CONNECTION BLOCKED
+   - SSH Alt (port 2222) - CONNECTION BLOCKED
+
+📊 Overall: 3/4 services running (75% uptime)
+
+═══════════════════════════════════════════════════════════════
+⚠️  CRITICAL ISSUE: SSH ACCESS BLOCKED
+═══════════════════════════════════════════════════════════════
+
+Cannot connect to server via SSH - this blocks all maintenance!
+
+Possible causes:
+1. DigitalOcean firewall blocking your IP address
+2. Server firewall (UFW) rules changed
+3. SSH service crashed or stopped
+4. Too many failed login attempts (temp ban)
+
+═══════════════════════════════════════════════════════════════
+🎯 NEXT ACTIONS (In Order)
+═══════════════════════════════════════════════════════════════
+
+PRIORITY 1: Restore SSH Access (5 minutes)
+──────────────────────────────────────────────────────────────
+
+Option A: Use DigitalOcean Droplet Console
+   1. Go to: https://cloud.digitalocean.com/droplets
+   2. Click your spiralcoin droplet
+   3. Click "Console" button (or "Access" → "Launch Droplet Console")
+   4. Login with: root / HarLand2025!
+   5. Check SSH status:
+      systemctl status ssh
+   6. If stopped, restart:
+      systemctl restart ssh
+   7. Check firewall:
+      ufw status
+   8. If SSH blocked, allow it:
+      ufw allow 22/tcp
+      ufw reload
+
+Option B: Check DigitalOcean Cloud Firewall
+   1. Go to: https://cloud.digitalocean.com/networking/firewalls
+   2. Find firewall attached to your droplet
+   3. Ensure Inbound Rules include:
+      SSH | TCP | 22 | All IPv4, All IPv6
+   4. Add rule if missing, click "Save"
+
+Option C: Power Cycle Droplet
+   1. Go to droplet dashboard
+   2. Power → "Power Cycle" (not "Power Off"!)
+   3. Wait 2 minutes
+   4. Try SSH again:
+      ssh root@174.138.37.6
+
+──────────────────────────────────────────────────────────────
+
+PRIORITY 2: Restart Backend API (1 minute)
+──────────────────────────────────────────────────────────────
+
+Once SSH is working, run:
+
+ssh root@174.138.37.6
+
+Then:
+cd /root/spiralcoin
+docker compose restart backend
+docker compose ps
+
+Expected: backend container shows "Up"
+
+──────────────────────────────────────────────────────────────
+
+PRIORITY 3: Deploy Automation (30 seconds)
+──────────────────────────────────────────────────────────────
+
+Still in SSH session:
+
+bash <(curl -fsSL https://raw.githubusercontent.com/SpiralCoinOfficial/spiralcoin/main/scripts/setup-automation.sh)
+
+Expected: "✅ Setup complete!" message
+
+──────────────────────────────────────────────────────────────
+
+PRIORITY 4: Verify All Services (30 seconds)
+──────────────────────────────────────────────────────────────
+
+/root/status.sh
+
+Expected: All 4 services green
+
+═══════════════════════════════════════════════════════════════
+📞 IF SSH STILL BLOCKED
+═══════════════════════════════════════════════════════════════
+
+Your IP might be temporarily banned. Try:
+
+1. Disconnect from VPN (if using one)
+2. Restart your router (get new IP)
+3. Use mobile hotspot to connect
+4. Use DigitalOcean Console (always works)
+
+═══════════════════════════════════════════════════════════════
+✅ SUCCESS CHECKLIST
+═══════════════════════════════════════════════════════════════
+
+Once complete, you should have:
+ [ ] SSH connection working (ssh root@174.138.37.6)
+ [ ] All 4 services running (Web UI, Backend, RPC, MarketFeed)
+ [ ] Automation deployed (crontab -l shows jobs)
+ [ ] Status dashboard working (/root/status.sh)
+ [ ] Daily backups scheduled (2 AM)
+ [ ] Health monitoring active (every 5 min)
+
+═══════════════════════════════════════════════════════════════
+🚀 AFTER FIXING
+═══════════════════════════════════════════════════════════════
+
+Daily monitoring (30 seconds):
+  .\scripts\quick-status.ps1
+
+Or from anywhere:
+  curl -s http://174.138.37.6:3000
+
+Expected: SpiralCoin landing page loads
+
+═══════════════════════════════════════════════════════════════
