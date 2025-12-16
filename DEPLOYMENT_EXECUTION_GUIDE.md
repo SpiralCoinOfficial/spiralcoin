@@ -1,4 +1,5 @@
 # SpiralCoin Deployment Execution Guide
+
 **December 16, 2025 - FINAL**
 
 ---
@@ -15,6 +16,7 @@
 ## 🚀 DEPLOYMENT OPTIONS
 
 ### Option 1: Docker Compose (LOCAL/DEVELOPMENT)
+
 ```bash
 # Start all services
 docker-compose up -d
@@ -27,6 +29,7 @@ docker-compose down
 ```
 
 ### Option 2: Docker Compose Production
+
 ```bash
 # Start with production config
 docker-compose -f docker-compose.prod.yaml up -d
@@ -39,6 +42,7 @@ docker-compose -f docker-compose.prod.yaml logs -f
 ```
 
 ### Option 3: Manual Build and Run
+
 ```bash
 # Build C++ daemon
 cd /app
@@ -63,6 +67,7 @@ cd marketfeed && npm install && npm start
 ## 📋 POST-DEPLOYMENT VERIFICATION
 
 ### 1. Service Health Checks
+
 ```bash
 # Check backend
 curl http://localhost:5000/health
@@ -80,6 +85,7 @@ wscat -c ws://localhost:4000
 ```
 
 ### 2. API Verification
+
 ```bash
 # Blockchain endpoints
 curl http://localhost:5000/api/blockchain/stats
@@ -95,6 +101,7 @@ curl http://localhost:5000/api/mining/status
 ```
 
 ### 3. Run Test Suite
+
 ```bash
 # Validate configuration
 npm test
@@ -111,6 +118,7 @@ node validate-deployment.js
 ## 🔧 TROUBLESHOOTING
 
 ### Service Won't Start
+
 ```bash
 # Check logs
 docker-compose logs backend
@@ -122,6 +130,7 @@ docker-compose up -d
 ```
 
 ### Port Already in Use
+
 ```bash
 # Find process using port
 lsof -i :5000  # backend
@@ -134,6 +143,7 @@ Get-Process | Where-Object {$_.Port -eq 5000} | Stop-Process -Force
 ```
 
 ### Connection Issues
+
 ```bash
 # Check network
 docker network ls
@@ -149,6 +159,7 @@ docker exec spiralcoin-backend curl http://daemon:8545
 ## 📊 MONITORING & LOGS
 
 ### View Live Logs
+
 ```bash
 # All services
 docker-compose logs -f
@@ -162,6 +173,7 @@ docker-compose logs -f | grep ERROR
 ```
 
 ### Health Monitoring
+
 ```bash
 # Setup continuous health check
 while true; do
@@ -192,11 +204,13 @@ See [SECURITY.md](SECURITY.md) for detailed security configuration.
 ## 📈 SCALING
 
 ### Horizontal Scaling (Multiple Backend Instances)
+
 ```bash
 docker-compose -f docker-compose.prod.yaml up -d --scale backend=3
 ```
 
 ### Load Balancing
+
 Configure nginx as reverse proxy (see nginx.conf):
 ```
 upstream backend {
