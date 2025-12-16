@@ -9,10 +9,10 @@ const wallets = {};
 
 // Get wallet list
 walletRouter.get("/", (req, res) => {
-    res.json({ 
-        wallets: Object.keys(wallets), 
+    res.json({
+        wallets: Object.keys(wallets),
         count: Object.keys(wallets).length,
-        message: "Available wallets" 
+        message: "Available wallets"
     });
 });
 
@@ -33,9 +33,9 @@ walletRouter.get("/balance/:address", (req, res) => {
 walletRouter.post("/create", (req, res) => {
     const address = crypto.randomBytes(20).toString("hex");
     wallets[address] = 1000; // Initial balance
-    res.json({ 
+    res.json({
         success: true,
-        address, 
+        address,
         initialBalance: 1000,
         message: "Wallet created successfully"
     });
@@ -44,31 +44,31 @@ walletRouter.post("/create", (req, res) => {
 // Transfer funds
 walletRouter.post("/transfer", (req, res) => {
     const { from, to, amount } = req.body;
-    
+
     if (!from || !to || !amount || amount <= 0) {
-        return res.status(400).json({ 
+        return res.status(400).json({
             success: false,
-            error: "Invalid transfer parameters" 
+            error: "Invalid transfer parameters"
         });
     }
-    
+
     if (!wallets[from]) {
-        return res.status(404).json({ 
+        return res.status(404).json({
             success: false,
-            error: "Sender wallet not found" 
+            error: "Sender wallet not found"
         });
     }
-    
+
     if (wallets[from] < amount) {
-        return res.status(400).json({ 
+        return res.status(400).json({
             success: false,
-            error: "Insufficient balance" 
+            error: "Insufficient balance"
         });
     }
-    
+
     wallets[from] -= amount;
     wallets[to] = (wallets[to] || 0) + amount;
-    
+
     res.json({
         success: true,
         from,
