@@ -5,6 +5,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# Windows SDK version for httplib compatibility
+if(WIN32)
+    add_compile_definitions(_WIN32_WINNT=0x0A00)
+endif()
+
 # Output binary
 set(EXECUTABLE_NAME spiralcoind)
 
@@ -19,6 +24,8 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/include
     /usr/local/include
     /usr/include
+    /mingw64/include
+    C:/msys64/mingw64/include
 )
 
 # Try to find nlohmann_json package, fall back to include path if not found
@@ -32,7 +39,12 @@ endif()
 link_directories(
     /usr/local/lib
     /usr/lib
+    /mingw64/lib
+    C:/msys64/mingw64/lib
 )
+
+# Find OpenSSL (required for httplib)
+find_package(OpenSSL REQUIRED)
 
 # Create executable
 add_executable(${EXECUTABLE_NAME} ${SRC_FILES})
@@ -61,8 +73,8 @@ endif()
 # Link everything
 target_link_libraries(${EXECUTABLE_NAME}
     ${OPTIONAL_LIBS}
-    ${SSL_LIB}
-    ${CRYPTO_LIB}
+    OpenSSL::SSL
+    OpenSSL::Crypto
     ${EVMC_LIBS}
 )
 
