@@ -8,6 +8,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 # Windows SDK version for httplib compatibility
 if(WIN32)
     add_compile_definitions(_WIN32_WINNT=0x0A00)
+    # Enable MSVC runtime static linking if using MSVC
+    string(APPEND CMAKE_CXX_FLAGS_DEBUG " /MTd")
+    string(APPEND CMAKE_CXX_FLAGS_RELEASE " /MT")
 endif()
 
 # Output binary
