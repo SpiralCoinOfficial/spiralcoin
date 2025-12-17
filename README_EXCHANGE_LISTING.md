@@ -4,7 +4,7 @@ This guide summarizes endpoints and steps to prepare for exchange listing.
 
 ## Asset Basics
 - **Name:** SpiralCoin
-- **Symbol:** SPIRAL
+- **Symbol:** SPRC
 - **RPC URL:** Configurable via `.env` (`RPC_URL`), default `http://127.0.0.1:8545` (calls `/rpc` by default)
 - **Status Dashboard:** `/status.html`
 - **Exchange Info Page:** `/exchange` or `/listing`

@@ -18,7 +18,7 @@ This spec describes the minimal endpoints an exchange can use to integrate Spira
     ```json
     {
       "name": "SpiralCoin",
-      "symbol": "SPIRAL",
+      "symbol": "SPRC",
       "rpcUrl": "http://127.0.0.1:8545",
       "chainId": "0x1",
       "blockNumber": 12345,

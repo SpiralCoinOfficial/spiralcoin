@@ -24,7 +24,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const RPC_URL = process.env.RPC_URL || "http://127.0.0.1:8545";
 const NAME = process.env.NAME || "SpiralCoin";
-const SYMBOL = process.env.SYMBOL || "SPIRAL";
+const SYMBOL = process.env.SYMBOL || "SPRC";
 
 app.use(cors());
 app.use(bodyParser.json());

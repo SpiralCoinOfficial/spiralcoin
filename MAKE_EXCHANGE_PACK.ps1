@@ -16,8 +16,23 @@ if (-not (Test-Path $buildDir)) {
 # Build an exchange manifest for convenience
 $manifest = @{
     name      = "SpiralCoin"
-    symbol    = "SPIRAL"
+    symbol    = "SPRC"
+    decimals  = 18
+    website   = "https://spiralcoin.net"
+    logoUrl   = "/public/assets/SpiralCoin_logo.png"
     baseUrl   = $BaseUrl
+    contracts = @{
+        ethereum = @{
+            chain    = "ethereum"
+            chainId  = "0x1" # mainnet (placeholder)
+            address  = ""    # TODO: fill after deployment
+        }
+        bsc = @{
+            chain    = "bsc"
+            chainId  = "0x38" # BSC mainnet (placeholder)
+            address  = ""     # TODO: fill after deployment
+        }
+    }
     endpoints = @{
         health       = "/health"
         status       = "/api/status"
@@ -43,6 +58,7 @@ $files = @(
     (Join-Path "public" "index.html"),
     (Join-Path "public" "script.js"),
     (Join-Path "public" "style.css"),
+    (Join-Path "public" "assets/SpiralCoin_logo.png"),
     "trading_platform.html",
     $manifestPath
 )
