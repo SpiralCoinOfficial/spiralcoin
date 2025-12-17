@@ -25,6 +25,7 @@ file(GLOB SRC_FILES
 # Include directories
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src
     /usr/local/include
     /usr/include
     /mingw64/include

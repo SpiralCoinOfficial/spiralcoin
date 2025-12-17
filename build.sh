@@ -1,28 +1,22 @@
-#!/bin/bash
+﻿#!/bin/bash
+# SpiralCoin Build Script for Linux/WSL2/MSYS2
+
 set -e
 
-echo "[*] Building SpiralCoin..."
-cd /c/Users/Trisha\ Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BUILD_DIR="${SCRIPT_DIR}/build"
 
-# Ensure build directory exists
-mkdir -p build
+echo "[*] SpiralCoin Build"
 
-# Compile with proper flags for Windows
-/mingw64/bin/g++ \
-  -std=c++20 \
-  -Wall \
-  -I include \
-  -D_WIN32_WINNT=0x0A00 \
-  -D HAVE_EVMONE=0 \
-  src/main.cpp \
-  src/state_db_impl.cpp \
-  src/dqve_calculator.cpp \
-  src/evm_integration.cpp \
-  -o build/spiralcoind.exe \
-  -pthread \
-  -lws2_32 \
-  -lcrypt32 \
-  -lssl \
-  -lcrypto
+# Copy httplib header
+if [ ! -f "include/httplib.h" ]; then
+    cp src/httplib.h include/httplib.h
+fi
 
-echo "[✓] Build complete: build/spiralcoind.exe"
+mkdir -p "$BUILD_DIR"
+cd "$BUILD_DIR"
+
+cmake -S .. -B . -DCMAKE_BUILD_TYPE=Release
+make -j$(nproc)
+
+echo "[OK] Build complete"

@@ -13,11 +13,18 @@ set "OUTPUT=%BUILD_DIR%\spiralcoind.exe"
 
 if not exist "%BUILD_DIR%" mkdir "%BUILD_DIR%"
 
+echo [*] Copying httplib.h to include directory...
+if not exist "%INCLUDE_DIR%\httplib.h" (
+    copy "%SRC_DIR%\httplib.h" "%INCLUDE_DIR%\httplib.h" >nul
+)
+
 echo [*] Compiling source files...
+echo [*] Note: First compilation may take 5-15 minutes due to httplib.h header size
 "%GCC_PATH%" ^
   -std=c++20 ^
   -Wall -Wextra ^
   -I "%INCLUDE_DIR%" ^
+  -I "%SRC_DIR%" ^
   -D_WIN32_WINNT=0x0A00 ^
   -D HAVE_EVMONE=0 ^
   "%SRC_DIR%\main.cpp" ^
