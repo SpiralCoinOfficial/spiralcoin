@@ -3,6 +3,7 @@
 This spec describes the minimal endpoints an exchange can use to integrate SpiralCoin.
 
 ## Endpoints
+
 - **GET /health**
   - Response: `{ "status": "healthy", "ts": "2025-12-17T00:00:00Z" }`
 - **GET /api/status**
@@ -12,9 +13,10 @@ This spec describes the minimal endpoints an exchange can use to integrate Spira
   - Body: Any JSON-RPC payload, e.g. `{ "jsonrpc": "2.0", "id": 1, "method": "getblockcount", "params": [] }`
   - Response: Forwarded JSON-RPC result from the daemon
 - **GET /api/info**
-  - Response: `{ "name": "SpiralCoin", "symbol": "SPIRAL", "chainId": string, "rpcUrl": string, "endpoints": { health, status, rpcProxy, marketPrice, wallet } }`
+  - Response: `{ "name": "SpiralCoin", "symbol": "SPRC", "chainId": string, "rpcUrl": string, "endpoints": { health, status, rpcProxy, marketPrice, wallet } }`
 - **GET /api/exchange/info**
   - Response: Combined info + status payload:
+
     ```json
     {
       "name": "SpiralCoin",
@@ -35,26 +37,34 @@ This spec describes the minimal endpoints an exchange can use to integrate Spira
     ```
 
 ## Frontend Pages
+
 - **/exchange** — Exchange info page
 - **/status.html** — Auto-refresh status dashboard
 - **/trading_platform.html** — Trading UI
 
 ## Environment Variables
+
 - `PORT` (default: `5000`)
 - `RPC_URL` (default: `http://127.0.0.1:8545`; defaults to `/rpc` path if none specified)
 - `NAME` (default: `SpiralCoin`)
-- `SYMBOL` (default: `SPIRAL`)
+- `SYMBOL` (default: `SPRC`)
 
 ## Example Requests
+
 - Health:
+
   ```bash
   curl http://localhost:5000/health
   ```
+
 - Status:
+
   ```bash
   curl http://localhost:5000/api/status
   ```
+
 - RPC (getblockcount):
+
   ```bash
   curl -X POST http://localhost:5000/api/rpc \
        -H "Content-Type: application/json" \
