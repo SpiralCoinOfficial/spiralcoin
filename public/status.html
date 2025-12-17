@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SpiralCoin Status Dashboard</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            background: #0b1020;
+            color: #e6f0ff;
+            margin: 0;
+        }
+
+        header {
+            padding: 16px 24px;
+            background: #111735;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        main {
+            padding: 24px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .card {
+            background: #151c3f;
+            border: 1px solid #24306a;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .label {
+            color: #9fb4ff;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        .value {
+            font-size: 22px;
+            font-weight: 600;
+            color: #eaf2ff;
+        }
+
+        .ok {
+            color: #5de07b;
+        }
+
+        .warn {
+            color: #f8c34a;
+        }
+
+        .err {
+            color: #ff6b6b;
+        }
+
+        footer {
+            padding: 16px 24px;
+            color: #94a5d6;
+            font-size: 12px;
+        }
+
+        button {
+            background: #2a3bb3;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3647cc;
+        }
+
+        a {
+            color: #9ec2ff;
+        }
+    </style>
+    <script>
+        async function fetchJson(url, opts) {
+            try {
+                const res = await fetch(url, opts);
+                return await res.json();
+            } catch (e) {
+                return { error: e.message };
+            }
+        }
+        async function refresh() {
+            const health = await fetchJson('/health');
+            const status = await fetchJson('/api/status');
+            document.getElementById('healthStatus').textContent = (health && health.status) ? 'healthy' : 'unknown';
+            document.getElementById('healthStatus').className = (health && health.status === 'healthy') ? 'value ok' : 'value warn';
+            document.getElementById('rpcUrl').textContent = status.rpcUrl || 'n/a';
+            document.getElementById('chainId').textContent = status.chainId || '0x0';
+            document.getElementById('blockNumber').textContent = (status.blockNumber ?? status.chainLengthFallback ?? 0);
+            document.getElementById('peerCount').textContent = (status.peerCount ?? 0);
+            document.getElementById('statusError').textContent = status.error ? ('Error: ' + status.error) : '';
+        }
+        function start() {
+            refresh();
+            setInterval(refresh, 5000);
+        }
+        document.addEventListener('DOMContentLoaded', start);
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>SpiralCoin Status Dashboard</h1>
+    </header>
+    <main>
+        <div class="grid">
+            <div class="card">
+                <div class="label">Backend</div>
+                <div id="healthStatus" class="value">checking…</div>
+                <div id="statusError" class="warn" style="margin-top:6px"></div>
+            </div>
+            <div class="card">
+                <div class="label">RPC URL</div>
+                <div id="rpcUrl" class="value">checking…</div>
+            </div>
+            <div class="card">
+                <div class="label">Chain ID</div>
+                <div id="chainId" class="value">checking…</div>
+            </div>
+            <div class="card">
+                <div class="label">Block Number</div>
+                <div id="blockNumber" class="value">checking…</div>
+            </div>
+            <div class="card">
+                <div class="label">Peer Count</div>
+                <div id="peerCount" class="value">checking…</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="label">Actions</div>
+            <div style="margin-top:8px; display:flex; gap:10px; flex-wrap:wrap">
+                <button onclick="location.href='/'">Open Landing Page</button>
+                <button onclick="location.href='/trading_platform.html'">Open Trading</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div>Auto-refresh every 5s. Backend: /health, Status: /api/status</div>
+    </footer>
+</body>
+
+</html>

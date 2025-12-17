@@ -1,42 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<!--
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SpiralCoin — Decentralized, Fast, and Fun</title>
-    <meta name="description"
-        content="SpiralCoin: lightweight blockchain with a sleek UI, live status, and wallet actions." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/style.css" />
-    <link rel="icon" href="/assets/favicon.png" />
-</head>
-
-<body>
-    <header class="navbar" role="banner">
-        <div class="container">
-            <a class="brand" href="#">SpiralCoin</a>
-            <nav class="nav" aria-label="Primary">
-                <button class="hamburger" aria-label="Menu"
-                    aria-expanded="false"><span></span><span></span><span></span></button>
-                <div class="nav-links">
-                    <a class="nav-link" href="#status">Status</a>
-                    <a class="nav-link" href="#wallet">Wallet</a>
-                    <a class="nav-link" href="#about">About</a>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <section class="hero" id="home" aria-label="Hero">
-            <div class="container hero-content">
-                <h1 class="headline">The Spiral Starts Here</h1>
-                <p class="subhead">A lean blockchain with a clean interface, live metrics, and simple wallet tools.</p>
-                <div class="cta-row">
-                    <button class="btn btn-primary" id="btnStartTrading">Start Trading</button>
                     <a class="btn btn-secondary" href="#wallet">Manage Wallet</a>
                 </div>
                 <div class="hero-stats" aria-live="polite">
@@ -247,16 +210,17 @@
             document.getElementById('btnCopyAddress').addEventListener('click', copyAddress);
             document.getElementById('transferForm').addEventListener('submit', transfer);
             document.getElementById('btnStartTrading').addEventListener('click', () => {
-                // Placeholder routing; integrate with your trading UI later
-                alert('Trading platform coming soon.');
+                window.location.href = '/trading_platform.html';
             });
             refreshStatus();
             refreshApi();
         });
     </script>
+    <script src="/script.js" defer></script>
 </body>
 
 </html>
+-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -974,11 +938,11 @@
             <div class="nav-links" id="navLinks">
                 <a href="#features" class="nav-link">Features</a>
                 <a href="#technology" class="nav-link">Technology</a>
-                <a href="#trading" class="nav-link">Trading</a>
+                <a href="/trading_platform.html" class="nav-link">Trading</a>
                 <a href="/SPIRALCOIN_LANDING_PAGE_README.md" class="nav-link">Docs</a>
                 <button id="connectWalletBtn" class="btn btn-secondary" aria-label="Connect Wallet"><i
                         class="fas fa-wallet"></i> Connect</button>
-                <a href="#trading" class="btn btn-primary">Get Started</a>
+                <a href="/trading_platform.html" class="btn btn-primary">Get Started</a>
             </div>
             <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
         </div>
@@ -1083,6 +1047,12 @@
                     <div class="chart-line" style="animation-delay:-1s; bottom:40%"></div>
                     <div class="chart-line" style="animation-delay:-2s; bottom:60%"></div>
                 </div>
+                <div class="row" style="display:flex;gap:.75rem;justify-content:flex-end;margin-top:1rem;">
+                    <a href="/trading_platform.html" class="btn btn-primary"><i class="fas fa-shopping-cart"></i>
+                        Buy</a>
+                    <a href="/trading_platform.html" class="btn btn-secondary"><i
+                            class="fas fa-arrow-right-arrow-left"></i> Sell</a>
+                </div>
             </div>
         </div>
     </section>
@@ -1104,8 +1074,8 @@
 
     <footer class="footer">
         <div class="footer-links"><a href="#" class="footer-link">About</a><a href="/SPIRALCOIN_LANDING_PAGE_README.md"
-                class="footer-link">Documentation</a><a href="#trading" class="footer-link">Trading</a><a href="#"
-                class="footer-link">Support</a><a href="#" class="footer-link">Terms</a><a href="#"
+                class="footer-link">Documentation</a><a href="/trading_platform.html" class="footer-link">Trading</a><a
+                href="#" class="footer-link">Support</a><a href="#" class="footer-link">Terms</a><a href="#"
                 class="footer-link">Privacy</a></div>
         <div class="social-links"><a href="#" class="social-link"><i class="fab fa-twitter"></i></a><a href="#"
                 class="social-link"><i class="fab fa-discord"></i></a><a href="#" class="social-link"><i
@@ -1194,7 +1164,7 @@
             try { await navigator.clipboard.writeText(text); alert('Address copied'); } catch { alert('Copy failed'); }
         });
         document.getElementById('startTradingBtn').addEventListener('click', () => {
-            const t = document.querySelector('#trading'); if (t) { t.scrollIntoView({ behavior: 'smooth' }); }
+            window.location.href = '/trading_platform.html';
         });
 
         // Init

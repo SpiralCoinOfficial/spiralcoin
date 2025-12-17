@@ -36,14 +36,18 @@ if (-not $dockerExists) {
     Write-Host "[STEP 2/4] Downloading Docker Desktop installer..." -ForegroundColor Cyan
 
     $downloadUrl = "https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe"
-    $installerPath = "$env:TEMP\DockerDesktopInstaller.exe"
+    # ARM64 support
+    if ([Environment]::Is64BitOperatingSystem -and $env:PROCESSOR_ARCHITECTURE -eq "ARM64") {
+        $downloadUrl = "https://desktop.docker.com/win/main/arm64/Docker%20Desktop%20Installer.exe"
+    }
+    $installerPath = (Join-Path $env:TEMP "DockerDesktopInstaller.exe")
 
     try {
         # Download with progress
         [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 
         $ProgressPreference = 'SilentlyContinue'
-        Invoke-WebRequest -Uri $downloadUrl -OutFile $installerPath -UseBasicParsing
+        Invoke-WebRequest -Uri $downloadUrl -OutFile $installerPath -UseBasicParsing -Headers @{ 'User-Agent' = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) SpiralCoin/Installer' } -ErrorAction Stop
 
         if (Test-Path $installerPath) {
             $fileSize = (Get-Item $installerPath).Length / 1MB
@@ -131,7 +135,7 @@ try {
         Write-Host "[RUN] Starting SpiralCoin daemon..." -ForegroundColor Cyan
         Write-Host "[INFO] SpiralCoin will be available at: http://localhost:8545" -ForegroundColor Yellow
         Write-Host "[INFO] To test the RPC endpoint, run in another terminal:" -ForegroundColor Cyan
-        Write-Host "  curl -X POST http://localhost:8545/rpc -H Content-Type: application/json -d {jsonrpc:2.0,id:1,method:getblockcount,params:[]}" -ForegroundColor Cyan
+        Write-Host '  curl -X POST http://localhost:8545/rpc -H "Content-Type: application/json" -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"getblockcount\",\"params\":[]}"' -ForegroundColor Cyan
         Write-Host ""
 
         # Run container

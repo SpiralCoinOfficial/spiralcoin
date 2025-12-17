@@ -26,7 +26,6 @@ echo [*] Note: First compilation may take 5-15 minutes due to httplib.h header s
   -I "%INCLUDE_DIR%" ^
   -I "%SRC_DIR%" ^
   -D_WIN32_WINNT=0x0A00 ^
-  -D HAVE_EVMONE=0 ^
   "%SRC_DIR%\main.cpp" ^
   "%SRC_DIR%\state_db_impl.cpp" ^
   "%SRC_DIR%\dqve_calculator.cpp" ^

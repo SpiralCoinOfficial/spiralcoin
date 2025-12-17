@@ -1,0 +1,11 @@
+{
+  "zipPath": "build/SpiralCoin-Exchange-Pack.zip",
+  "targets": [
+    {
+      "name": "Primary",
+      "remote": "root@174.138.37.6",
+      "remoteDir": "/root/spiralcoin/exchange-pack",
+      "zipName": "SpiralCoin-Exchange-Pack.zip"
+    }
+  ]
+}

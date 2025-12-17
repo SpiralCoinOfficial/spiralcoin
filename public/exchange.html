@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SpiralCoin Exchange Integration</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            background: #0b1020;
+            color: #e6f0ff;
+            margin: 0;
+        }
+
+        header {
+            padding: 16px 24px;
+            background: #111735;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        main {
+            padding: 24px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .card {
+            background: #151c3f;
+            border: 1px solid #24306a;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .label {
+            color: #9fb4ff;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        .value {
+            font-size: 22px;
+            font-weight: 600;
+            color: #eaf2ff;
+        }
+
+        code {
+            background: #0e1330;
+            border: 1px solid #24306a;
+            border-radius: 6px;
+            padding: 2px 6px;
+        }
+
+        a {
+            color: #9ec2ff;
+        }
+
+        ul {
+            margin-top: 8px;
+        }
+    </style>
+    <script>
+        async function load() {
+            const info = await fetch('/api/exchange/info').then(r => r.json()).catch(() => ({}));
+            document.getElementById('name').textContent = info.name || 'SpiralCoin';
+            document.getElementById('symbol').textContent = info.symbol || 'SPIRAL';
+            document.getElementById('rpcUrl').textContent = info.rpcUrl || 'http://127.0.0.1:8545';
+            document.getElementById('chainId').textContent = info.chainId || '0x0';
+            document.getElementById('blockNumber').textContent = info.blockNumber ?? 0;
+            document.getElementById('peerCount').textContent = info.peerCount ?? 0;
+            const endpoints = info.endpoints || {};
+            document.getElementById('endpoints').innerHTML = `
+        <li><code>${endpoints.health || '/health'}</code></li>
+        <li><code>${endpoints.status || '/api/status'}</code></li>
+        <li><code>${endpoints.rpcProxy || '/api/rpc'}</code></li>
+        <li><code>${endpoints.marketPrice || '/api/market/price'}</code></li>
+        <li><code>${endpoints.wallet || '/api/wallet'}</code></li>
+      `;
+            if (info.error) { document.getElementById('error').textContent = 'Status error: ' + info.error; }
+        }
+        window.addEventListener('DOMContentLoaded', load);
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>SpiralCoin Exchange Integration</h1>
+    </header>
+    <main>
+        <div class="card">
+            <div class="label">Asset</div>
+            <div><span class="value" id="name">SpiralCoin</span> (<span class="value" id="symbol">SPIRAL</span>)</div>
+        </div>
+        <div class="card">
+            <div class="label">Network</div>
+            <div>RPC: <code id="rpcUrl">http://127.0.0.1:8545</code></div>
+            <div>Chain ID: <code id="chainId">0x0</code></div>
+            <div>Latest Block: <code id="blockNumber">0</code></div>
+            <div>Peers: <code id="peerCount">0</code></div>
+            <div id="error" style="margin-top:6px; color:#f8c34a"></div>
+        </div>
+        <div class="card">
+            <div class="label">API Endpoints</div>
+            <ul id="endpoints"></ul>
+            <div style="margin-top:10px">See <a href="/status.html">Status Dashboard</a> for live health.</div>
+        </div>
+        <div class="card">
+            <div class="label">Actions</div>
+            <ul>
+                <li><a href="/">Landing Page</a></li>
+                <li><a href="/trading_platform.html">Trading Page</a></li>
+            </ul>
+        </div>
+    </main>
+</body>
+
+</html>

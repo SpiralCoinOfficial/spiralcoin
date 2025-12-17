@@ -37,6 +37,10 @@ $cmdParts = @(
     'set -e',
     'echo Installing Docker...',
     'curl -fsSL https://get.docker.com | sh > /dev/null 2>&1 || true',
+    'apt-get update -y >/dev/null 2>&1 || true',
+    'apt-get install -y docker-compose-plugin ca-certificates curl gnupg >/dev/null 2>&1 || true',
+    'systemctl enable docker >/dev/null 2>&1 || true',
+    'systemctl start docker >/dev/null 2>&1 || true',
     'echo Syncing repository...',
     'if [ -d /root/spiralcoin/.git ]; then cd /root/spiralcoin && git fetch origin && git reset --hard origin/main; else cd /root && rm -rf spiralcoin && git clone https://github.com/SpiralCoinOfficial/spiralcoin.git; fi',
     'cd /root/spiralcoin',
@@ -44,15 +48,16 @@ $cmdParts = @(
     "bash -lc 'grep -q ""evmone/evmone.h"" include/state_db.h && sed -i ""s|#include <evmone/evmone.h>|// evmone disabled|g"" include/state_db.h || true'",
     "bash -lc 'sed -i ""s/-D HAVE_EVMONE=0//"" Dockerfile.daemon || true'",
     'echo Building and starting services...',
-    'docker compose --env-file /dev/null up -d --build 2>&1 | tail -n 40 || true',
+    'docker compose --env-file /dev/null up -d --build 2>&1 | tail -n 80 || true',
     'echo Waiting for services to start...',
-    'sleep 10',
+    'for i in $(seq 1 30); do sleep 2; done',
     'echo Service status:',
     'docker compose ps || true'
 )
 $bashCmd = 'bash -lc "' + ($cmdParts -join '; ') + '"'
 
-ssh -p $SSH_PORT -o StrictHostKeyChecking=no ($SSH_USER + '@' + $SERVER) $bashCmd
+# Use BatchMode to avoid interactive password prompts; expect key-based auth
+ssh -p $SSH_PORT -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=10 ($SSH_USER + '@' + $SERVER) $bashCmd
 
 Write-Host 'Deployment command sent to server.' -ForegroundColor Green
 
@@ -68,7 +73,11 @@ $services = @(
 foreach ($svc in $services) {
     try {
         $url = ('http://' + $SERVER + ':' + $svc.Port + $svc.Path)
-        $null = Invoke-WebRequest -Uri $url -TimeoutSec 5 -ErrorAction Stop
+        $attempts = 10; $ok = $false
+        for ($i=0; $i -lt $attempts; $i++) {
+            try { $null = Invoke-WebRequest -Uri $url -TimeoutSec 5 -ErrorAction Stop; $ok = $true; break } catch { Start-Sleep -Seconds 2 }
+        }
+        if (-not $ok) { throw 'unreachable' }
         Write-Host ('OK ' + $svc.Name + ' (port ' + $svc.Port + '): RESPONDING') -ForegroundColor Green
     } catch {
         Write-Host ('WARN ' + $svc.Name + ' (port ' + $svc.Port + '): Not yet responding') -ForegroundColor Yellow
