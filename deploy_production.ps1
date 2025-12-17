@@ -31,25 +31,28 @@ if (-not $SSH_PORT) {
 }
 Write-Host ('Server is online on port ' + $SSH_PORT) -ForegroundColor Green
 
-# Step 2: Deploy Docker stack (no fragile try/catch loops)
+# Step 2: Deploy Docker stack (bash -lc to avoid shell incompatibilities)
 Write-Host '[*] Step 2: Installing Docker and deploying services...' -ForegroundColor Yellow
-$deployCmd = @'
-set -e
-echo "Installing Docker..."
-curl -fsSL https://get.docker.com | sh > /dev/null 2>&1 || true
-echo "Cloning repository..."
-cd /root && rm -rf spiralcoin
-git clone https://github.com/SpiralCoinOfficial/spiralcoin.git
-cd spiralcoin
-echo "Building and starting services..."
-docker compose up -d --build 2>&1 | tail -20 || true
-echo "Waiting for services to start..."
-sleep 10
-echo "Service status:"
-docker compose ps || true
-'@
+$cmdParts = @(
+    'set -e',
+    'echo Installing Docker...',
+    'curl -fsSL https://get.docker.com | sh > /dev/null 2>&1 || true',
+    'echo Syncing repository...',
+    'if [ -d /root/spiralcoin/.git ]; then cd /root/spiralcoin && git fetch origin && git reset --hard origin/main; else cd /root && rm -rf spiralcoin && git clone https://github.com/SpiralCoinOfficial/spiralcoin.git; fi',
+    'cd /root/spiralcoin',
+    'echo Applying build fixes (disable evmone include and macro if present)...',
+    "bash -lc 'grep -q ""evmone/evmone.h"" include/state_db.h && sed -i ""s|#include <evmone/evmone.h>|// evmone disabled|g"" include/state_db.h || true'",
+    "bash -lc 'sed -i ""s/-D HAVE_EVMONE=0//"" Dockerfile.daemon || true'",
+    'echo Building and starting services...',
+    'docker compose --env-file /dev/null up -d --build 2>&1 | tail -n 40 || true',
+    'echo Waiting for services to start...',
+    'sleep 10',
+    'echo Service status:',
+    'docker compose ps || true'
+)
+$bashCmd = 'bash -lc "' + ($cmdParts -join '; ') + '"'
 
-ssh -p $SSH_PORT -o StrictHostKeyChecking=no ($SSH_USER + '@' + $SERVER) $deployCmd
+ssh -p $SSH_PORT -o StrictHostKeyChecking=no ($SSH_USER + '@' + $SERVER) $bashCmd
 
 Write-Host 'Deployment command sent to server.' -ForegroundColor Green
 

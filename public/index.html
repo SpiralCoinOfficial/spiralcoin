@@ -1,15 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SpiralCoin — Decentralized, Fast, and Fun</title>
+    <meta name="description"
+        content="SpiralCoin: lightweight blockchain with a sleek UI, live status, and wallet actions." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" href="/assets/favicon.png" />
+</head>
+
+<body>
+    <header class="navbar" role="banner">
+        <div class="container">
+            <a class="brand" href="#">SpiralCoin</a>
+            <nav class="nav" aria-label="Primary">
+                <button class="hamburger" aria-label="Menu"
+                    aria-expanded="false"><span></span><span></span><span></span></button>
+                <div class="nav-links">
+                    <a class="nav-link" href="#status">Status</a>
+                    <a class="nav-link" href="#wallet">Wallet</a>
+                    <a class="nav-link" href="#about">About</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home" aria-label="Hero">
+            <div class="container hero-content">
+                <h1 class="headline">The Spiral Starts Here</h1>
+                <p class="subhead">A lean blockchain with a clean interface, live metrics, and simple wallet tools.</p>
+                <div class="cta-row">
+                    <button class="btn btn-primary" id="btnStartTrading">Start Trading</button>
+                    <a class="btn btn-secondary" href="#wallet">Manage Wallet</a>
+                </div>
+                <div class="hero-stats" aria-live="polite">
+                    <div class="stat-card">
+                        <div class="stat-label">Block</div>
+                        <div class="stat-value" id="statBlock">—</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Peers</div>
+                        <div class="stat-value" id="statPeers">—</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Price</div>
+                        <div class="stat-value" id="statPrice">—</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="status" class="section" aria-label="Network Status">
+            <div class="container">
+                <h2>Network Status</h2>
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h3>RPC</h3>
+                        <div class="kv">
+                            <div><span>RPC URL</span><span id="rpcUrl">—</span></div>
+                            <div><span>Chain ID</span><span id="chainId">—</span></div>
+                            <div><span>Block Number</span><span id="blockNumber">—</span></div>
+                            <div><span>Gas Price (Wei)</span><span id="gasPrice">—</span></div>
+                            <div><span>Peer Count</span><span id="peerCount">—</span></div>
+                        </div>
+                        <div class="row">
+                            <button class="btn" id="btnRefreshStatus">Refresh</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>API</h3>
+                        <div class="kv">
+                            <div><span>Health</span><span id="apiHealth">—</span></div>
+                            <div><span>Market Price</span><span id="apiPrice">—</span></div>
+                        </div>
+                        <div class="row">
+                            <button class="btn" id="btnRefreshApi">Refresh</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="wallet" class="section" aria-label="Wallet">
+            <div class="container">
+                <h2>Wallet</h2>
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h3>Connect</h3>
+                        <p>Use a browser wallet (EIP-1193) or create a local one.</p>
+                        <div class="row">
+                            <button class="btn btn-primary" id="btnConnectWallet">Connect Wallet</button>
+                            <button class="btn" id="btnCreateWallet">Create Wallet</button>
+                            <button class="btn" id="btnCopyAddress">Copy Address</button>
+                        </div>
+                        <div class="kv">
+                            <div><span>Address</span><span id="walletAddress">—</span></div>
+                            <div><span>Balance</span><span id="walletBalance">—</span></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Transfer</h3>
+                        <form id="transferForm" class="form" autocomplete="off">
+                            <label>
+                                <span>To Address</span>
+                                <input type="text" id="toAddress" placeholder="0x..." required />
+                            </label>
+                            <label>
+                                <span>Amount</span>
+                                <input type="number" id="amount" min="0" step="0.0001" placeholder="0.1" required />
+                            </label>
+                            <button class="btn btn-secondary" type="submit">Send</button>
+                        </form>
+                        <div id="transferResult" class="muted" aria-live="polite"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section" aria-label="About">
+            <div class="container">
+                <h2>About SpiralCoin</h2>
+                <p>SpiralCoin is a lightweight blockchain with a clean developer-friendly API, a simple RPC daemon, and
+                    an approachable UI. This page shows live status and offers wallet basics to get you started.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 SpiralCoin. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/script.js" defer></script>
+    <script>
+        const apiBase = '';
+
+        async function fetchJson(url, opts) {
+            const res = await fetch(url, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts));
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+        }
+
+        async function refreshStatus() {
+            try {
+                const s = await fetchJson(apiBase + '/api/status');
+                document.getElementById('rpcUrl').textContent = s.rpcUrl || '—';
+                document.getElementById('chainId').textContent = s.chainId || '—';
+                document.getElementById('blockNumber').textContent = String(s.blockNumber ?? '—');
+                document.getElementById('gasPrice').textContent = String(s.gasPriceWei ?? '—');
+                document.getElementById('peerCount').textContent = String(s.peerCount ?? '—');
+                document.getElementById('statBlock').textContent = String(s.blockNumber ?? '—');
+                document.getElementById('statPeers').textContent = String(s.peerCount ?? '—');
+            } catch (e) {
+                console.warn('status error', e);
+            }
+        }
+
+        async function refreshApi() {
+            try {
+                const health = await fetchJson(apiBase + '/health');
+                document.getElementById('apiHealth').textContent = health.status || 'unknown';
+            } catch (e) {
+                document.getElementById('apiHealth').textContent = 'unreachable';
+            }
+            try {
+                const price = await fetchJson(apiBase + '/api/market/price');
+                document.getElementById('apiPrice').textContent = String(price.price ?? '—');
+                document.getElementById('statPrice').textContent = String(price.price ?? '—');
+            } catch (e) {
+                document.getElementById('apiPrice').textContent = '—';
+            }
+        }
+
+        async function createWallet() {
+            const w = await fetchJson(apiBase + '/api/wallet/create', { method: 'POST' });
+            document.getElementById('walletAddress').textContent = w.address || '—';
+            await refreshBalance();
+        }
+
+        async function refreshBalance() {
+            const addr = document.getElementById('walletAddress').textContent.trim();
+            if (!addr || addr === '—') return;
+            try {
+                const b = await fetchJson(apiBase + '/api/wallet/balance/' + encodeURIComponent(addr));
+                document.getElementById('walletBalance').textContent = String(b.balance ?? 0);
+            } catch (e) {
+                document.getElementById('walletBalance').textContent = '0';
+            }
+        }
+
+        async function connectWallet() {
+            try {
+                if (!window.ethereum) throw new Error('No EIP-1193 wallet');
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const addr = accounts?.[0];
+                if (addr) {
+                    document.getElementById('walletAddress').textContent = addr;
+                    await refreshBalance();
+                }
+            } catch (e) {
+                console.warn('connect wallet error', e);
+            }
+        }
+
+        function copyAddress() {
+            const addr = document.getElementById('walletAddress').textContent.trim();
+            if (!addr || addr === '—') return;
+            navigator.clipboard.writeText(addr).then(() => {
+                const el = document.getElementById('walletAddress');
+                el.classList.add('highlight');
+                setTimeout(() => el.classList.remove('highlight'), 600);
+            });
+        }
+
+        async function transfer(ev) {
+            ev.preventDefault();
+            const from = document.getElementById('walletAddress').textContent.trim();
+            const to = document.getElementById('toAddress').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+            const out = document.getElementById('transferResult');
+            out.textContent = 'Sending…';
+            try {
+                const res = await fetchJson(apiBase + '/api/wallet/transfer', {
+                    method: 'POST',
+                    body: JSON.stringify({ from, to, amount })
+                });
+                out.textContent = res?.success ? 'Transfer queued' : ('Error: ' + (res?.error || 'unknown'));
+                await refreshBalance();
+            } catch (e) {
+                out.textContent = 'Error: ' + e.message;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('btnRefreshStatus').addEventListener('click', refreshStatus);
+            document.getElementById('btnRefreshApi').addEventListener('click', refreshApi);
+            document.getElementById('btnCreateWallet').addEventListener('click', createWallet);
+            document.getElementById('btnConnectWallet').addEventListener('click', connectWallet);
+            document.getElementById('btnCopyAddress').addEventListener('click', copyAddress);
+            document.getElementById('transferForm').addEventListener('submit', transfer);
+            document.getElementById('btnStartTrading').addEventListener('click', () => {
+                // Placeholder routing; integrate with your trading UI later
+                alert('Trading platform coming soon.');
+            });
+            refreshStatus();
+            refreshApi();
+        });
+    </script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>SpiralCoin - Next Generation Cryptocurrency Platform</title>
-    <meta name="description" content="SpiralCoin is a fast, secure, and scalable cryptocurrency platform with EVM smart contracts, real-time trading, and enterprise-grade security.">
+    <meta name="description"
+        content="SpiralCoin is a fast, secure, and scalable cryptocurrency platform with EVM smart contracts, real-time trading, and enterprise-grade security.">
     <link rel="icon" type="image/png" sizes="64x64" href="assets/SpiralCoin_logo.png">
     <link rel="apple-touch-icon" href="assets/SpiralCoin_logo.png">
     <meta property="og:type" content="website">
     <meta property="og:title" content="SpiralCoin - Next Generation Cryptocurrency Platform">
-    <meta property="og:description" content="Fast, secure, and scalable blockchain with pro trading, EVM smart contracts, and enterprise-grade security.">
+    <meta property="og:description"
+        content="Fast, secure, and scalable blockchain with pro trading, EVM smart contracts, and enterprise-grade security.">
     <meta property="og:image" content="assets/SpiralCoin_logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -25,7 +287,6 @@
             --accent-purple: #8B5CF6;
             --accent-blue: #3B82F6;
             --accent-cyan: #06B6D4;
-            --bg-space: #0a0a1a;
             --bg-deep: #050510;
             --text-white: #ffffff;
             --text-muted: #a0a0b0;
@@ -41,26 +302,16 @@
             min-height: 100vh;
         }
 
-        /* ========== SPACE BACKGROUND ========== */
         .space-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: -3;
-            background: radial-gradient(ellipse at 20% 20%, #1a1a3e 0%, transparent 50%),
-                        radial-gradient(ellipse at 80% 80%, #0d1f3c 0%, transparent 50%),
-                        radial-gradient(ellipse at 50% 50%, #0a0a1a 0%, #050510 100%);
+            background: radial-gradient(ellipse at 20% 20%, #1a1a3e 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, #0d1f3c 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, #0a0a1a 0%, #050510 100%);
         }
 
-        /* Animated Stars */
         .stars {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: -2;
             overflow: hidden;
         }
@@ -73,18 +324,26 @@
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
+
+            0%,
+            100% {
+                opacity: .3;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2)
+            }
         }
 
-        /* Nebula Glow */
         .nebula {
             position: fixed;
             width: 600px;
             height: 600px;
             border-radius: 50%;
             filter: blur(100px);
-            opacity: 0.3;
+            opacity: .3;
             z-index: -2;
             animation: nebula-drift 20s infinite ease-in-out;
         }
@@ -103,11 +362,17 @@
         }
 
         @keyframes nebula-drift {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(30px, 20px) scale(1.1); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1)
+            }
+
+            50% {
+                transform: translate(30px, 20px) scale(1.1)
+            }
         }
 
-        /* ========== COIN MINE & SPIRAL ANIMATION ========== */
         .mine-container {
             position: fixed;
             bottom: -50px;
@@ -127,8 +392,7 @@
             height: 80px;
             background: linear-gradient(180deg, #2a2a4a 0%, #1a1a2e 100%);
             border-radius: 10px 10px 0 0;
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3),
-                        inset 0 -10px 30px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3), inset 0 -10px 30px rgba(255, 215, 0, 0.2);
         }
 
         .mine::before {
@@ -146,11 +410,17 @@
         }
 
         @keyframes mine-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.5)
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4)
+            }
         }
 
-        /* Spiraling Coins */
         .coin-spiral {
             position: fixed;
             bottom: 100px;
@@ -177,21 +447,23 @@
         @keyframes spiral-up {
             0% {
                 opacity: 0;
-                transform: translate(0, 0) rotate(0deg) scale(0.5);
+                transform: translate(0, 0) rotate(0deg) scale(.5)
             }
+
             10% {
-                opacity: 1;
+                opacity: 1
             }
+
             90% {
-                opacity: 1;
+                opacity: 1
             }
+
             100% {
                 opacity: 0;
-                transform: translate(var(--end-x), -800px) rotate(720deg) scale(1);
+                transform: translate(var(--end-x), -800px) rotate(720deg) scale(1)
             }
         }
 
-        /* Coin trail particles */
         .coin-particle {
             position: fixed;
             width: 4px;
@@ -204,12 +476,21 @@
         }
 
         @keyframes particle-rise {
-            0% { opacity: 0; transform: translateY(0) scale(1); }
-            20% { opacity: 0.8; }
-            100% { opacity: 0; transform: translateY(-600px) scale(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(1)
+            }
+
+            20% {
+                opacity: .8
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-600px) scale(0)
+            }
         }
 
-        /* ========== NAVIGATION ========== */
         .navbar {
             position: fixed;
             top: 0;
@@ -248,8 +529,15 @@
         }
 
         @keyframes logo-pulse {
-            0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5)); }
-            50% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8)); }
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5))
+            }
+
+            50% {
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8))
+            }
         }
 
         .logo span {
@@ -262,14 +550,14 @@
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 1.25rem;
         }
 
         .nav-link {
             color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all .3s ease;
             position: relative;
         }
 
@@ -277,27 +565,12 @@
             color: var(--primary-gold);
         }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-gold);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
         .btn {
-            padding: 12px 28px;
+            padding: 10px 20px;
             border-radius: 50px;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all .3s ease;
             cursor: pointer;
             border: none;
             font-size: 1rem;
@@ -325,7 +598,6 @@
             color: var(--primary-gold);
         }
 
-        /* ========== HERO SECTION ========== */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -349,19 +621,9 @@
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 50px;
-            font-size: 0.9rem;
+            font-size: .9rem;
             color: var(--primary-gold);
             margin-bottom: 2rem;
-            animation: fade-in-up 0.8s ease;
-        }
-
-        .hero-badge i {
-            animation: spin 3s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
         }
 
         .hero-title {
@@ -369,7 +631,6 @@
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 1.5rem;
-            animation: fade-in-up 0.8s ease 0.2s both;
         }
 
         .gradient-text {
@@ -380,60 +641,38 @@
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
             line-height: 1.7;
-            animation: fade-in-up 0.8s ease 0.4s both;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 1rem;
+            gap: .75rem;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 4rem;
-            animation: fade-in-up 0.8s ease 0.6s both;
+            margin-bottom: 2rem;
         }
 
-        @keyframes fade-in-up {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Hero Stats */
         .hero-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 2rem;
-            max-width: 800px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-width: 900px;
             margin: 0 auto;
-            animation: fade-in-up 0.8s ease 0.8s both;
         }
 
         .stat-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-gold);
-            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
         }
 
         .stat-value {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
             background: linear-gradient(135deg, var(--primary-gold), var(--accent-cyan));
             -webkit-background-clip: text;
@@ -443,13 +682,12 @@
 
         .stat-label {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
+            font-size: .9rem;
+            margin-top: .4rem;
         }
 
-        /* ========== FEATURES SECTION ========== */
         .section {
-            padding: 6rem 2rem;
+            padding: 4rem 2rem;
             position: relative;
         }
 
@@ -460,76 +698,52 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 2rem;
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
-            margin-bottom: 1rem;
+            margin-bottom: .75rem;
         }
 
         .section-subtitle {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1rem;
             max-width: 500px;
             margin: 0 auto;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
         }
 
         .feature-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2.5rem;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-gold), var(--accent-purple));
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-
-        .feature-card:hover::before {
-            transform: scaleX(1);
+            border-radius: 20px;
+            padding: 1.5rem;
         }
 
         .feature-icon {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background: linear-gradient(135deg, var(--primary-gold), var(--accent-purple));
-            border-radius: 16px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             color: #000;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .feature-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 0.75rem;
+            margin-bottom: .5rem;
         }
 
         .feature-desc {
@@ -537,50 +751,35 @@
             line-height: 1.6;
         }
 
-        /* ========== TRADING SECTION ========== */
         .trading-preview {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
+            border-radius: 20px;
+            padding: 1.5rem;
         }
 
         .trading-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
+            margin-bottom: 1rem;
             gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .trading-pair {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: .75rem;
         }
 
         .pair-logo {
-            width: 50px;
-            height: 50px;
-        }
-
-        .pair-info h3 {
-            font-size: 1.3rem;
-        }
-
-        .pair-info span {
-            color: var(--text-muted);
-        }
-
-        .price-display {
-            text-align: right;
+            width: 44px;
+            height: 44px;
         }
 
         .current-price {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 800;
             color: var(--primary-gold);
         }
@@ -591,14 +790,14 @@
         }
 
         .chart-placeholder {
-            height: 300px;
-            background: linear-gradient(180deg, rgba(255, 215, 0, 0.1) 0%, transparent 100%);
+            height: 240px;
             border-radius: 16px;
+            background: linear-gradient(180deg, rgba(255, 215, 0, 0.08) 0%, transparent 100%);
+            position: relative;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow: hidden;
         }
 
         .chart-line {
@@ -612,64 +811,68 @@
         }
 
         @keyframes chart-wave {
-            0%, 100% { transform: translateY(0) scaleY(1); }
-            25% { transform: translateY(-30px) scaleY(1.2); }
-            50% { transform: translateY(20px) scaleY(0.8); }
-            75% { transform: translateY(-15px) scaleY(1.1); }
+
+            0%,
+            100% {
+                transform: translateY(0) scaleY(1)
+            }
+
+            25% {
+                transform: translateY(-20px) scaleY(1.2)
+            }
+
+            50% {
+                transform: translateY(15px) scaleY(.8)
+            }
+
+            75% {
+                transform: translateY(-10px) scaleY(1.1)
+            }
         }
 
-        /* ========== CTA SECTION ========== */
         .cta-section {
-            padding: 6rem 2rem;
+            padding: 4rem 2rem;
             text-align: center;
-            position: relative;
         }
 
         .cta-container {
             max-width: 800px;
             margin: 0 auto;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(139, 92, 246, 0.1));
+            background: linear-gradient(135deg, rgba(255, 215, 0, .08), rgba(139, 92, 246, .08));
             border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            padding: 4rem 2rem;
+            border-radius: 24px;
+            padding: 2rem;
         }
 
         .cta-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
-            margin-bottom: 1rem;
+            margin-bottom: .75rem;
         }
 
         .cta-subtitle {
             color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
+            font-size: 1rem;
+            margin-bottom: 1.25rem;
         }
 
-        /* ========== FOOTER ========== */
         .footer {
-            padding: 3rem 2rem;
+            padding: 2rem;
             border-top: 1px solid var(--glass-border);
             text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
+            margin-bottom: 1rem;
             flex-wrap: wrap;
         }
 
         .footer-link {
             color: var(--text-muted);
             text-decoration: none;
-            transition: color 0.3s ease;
         }
 
         .footer-link:hover {
@@ -679,13 +882,13 @@
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
         .social-link {
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 50%;
@@ -694,21 +897,14 @@
             justify-content: center;
             color: var(--text-muted);
             text-decoration: none;
-            transition: all 0.3s ease;
         }
 
         .social-link:hover {
             background: var(--primary-gold);
             color: #000;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
 
-        .copyright {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Mobile Responsive */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -723,7 +919,6 @@
             width: 25px;
             height: 2px;
             background: var(--text-white);
-            transition: all 0.3s ease;
         }
 
         @media (max-width: 768px) {
@@ -733,11 +928,11 @@
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: rgba(10, 10, 26, 0.95);
+                background: rgba(10, 10, 26, .95);
                 backdrop-filter: blur(20px);
                 flex-direction: column;
-                padding: 2rem;
-                gap: 1.5rem;
+                padding: 1rem;
+                gap: 1rem;
             }
 
             .nav-links.active {
@@ -748,98 +943,79 @@
                 display: flex;
             }
 
-            .hero-stats {
-                grid-template-columns: 1fr;
-            }
-
             .coin-spiral {
                 width: 300px;
                 margin-left: -150px;
             }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
-    <!-- Space Background -->
     <div class="space-bg"></div>
     <div class="stars" id="stars"></div>
     <div class="nebula nebula-1"></div>
     <div class="nebula nebula-2"></div>
 
-    <!-- Coin Mine & Spiral -->
     <div class="mine-container">
         <div class="mine"></div>
     </div>
     <div class="coin-spiral" id="coinSpiral"></div>
     <div id="particles"></div>
 
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a class="logo" href="#">
-                <img src="assets/SpiralCoin_logo.png" alt="SpiralCoin" class="logo-img">
-                <span>SpiralCoin</span>
-            </a>
+            <a class="logo" href="#"><img src="assets/SpiralCoin_logo.png" alt="SpiralCoin"
+                    class="logo-img"><span>SpiralCoin</span></a>
             <div class="nav-links" id="navLinks">
                 <a href="#features" class="nav-link">Features</a>
                 <a href="#technology" class="nav-link">Technology</a>
                 <a href="#trading" class="nav-link">Trading</a>
-                <a href="#community" class="nav-link">Community</a>
+                <a href="/SPIRALCOIN_LANDING_PAGE_README.md" class="nav-link">Docs</a>
+                <button id="connectWalletBtn" class="btn btn-secondary" aria-label="Connect Wallet"><i
+                        class="fas fa-wallet"></i> Connect</button>
                 <a href="#trading" class="btn btn-primary">Get Started</a>
             </div>
-            <button class="hamburger" id="hamburger" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-container">
-            <div class="hero-badge">
-                <i class="fas fa-rocket"></i>
-                <span>Now Live on Mainnet</span>
-            </div>
-            <h1 class="hero-title">
-                The Future of<br>
-                <span class="gradient-text">Decentralized Finance</span>
-            </h1>
-            <p class="hero-subtitle">
-                Experience next-generation blockchain technology with SpiralCoin. 
-                Ultra-fast transactions, enterprise-grade security, and seamless DeFi integration.
-            </p>
+            <div class="hero-badge"><i class="fas fa-rocket"></i><span>Now Live on Mainnet</span></div>
+            <h1 class="hero-title">The Future of<br><span class="gradient-text">Decentralized Finance</span></h1>
+            <p class="hero-subtitle">Experience next-generation blockchain technology with SpiralCoin. Ultra-fast
+                transactions, enterprise-grade security, and seamless DeFi integration.</p>
             <div class="hero-buttons">
-                <button class="btn btn-primary">
-                    <i class="fas fa-play"></i> Start Trading
-                </button>
-                <button class="btn btn-secondary">
-                    <i class="fas fa-book"></i> Whitepaper
-                </button>
+                <button id="startTradingBtn" class="btn btn-primary"><i class="fas fa-play"></i> Start Trading</button>
+                <a class="btn btn-secondary" href="/SPIRALCOIN_LANDING_PAGE_README.md" target="_blank" rel="noopener"><i
+                        class="fas fa-book"></i> Whitepaper</a>
             </div>
             <div class="hero-stats">
                 <div class="stat-card">
-                    <div class="stat-value">$2.5B+</div>
-                    <div class="stat-label">Market Cap</div>
+                    <div id="statBlock" class="stat-value">—</div>
+                    <div class="stat-label">Block Height</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">1M+</div>
-                    <div class="stat-label">Daily Transactions</div>
+                    <div id="statPeers" class="stat-value">—</div>
+                    <div class="stat-label">Peer Count</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">0.5s</div>
-                    <div class="stat-label">Block Time</div>
+                    <div id="statGas" class="stat-value">—</div>
+                    <div class="stat-label">Gas Price (Gwei)</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">150+</div>
-                    <div class="stat-label">Countries</div>
+                    <div id="statRpc" class="stat-value">—</div>
+                    <div class="stat-label">RPC Status</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
     <section class="section" id="features">
         <div class="section-container">
             <div class="section-header">
@@ -848,44 +1024,35 @@
             </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
                     <h3 class="feature-title">Lightning Fast</h3>
-                    <p class="feature-desc">Process thousands of transactions per second with our optimized consensus mechanism.</p>
+                    <p class="feature-desc">Process thousands of transactions per second with our optimized consensus
+                        mechanism.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
                     <h3 class="feature-title">Enterprise Security</h3>
-                    <p class="feature-desc">Military-grade encryption and multi-layer security protocols protect your assets.</p>
+                    <p class="feature-desc">Military-grade encryption and multi-layer security protocols protect your
+                        assets.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-code"></i></div>
                     <h3 class="feature-title">EVM Compatible</h3>
-                    <p class="feature-desc">Deploy Ethereum smart contracts seamlessly on our high-performance network.</p>
+                    <p class="feature-desc">Deploy Ethereum smart contracts seamlessly on our high-performance network.
+                    </p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-coins"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-coins"></i></div>
                     <h3 class="feature-title">Low Fees</h3>
                     <p class="feature-desc">Near-zero transaction costs make DeFi accessible to everyone.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-globe"></i></div>
                     <h3 class="feature-title">Global Network</h3>
                     <p class="feature-desc">Decentralized nodes across 150+ countries ensure maximum uptime.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
                     <h3 class="feature-title">Pro Trading</h3>
                     <p class="feature-desc">Advanced trading tools and real-time analytics for serious traders.</p>
                 </div>
@@ -893,7 +1060,6 @@
         </div>
     </section>
 
-    <!-- Trading Section -->
     <section class="section" id="trading">
         <div class="section-container">
             <div class="section-header">
@@ -902,134 +1068,139 @@
             </div>
             <div class="trading-preview">
                 <div class="trading-header">
-                    <div class="trading-pair">
-                        <img src="assets/SpiralCoin_logo.png" alt="SPRC" class="pair-logo">
+                    <div class="trading-pair"><img src="assets/SpiralCoin_logo.png" alt="SPRC" class="pair-logo">
                         <div class="pair-info">
-                            <h3>SPRC/USDT</h3>
-                            <span>SpiralCoin</span>
+                            <h3>SPRC/USDT</h3><span>SpiralCoin</span>
                         </div>
                     </div>
                     <div class="price-display">
-                        <div class="current-price">$12.847</div>
-                        <div class="price-change">+5.23% (24h)</div>
+                        <div class="current-price" id="currentPrice">$—</div>
+                        <div class="price-change" id="priceChange">—</div>
                     </div>
                 </div>
                 <div class="chart-placeholder">
                     <div class="chart-line"></div>
-                    <div class="chart-line" style="animation-delay: -1s; bottom: 40%;"></div>
-                    <div class="chart-line" style="animation-delay: -2s; bottom: 60%;"></div>
+                    <div class="chart-line" style="animation-delay:-1s; bottom:40%"></div>
+                    <div class="chart-line" style="animation-delay:-2s; bottom:60%"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
     <section class="cta-section">
         <div class="cta-container">
             <h2 class="cta-title">Ready to Start?</h2>
             <p class="cta-subtitle">Join millions of users trading on the fastest blockchain platform</p>
-            <button class="btn btn-primary">
-                <i class="fas fa-wallet"></i> Create Wallet
-            </button>
+            <div class="wallet-box" style="display:flex;flex-direction:column;gap:.5rem;align-items:center;">
+                <button id="createWalletBtn" class="btn btn-primary"><i class="fas fa-wallet"></i> Create
+                    Wallet</button>
+                <div id="walletInfo" class="wallet-address" style="display:none"></div>
+                <div id="walletBalance" class="wallet-address" style="display:none"></div>
+                <button id="copyAddrBtn" class="btn btn-secondary" style="display:none"><i class="fas fa-copy"></i> Copy
+                    Address</button>
+            </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#" class="footer-link">About</a>
-                <a href="#" class="footer-link">Documentation</a>
-                <a href="#" class="footer-link">API</a>
-                <a href="#" class="footer-link">Support</a>
-                <a href="#" class="footer-link">Terms</a>
-                <a href="#" class="footer-link">Privacy</a>
-            </div>
-            <div class="social-links">
-                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-            </div>
-            <p class="copyright">&copy; 2025 SpiralCoin. All rights reserved.</p>
+        <div class="footer-links"><a href="#" class="footer-link">About</a><a href="/SPIRALCOIN_LANDING_PAGE_README.md"
+                class="footer-link">Documentation</a><a href="#trading" class="footer-link">Trading</a><a href="#"
+                class="footer-link">Support</a><a href="#" class="footer-link">Terms</a><a href="#"
+                class="footer-link">Privacy</a></div>
+        <div class="social-links"><a href="#" class="social-link"><i class="fab fa-twitter"></i></a><a href="#"
+                class="social-link"><i class="fab fa-discord"></i></a><a href="#" class="social-link"><i
+                    class="fab fa-telegram"></i></a><a href="#" class="social-link"><i class="fab fa-github"></i></a>
         </div>
+        <p class="copyright">© 2025 SpiralCoin. All rights reserved.</p>
     </footer>
 
     <script>
-        // Generate Stars
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 200; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.width = Math.random() * 3 + 1 + 'px';
-                star.style.height = star.style.width;
-                star.style.animationDelay = Math.random() * 3 + 's';
-                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                starsContainer.appendChild(star);
-            }
-        }
+        // Stars
+        function createStars() { const starsContainer = document.getElementById('stars'); for (let i = 0; i < 200; i++) { const star = document.createElement('div'); star.className = 'star'; star.style.left = Math.random() * 100 + '%'; star.style.top = Math.random() * 100 + '%'; const s = (Math.random() * 3 + 1) | 0; star.style.width = s + 'px'; star.style.height = star.style.width; star.style.animationDelay = (Math.random() * 3) + 's'; star.style.animationDuration = (Math.random() * 2 + 2) + 's'; starsContainer.appendChild(star); } }
+        // Coins
+        function createSpiralCoins() { const container = document.getElementById('coinSpiral'); const numCoins = 20; for (let i = 0; i < numCoins; i++) { const coin = document.createElement('div'); coin.className = 'spiral-coin'; const angle = (i / numCoins) * Math.PI * 2; const delay = (i / numCoins) * 4; const duration = 4 + Math.random() * 2; const endX = Math.sin(angle * 3) * 150; coin.style.setProperty('--delay', delay + 's'); coin.style.setProperty('--duration', duration + 's'); coin.style.setProperty('--end-x', endX + 'px'); coin.style.left = '50%'; coin.style.bottom = '0'; coin.style.marginLeft = '-15px'; container.appendChild(coin); } }
+        // Particles
+        function createParticles() { const container = document.getElementById('particles'); for (let i = 0; i < 30; i++) { const particle = document.createElement('div'); particle.className = 'coin-particle'; particle.style.left = (45 + Math.random() * 10) + '%'; particle.style.bottom = '100px'; particle.style.animationDelay = Math.random() * 3 + 's'; container.appendChild(particle); } }
 
-        // Generate Spiraling Coins from Mine
-        function createSpiralCoins() {
-            const container = document.getElementById('coinSpiral');
-            const numCoins = 20;
-
-            for (let i = 0; i < numCoins; i++) {
-                const coin = document.createElement('div');
-                coin.className = 'spiral-coin';
-                
-                const angle = (i / numCoins) * Math.PI * 2;
-                const delay = (i / numCoins) * 4;
-                const duration = 4 + Math.random() * 2;
-                const endX = Math.sin(angle * 3) * 150;
-                
-                coin.style.setProperty('--delay', delay + 's');
-                coin.style.setProperty('--duration', duration + 's');
-                coin.style.setProperty('--end-x', endX + 'px');
-                coin.style.left = '50%';
-                coin.style.bottom = '0';
-                coin.style.marginLeft = '-15px';
-                
-                container.appendChild(coin);
-            }
-        }
-
-        // Generate Particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'coin-particle';
-                particle.style.left = (45 + Math.random() * 10) + '%';
-                particle.style.bottom = '100px';
-                particle.style.animationDelay = Math.random() * 3 + 's';
-                container.appendChild(particle);
-            }
-        }
-
-        // Mobile Menu Toggle
-        document.getElementById('hamburger').addEventListener('click', function() {
-            document.getElementById('navLinks').classList.toggle('active');
+        // Mobile menu
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('hamburger').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('active'));
+            document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); if (t) { t.scrollIntoView({ behavior: 'smooth' }); } }));
         });
 
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
+        // Wallet connect
+        async function connectWallet() {
+            const btn = document.getElementById('connectWalletBtn');
+            try {
+                if (window.ethereum) {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const address = accounts[0];
+                    btn.textContent = address.slice(0, 6) + '...' + address.slice(-4);
+                    btn.disabled = true;
+                } else {
+                    // Mobile deep link to MetaMask
+                    const dapp = encodeURIComponent(window.location.origin);
+                    window.location.href = 'https://metamask.app.link/dapp/' + dapp;
                 }
-            });
+            } catch (err) { console.error('Wallet connect error', err); alert('Wallet connection failed: ' + (err?.message || err)); }
+        }
+
+        // Chain status
+        async function loadStatus() {
+            try {
+                const res = await fetch('/api/status');
+                const data = await res.json();
+                const toGwei = (wei) => (wei / 1e9).toFixed(2);
+                document.getElementById('statBlock').textContent = (data.blockNumber ?? '—');
+                document.getElementById('statPeers').textContent = (data.peerCount ?? 0);
+                document.getElementById('statGas').textContent = data.gasPriceWei ? toGwei(data.gasPriceWei) : '—';
+                document.getElementById('statRpc').textContent = data.error ? 'Offline' : 'Online';
+            } catch (err) { console.error(err); document.getElementById('statRpc').textContent = 'Offline'; }
+        }
+
+        // Live price from backend
+        async function loadPrice() {
+            try {
+                const res = await fetch('/api/market/price');
+                const data = await res.json();
+                const price = data?.price ?? 0;
+                document.getElementById('currentPrice').textContent = '$' + Number(price).toFixed(4);
+                document.getElementById('priceChange').textContent = '24h: +5.23%';
+            } catch { document.getElementById('currentPrice').textContent = '$—'; document.getElementById('priceChange').textContent = '—'; }
+        }
+
+        // Buttons
+        document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
+        async function createWallet() {
+            try {
+                const res = await fetch('/api/wallet/create', { method: 'POST' });
+                const data = await res.json();
+                const addr = data.address;
+                localStorage.setItem('spiral_wallet', addr);
+                const info = document.getElementById('walletInfo');
+                info.style.display = 'block';
+                info.textContent = 'Wallet: ' + addr;
+                document.getElementById('copyAddrBtn').style.display = 'inline-block';
+                const balRes = await fetch('/api/wallet/balance/' + addr);
+                const balData = await balRes.json();
+                const balEl = document.getElementById('walletBalance');
+                balEl.style.display = 'block';
+                balEl.textContent = 'Balance: ' + (balData.balance ?? 0);
+            } catch (err) { alert('Wallet creation failed'); }
+        }
+        document.getElementById('createWalletBtn').addEventListener('click', createWallet);
+        document.getElementById('copyAddrBtn').addEventListener('click', async () => {
+            const text = (document.getElementById('walletInfo').textContent || '').replace('Wallet: ', '').trim();
+            try { await navigator.clipboard.writeText(text); alert('Address copied'); } catch { alert('Copy failed'); }
+        });
+        document.getElementById('startTradingBtn').addEventListener('click', () => {
+            const t = document.querySelector('#trading'); if (t) { t.scrollIntoView({ behavior: 'smooth' }); }
         });
 
-        // Initialize
-        createStars();
-        createSpiralCoins();
-        createParticles();
+        // Init
+        createStars(); createSpiralCoins(); createParticles(); loadStatus(); loadPrice();
+        setInterval(loadStatus, 5000);
     </script>
 </body>
+
 </html>
