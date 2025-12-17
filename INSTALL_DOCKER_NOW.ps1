@@ -23,18 +23,18 @@ if ($dockerExists) {
     Write-Host ""
     Write-Host "[INFO] Docker is ready! Starting SpiralCoin build..." -ForegroundColor Green
     Write-Host ""
-    
+
     # Change to project directory
     cd "c:\Users\Trisha Dreyer\Documents\GitHub\spiralcoin.worktrees\copilot\implement-feature"
-    
+
     # Run Docker build
     Write-Host "[BUILD] Building SpiralCoin Docker image..." -ForegroundColor Cyan
     docker build -f Dockerfile.dev -t spiralcoin:latest .
-    
+
     Write-Host ""
     Write-Host "[RUN] Starting SpiralCoin daemon..." -ForegroundColor Cyan
     docker run -p 8545:8545 -v ./data:/app/data spiralcoin:latest
-    
+
     Write-Host ""
     Write-Host "✅ SpiralCoin is running on port 8545!" -ForegroundColor Green
 }
