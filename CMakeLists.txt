@@ -5,6 +5,22 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# Auto-detect MinGW make program
+if(NOT CMAKE_MAKE_PROGRAM)
+  if(MINGW OR CMAKE_CXX_COMPILER MATCHES "mingw")
+    find_program(CMAKE_MAKE_PROGRAM mingw32-make REQUIRED)
+    message(STATUS "Found MinGW make: ${CMAKE_MAKE_PROGRAM}")
+  endif()
+endif()
+
+# Windows SDK version for httplib compatibility
+if(WIN32)
+    add_definitions(-D_WIN32_WINNT=0x0A00)
+    if(MSVC)
+        string(APPEND CMAKE_CXX_FLAGS_RELEASE " /MT")
+    endif()
+endif()
+
 # Windows SDK version for httplib compatibility
 if(WIN32)
     add_compile_definitions(_WIN32_WINNT=0x0A00)
