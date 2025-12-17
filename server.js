@@ -62,9 +62,9 @@ app.get("/", (req, res) => {
     }
 });
 
-// Serve trading platform page from project root
+// Serve trading platform page from public to ensure availability in all deployments
 app.get('/trading_platform.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'trading_platform.html'));
+    res.sendFile(path.join(__dirname, 'public', 'trading_platform.html'));
 });
 
 // Helpful aliases to reach the trading UI
@@ -77,7 +77,7 @@ app.get('/health', (_req, res) => {
 });
 
 // Basic project info for exchanges and integrations
-app.get('/api/info', async (_req, res) => {
+app.get('/api/info', async (req, res) => {
     try {
         // Derive current status for inclusion
         let chainId = "0x0";
@@ -87,11 +87,12 @@ app.get('/api/info', async (_req, res) => {
             chainId = s.chainId || chainId;
             blockNumber = (typeof s.blockNumber !== 'undefined') ? s.blockNumber : blockNumber;
         } catch {}
+        const publicRpc = `${req.protocol}://${req.get('host')}/api/rpc`;
         res.json({
             name: NAME,
             symbol: SYMBOL,
             chainId,
-            rpcUrl: RPC_URL,
+            rpcUrl: publicRpc,
             endpoints: {
                 health: '/health',
                 status: '/api/status',
@@ -101,7 +102,7 @@ app.get('/api/info', async (_req, res) => {
             }
         });
     } catch (err) {
-        res.status(200).json({ name: NAME, symbol: SYMBOL, rpcUrl: RPC_URL, error: err.message });
+        res.status(200).json({ name: NAME, symbol: SYMBOL, rpcUrl: '/api/rpc', error: err.message });
     }
 });
 
@@ -203,11 +204,11 @@ app.get("/api/status", async (_req, res) => {
             // peerCount fallback remains 0
         }
 
-        res.json({ rpcUrl: RPC_URL, chainId, blockNumber, gasPriceWei, peerCount });
+        res.json({ rpcUrl: '/api/rpc', chainId, blockNumber, gasPriceWei, peerCount });
     } catch (err) {
         console.error("/api/status error:", err);
         res.status(200).json({
-            rpcUrl: RPC_URL,
+            rpcUrl: '/api/rpc',
             error: err.message,
             chainLengthFallback: chain.length,
             pendingTxFallback: pendingTransactions.length
@@ -216,7 +217,7 @@ app.get("/api/status", async (_req, res) => {
 });
 
 // Exchange-friendly aggregate info combining /api/info and /api/status
-app.get('/api/exchange/info', async (_req, res) => {
+app.get('/api/exchange/info', async (req, res) => {
     try {
         const [infoResp, statusResp] = await Promise.all([
             (async () => {
@@ -226,10 +227,11 @@ app.get('/api/exchange/info', async (_req, res) => {
                 try { return await (await fetch(`http://127.0.0.1:${PORT}/api/status`)).json(); } catch { return {}; }
             })()
         ]);
+        const publicRpc = `${req.protocol}://${req.get('host')}/api/rpc`;
         res.json({
             name: infoResp.name || NAME,
             symbol: infoResp.symbol || SYMBOL,
-            rpcUrl: infoResp.rpcUrl || RPC_URL,
+            rpcUrl: publicRpc,
             chainId: statusResp.chainId || '0x0',
             blockNumber: statusResp.blockNumber ?? statusResp.chainLengthFallback ?? 0,
             peerCount: statusResp.peerCount ?? 0,
@@ -239,7 +241,7 @@ app.get('/api/exchange/info', async (_req, res) => {
             error: statusResp.error
         });
     } catch (err) {
-        res.status(200).json({ name: NAME, symbol: SYMBOL, rpcUrl: RPC_URL, error: err.message });
+        res.status(200).json({ name: NAME, symbol: SYMBOL, rpcUrl: '/api/rpc', error: err.message });
     }
 });
 

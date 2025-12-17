@@ -6,8 +6,8 @@ This guide summarizes endpoints and steps to prepare for exchange listing.
 
 - **Name:** SpiralCoin
 - **Symbol:** SPRC
-- **RPC URL:** Configurable via `.env` (`RPC_URL`), default `http://127.0.0.1:5000/api/rpc` (backend proxy to daemon)
-- **Status Dashboard:** `/status.html`
+- **RPC URL (public):** Use `/api/rpc` over HTTPS (e.g., `https://spiralcoin.net/api/rpc`). Internally, the backend forwards to the configured upstream `RPC_URL`.
+- **Status Dashboard:** Homepage shows live status at `/` (see Network Status section)
 - **Exchange Info Page:** `/exchange` or `/listing`
 
 ## Public API Endpoints
