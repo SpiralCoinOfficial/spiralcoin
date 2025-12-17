@@ -38,6 +38,15 @@ if(NOT nlohmann_json_FOUND)
     message(STATUS "nlohmann_json package not found, using header-only assumption")
 endif()
 
+# Find system OpenSSL (for httplib)
+find_package(OpenSSL)
+if(OPENSSL_FOUND)
+    message(STATUS "OpenSSL found: ${OPENSSL_INCLUDE_DIR}")
+    include_directories(${OPENSSL_INCLUDE_DIR})
+else()
+    message(WARNING "OpenSSL not found, attempting to locate manually")
+endif()
+
 # Library directories
 link_directories(
     /usr/local/lib
@@ -76,10 +85,13 @@ endif()
 # Link everything
 target_link_libraries(${EXECUTABLE_NAME}
     ${OPTIONAL_LIBS}
-    OpenSSL::SSL
-    OpenSSL::Crypto
     ${EVMC_LIBS}
 )
+
+# Link OpenSSL if found
+if(OPENSSL_FOUND)
+    target_link_libraries(${EXECUTABLE_NAME} OpenSSL::SSL OpenSSL::Crypto)
+endif()
 
 # Windows-specific libraries
 if (WIN32)
