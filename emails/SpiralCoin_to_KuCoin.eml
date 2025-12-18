@@ -1,0 +1,68 @@
+﻿To: listings@kucoin.com
+From: Matthew Ian Dreyer <mattdreyer356@gmail.com>
+Subject: SpiralCoin (SPRC) Listing Application
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="----=_Part_895d69a9c3494de5b6cc069b723eecc8"
+
+------=_Part_895d69a9c3494de5b6cc069b723eecc8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+Dear KuCoin Team,
+
+We'd like to apply for listing SpiralCoin (SPRC). Key technical links:
+- Public RPC: https://spiralcoin.net/api/rpc
+- Status: https://spiralcoin.net/api/status
+- Supply Proof: https://spiralcoin.net/api/wallet/verify-supply
+- Submission Pack: https://spiralcoin.net/EXCHANGE_SUBMISSION_PACK.md
+
+Please share your required forms for evaluation.
+
+Best,
+Matthew Ian Dreyer
+Founder, Developer, Owner - SpiralCoin (SPRC)
+Email: mattdreyer356@gmail.com
+
+------=_Part_895d69a9c3494de5b6cc069b723eecc8
+Content-Type: application/json; name="health.json"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="health.json"
+
+77u/ew0KICAgICJzdGF0dXMiOiAgImhlYWx0aHkiLA0KICAgICJ0cyI6ICAiMjAyNS0xMi0xOFQwMjoxNzowMi4wNDVaIg0KfQ0K
+
+------=_Part_895d69a9c3494de5b6cc069b723eecc8
+Content-Type: application/json; name="status.json"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="status.json"
+
+77u/ew0KICAgICJycGNVcmwiOiAgIi9hcGkvcnBjIiwNCiAgICAiY2hhaW5JZCI6ICAiMHgwIiwNCiAgICAiYmxvY2tOdW1iZXIiOiAgMCwNCiAgICAiZ2FzUHJpY2VXZWkiOiAgMCwNCiAgICAicGVlckNvdW50IjogIDANCn0NCg==
+
+------=_Part_895d69a9c3494de5b6cc069b723eecc8
+Content-Type: application/json; name="exchange_info.json"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="exchange_info.json"
+
+77u/ew0KICAgICJuYW1lIjogICJTcGlyYWxDb2luIiwNCiAgICAic3ltYm9sIjogICJTUFJDIiwNCiAgICAicnBjVXJsIjogICJodHRwOi8vc3BpcmFsY29pbi5uZXQvYXBpL3JwYyIsDQogICAgImNoYWluSWQiOiAgIjB4MCIsDQogICAgImJsb2NrTnVtYmVyIjogIDAsDQogICAgInBlZXJDb3VudCI6ICAwLA0KICAgICJlbmRwb2ludHMiOiAgew0KICAgICAgICAgICAgICAgICAgICAgICJoZWFsdGgiOiAgIi9oZWFsdGgiLA0KICAgICAgICAgICAgICAgICAgICAgICJzdGF0dXMiOiAgIi9hcGkvc3RhdHVzIiwNCiAgICAgICAgICAgICAgICAgICAgICAicnBjUHJveHkiOiAgIi9hcGkvcnBjIiwNCiAgICAgICAgICAgICAgICAgICAgICAibWFya2V0UHJpY2UiOiAgIi9hcGkvbWFya2V0L3ByaWNlIiwNCiAgICAgICAgICAgICAgICAgICAgICAid2FsbGV0IjogICIvYXBpL3dhbGxldCINCiAgICAgICAgICAgICAgICAgIH0NCn0NCg==
+
+------=_Part_895d69a9c3494de5b6cc069b723eecc8
+Content-Type: application/json; name="market_price.json"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="market_price.json"
+
+77u/ew0KICAgICJwcmljZSI6ICAwLjA1DQp9DQo=
+
+------=_Part_895d69a9c3494de5b6cc069b723eecc8
+Content-Type: application/json; name="verify_supply.json"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="verify_supply.json"
+
+77u/ew0KICAgICJvayI6ICB0cnVlLA0KICAgICJleHBlY3RlZE1pbiI6ICAyMjAwMDAwMDAwMDAwMCwNCiAgICAidG90YWwiOiAgMjIwMDAwMDAwMzAwMDAsDQogICAgImFkZHJlc3NlcyI6ICBbDQogICAgICAgICAgICAgICAgICAgICAgew0KICAgICAgICAgICAgICAgICAgICAgICAgICAiYWRkcmVzcyI6ICAiMHg5MjgwNzJiM0EzQTQyZTdkRkQ1NzdhOTExNjdEZkFhMDhmMEU2NTNFIiwNCiAgICAgICAgICAgICAgICAgICAgICAgICAgImJhbGFuY2UiOiAgMzAwMDANCiAgICAgICAgICAgICAgICAgICAgICB9LA0KICAgICAgICAgICAgICAgICAgICAgIHsNCiAgICAgICAgICAgICAgICAgICAgICAgICAgImFkZHJlc3MiOiAgIjB4U1BSQzExMTExMTExMTExMTExMTExMTExMTExMTExMTFTdXBwbHlWYXVsdCIsDQogICAgICAgICAgICAgICAgICAgICAgICAgICJiYWxhbmNlIjogIDIyMDAwMDAwMDAwMDAwDQogICAgICAgICAgICAgICAgICAgICAgfQ0KICAgICAgICAgICAgICAgICAgXQ0KfQ0K
+
+------=_Part_895d69a9c3494de5b6cc069b723eecc8
+Content-Type: application/json; name="rpc_blockcount.json"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="rpc_blockcount.json"
+
+77u/ew0KICAgICJyZXN1bHQiOiAgMTI2ODUxDQp9DQo=
+------=_Part_895d69a9c3494de5b6cc069b723eecc8--
+
