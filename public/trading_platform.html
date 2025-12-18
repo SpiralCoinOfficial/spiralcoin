@@ -727,10 +727,31 @@
             if (amountInput) amountInput.addEventListener('input', updateTotal);
             if (priceInput) priceInput.addEventListener('input', updateTotal);
             if (orderForm) {
-                orderForm.addEventListener('submit', (e) => {
-                    e.preventDefault(); // prevent page reload for demo
+                orderForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
                     updateTotal();
-                    alert('Order submitted (demo).');
+                    const tabs = document.querySelectorAll('.trading-tabs .tab-btn');
+                    const side = tabs[0].classList.contains('active') ? 'BUY' : 'SELL';
+                    const symbolSel = document.querySelector('.pair-selector select');
+                    const symbol = (symbolSel?.value || 'SPRC/USD').replace('USDT', 'USD');
+                    const qty = parseFloat(amountInput?.value) || 0;
+                    const statusEl = document.querySelector('.order-summary .summary-row:last-child span:last-child');
+                    try {
+                        const resp = await fetch('/api/trade/order', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ symbol, side, quantity: qty })
+                        });
+                        const data = await resp.json();
+                        if (data.ok && data.order) {
+                            if (statusEl) statusEl.textContent = `${data.order.quantity.toFixed(4)} ${data.order.symbol.split('/')[0]}`;
+                            alert(`Order ${data.order.id} ${data.order.side} ${data.order.quantity} ${data.order.symbol} FILLED`);
+                        } else {
+                            alert(data.error || 'Order failed');
+                        }
+                    } catch (err) {
+                        alert(err.message || 'Network error');
+                    }
                 });
             }
 
@@ -846,6 +867,31 @@
                     pollTimer = startPolling();
                 }
             }
+
+            // Recent orders panel (paper trading)
+            const recentContainer = document.querySelector('.trades-panel .recent-trades');
+            async function refreshOrders() {
+                if (!recentContainer) return;
+                try {
+                    const resp = await fetch('/api/trade/orders', { cache: 'no-store' });
+                    const data = await resp.json();
+                    const orders = Array.isArray(data.orders) ? data.orders : [];
+                    const html = orders.slice(0, 20).map(o => {
+                        const side = (o.side || '').toUpperCase();
+                        const cls = side === 'BUY' ? 'trade-price' : '';
+                        const price = Number(o.price || 0) || (Number.isFinite(lastPrice) ? lastPrice : 0);
+                        const qty = Number(o.quantity || 0).toFixed(2);
+                        const sym = o.symbol || 'SPRC/USD';
+                        const t = new Date(o.ts || Date.now()).toLocaleTimeString();
+                        return `<div class="trade-item"><span>${sym}</span><span>${qty}</span><span class="${cls}">${side || 'FILLED'} @ ${price}</span><span>${t}</span></div>`;
+                    }).join('');
+                    recentContainer.innerHTML = html || '<div class="trade-item"><span>No orders yet</span></div>';
+                } catch {
+                    // ignore network errors
+                }
+            }
+            refreshOrders();
+            setInterval(refreshOrders, 3000);
         });
     </script>
 </body>

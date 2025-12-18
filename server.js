@@ -14,6 +14,7 @@ import { blockchainRouter } from "./routes/blockchain.js";
 import { marketRouter } from "./routes/market.js";
 import { miningRouter } from "./routes/mining.js";
 import { statsRouter } from "./routes/stats.js";
+import { tradeRouter } from "./routes/trade.js";
 import { userRouter } from "./routes/user.js";
 import { walletRouter } from "./routes/wallet.js";
 
@@ -121,6 +122,7 @@ app.get('/api/info', async (req, res) => {
 
 // Routes
 app.use("/api/market", marketRouter);
+app.use("/api/trade", tradeRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/blockchain", blockchainRouter);

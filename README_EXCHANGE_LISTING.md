@@ -19,14 +19,18 @@ This guide summarizes endpoints and steps to prepare for exchange listing.
 - **Market Stream (SSE):** `/api/market/stream` — Server-Sent Events stream with `Content-Type: text/event-stream`; ~20 Hz updates; auto reconnect-friendly
 - **Wallet:** `/api/wallet/...` — wallet operations
 - **Aggregate Info:** `/api/exchange/info` — combines info and status into a single payload
- - **Auth:** `/api/auth/register`, `/api/auth/login` — JWT-based authentication
- - **User:** `/api/user/me`, `/api/user/wallet/my`, `/api/user/wallet/new` — JWT-protected user profile and wallet management
+- **Auth:** `/api/auth/register`, `/api/auth/login` — JWT-based authentication
+- **User:** `/api/user/me`, `/api/user/wallet/my`, `/api/user/wallet/new` — JWT-protected user profile and wallet management
+- **Trading (paper):**
+  - `/api/trade/markets` — list of supported market pairs
+  - `/api/trade/order` — place a paper order `{ symbol, side, quantity, price?, type? }`; returns `{ ok, order }`
+  - `/api/trade/orders` — recent paper orders `{ orders: [...] }`
 
 ## Deployment
 
 - **Local:** Use `START_LOCAL_STACK.ps1` task to start backend and (optionally) daemon
 - **Docker Compose:** Run `DEPLOY_ALL_PROD.ps1` to build and start daemon, backend, marketfeed, and nginx
-- **Remote SSL:** Run `REMOTE_SSL_SETUP.ps1` after DNS is configured to set up HTTPS via Let’s Encrypt
+- **Remote SSL:** Run `REMOTE_SSL_SETUP.ps1` after DNS is configured to set up HTTPS via Let’s Encrypt; certs are copied to `./ssl` and Nginx (compose) listens on 443
 
 ## Verification
 
@@ -36,6 +40,12 @@ This guide summarizes endpoints and steps to prepare for exchange listing.
   - `/api/market/price`
   - RPC `/api/rpc` with `getblockcount`
   - Supply verification at `/api/wallet/verify-supply` (expects ≥ 22,000,000,000,000 SPRC total across primary + vault)
+
+### HTTPS & Nginx
+
+- **Ports:** Nginx publishes `8080:80` (HTTP redirect) and `443:443` (HTTPS)
+- **Cert Paths:** `ssl/fullchain.pem`, `ssl/privkey.pem` mounted to `/etc/nginx/ssl/` in the container
+- **Redirect:** All HTTP traffic is redirected to HTTPS
 
 ### Supply & Vault
 
@@ -60,6 +70,24 @@ curl -s https://spiralcoin.net/api/wallet/verify-supply | jq
 
 # Custom addresses and threshold
 curl -s "https://spiralcoin.net/api/wallet/verify-supply?addresses=0x928072b3A3A42e7dFD577a91167DfAa08f0E653E,0xSPRC1111111111111111111111111111SupplyVault&min=22000000000000" | jq
+```
+
+Example paper order:
+
+```bash
+curl -s https://spiralcoin.net/api/trade/order \
+  -H "Content-Type: application/json" \
+  -d '{
+    "symbol": "SPRC/USD",
+    "side": "BUY",
+    "quantity": 1000
+  }' | jq
+```
+
+Example recent orders:
+
+```bash
+curl -s https://spiralcoin.net/api/trade/orders | jq
 ```
 
 If needed, the daemon supports one-time seeding via `data/wallets.override.json` (applied on startup and then renamed) to initialize balances, including the vault allocation.
@@ -87,6 +115,7 @@ es.onerror = () => {
 ## Next Steps for Exchanges
 
 - Provide this document and the `/exchange` page link
+- See also: `EXCHANGE_SUBMISSION_PACK.md` for a compact submission-ready summary
 - Confirm RPC availability, peer count, and latest block are incrementing
 - Share market feed details for price source if required
 - Ensure branding, logo, and homepage are ready

@@ -57,6 +57,7 @@ services:
     container_name: spiralcoin-nginx
     ports:
       - "8080:80"
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./public:/usr/share/nginx/html:ro
