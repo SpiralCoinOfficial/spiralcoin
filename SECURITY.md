@@ -2,20 +2,20 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+- Active development branch: security fixes are accepted.
+- Release artifacts: report issues against the latest release.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+- Email: [security@spiralcoin.net](mailto:security@spiralcoin.net) (preferred) or open a private security advisory in GitHub.
+- Please include reproduction steps, affected versions, and impact.
+- We aim to acknowledge within 72 hours and provide updates as triage proceeds.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+## Scope
+
+- Daemon, RPC, backend services, Docker images, and deployment scripts.
+- Excludes third-party dependencies except for integration concerns.
+
+## Disclosure
+
+- We follow coordinated disclosure. Fixes are prepared privately and disclosed once mitigations are available.
