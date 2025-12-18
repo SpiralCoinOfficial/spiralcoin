@@ -14,7 +14,7 @@ function SaveJson {
     Set-Content -Path (Join-Path $OutDir $Path) -Value $json -Encoding UTF8
     Write-Host "[OK] Saved $Path" -ForegroundColor Green
   } catch {
-    Write-Host "[ERR] Failed to save $Path: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "[ERR] Failed to save ${Path}: $($_.Exception.Message)" -ForegroundColor Red
   }
 }
 
@@ -44,5 +44,5 @@ try {
 $markets = TryGet "$BaseUrl/api/trade/markets"; if ($markets) { SaveJson "trade_markets.json" $markets }
 $orders  = TryGet "$BaseUrl/api/trade/orders"; if ($orders) { SaveJson "trade_orders.json" $orders }
 
-Write-Host "Done. Files in $OutDir:" -ForegroundColor Cyan
+Write-Host "Done. Files in ${OutDir}:" -ForegroundColor Cyan
 Get-ChildItem -Path $OutDir | Select-Object -ExpandProperty Name

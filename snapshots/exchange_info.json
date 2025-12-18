@@ -1,0 +1,15 @@
+﻿{
+    "name":  "SpiralCoin",
+    "symbol":  "SPRC",
+    "rpcUrl":  "http://spiralcoin.net/api/rpc",
+    "chainId":  "0x0",
+    "blockNumber":  0,
+    "peerCount":  0,
+    "endpoints":  {
+                      "health":  "/health",
+                      "status":  "/api/status",
+                      "rpcProxy":  "/api/rpc",
+                      "marketPrice":  "/api/market/price",
+                      "wallet":  "/api/wallet"
+                  }
+}
