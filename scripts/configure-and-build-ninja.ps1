@@ -29,10 +29,10 @@ if (Test-Path $buildDir) { Remove-Item -Recurse -Force $buildDir }
 New-Item -ItemType Directory -Force -Path $buildDir | Out-Null
 
 # Configure
-& cmake -S . -B $buildDir -G "Ninja" -DCMAKE_MAKE_PROGRAM="$ninjaExe" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+& cmake -S . -B $buildDir -G "Ninja" -DCMAKE_MAKE_PROGRAM="$ninjaExe" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_FLAGS="-O1" -DCMAKE_CXX_FLAGS="-O1"
 
 # Build
-& cmake --build $buildDir
+& cmake --build $buildDir -- -j1
 
 # Verify output
 $out = Join-Path $buildDir "spiralcoind.exe"
