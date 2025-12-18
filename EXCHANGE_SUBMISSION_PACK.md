@@ -50,6 +50,7 @@ This document provides the essential information for listing SpiralCoin (SPRC) o
 - **Docker Compose:** Services for daemon, backend, marketfeed, nginx
 
 ## Contacts
+- **Founder, Developer, Owner:** Matthew Ian Dreyer — Cincinnati, Ohio — mattdreyer356@gmail.com
 - **Technical:** support@spiralcoin.net
 - **Listing:** listing@spiralcoin.net
 

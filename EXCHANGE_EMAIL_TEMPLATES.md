@@ -22,13 +22,16 @@ We would like to submit SpiralCoin (SPRC) for listing consideration.
 We are prepared to complete any technical integration steps or compliance requirements.
 
 Contacts:
+- Founder, Developer, Owner: Matthew Ian Dreyer — Cincinnati, Ohio — mattdreyer356@gmail.com
 - Technical: support@spiralcoin.net
 - Listing: listing@spiralcoin.net
 
 Thank you for your consideration.
 
 Best regards,
-[Your Name]
+Matthew Ian Dreyer
+Founder, Developer, Owner — SpiralCoin (SPRC)
+Email: mattdreyer356@gmail.com
 
 ---
 
@@ -47,7 +50,9 @@ We’re seeking listing for SpiralCoin (SPRC). Technical and endpoint details ar
 Please let us know the next steps and any due diligence or documentation needed.
 
 Regards,
-[Your Name]
+Matthew Ian Dreyer
+Founder, Developer, Owner — SpiralCoin (SPRC)
+Email: mattdreyer356@gmail.com
 
 ---
 
@@ -66,7 +71,9 @@ We’d like to request a listing review for SpiralCoin (SPRC). Details:
 We are ready to provide additional documentation or complete any technical validation.
 
 Sincerely,
-[Your Name]
+Matthew Ian Dreyer
+Founder, Developer, Owner — SpiralCoin (SPRC)
+Email: mattdreyer356@gmail.com
 
 ---
 
@@ -84,4 +91,6 @@ We’d like to apply for listing SpiralCoin (SPRC). Key technical links:
 Please share your required forms for evaluation.
 
 Best,
-[Your Name]
+Matthew Ian Dreyer
+Founder, Developer, Owner — SpiralCoin (SPRC)
+Email: mattdreyer356@gmail.com
