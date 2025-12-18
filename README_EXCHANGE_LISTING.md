@@ -55,7 +55,7 @@ This guide summarizes endpoints and steps to prepare for exchange listing.
   - `/api/status`
   - `/api/market/price`
   - RPC `/api/rpc` with `getblockcount`
-  - Supply verification at `/api/wallet/verify-supply` (expects ≥ 22,000,000,000,000 SPRC total across primary + vault)
+  - Supply verification at `/api/wallet/verify-supply` (expects >= 22,000,000,000,000 SPRC total across primary + vault)
 
 ### Submission Snapshot
 
@@ -69,7 +69,7 @@ This guide summarizes endpoints and steps to prepare for exchange listing.
 - **Ports:** Nginx publishes `8080:80` (HTTP redirect) and `443:443` (HTTPS)
 - **Cert Paths:** `ssl/fullchain.pem`, `ssl/privkey.pem` mounted to `/etc/nginx/ssl/` in the container
 - **Redirect:** All HTTP traffic is redirected to HTTPS
- - **Host vs Container:** In production, prefer host-managed Nginx on 443. Use the compose `web` profile only when containerizing Nginx.
+- **Host vs Container:** In production, prefer host-managed Nginx on 443. Use the compose `web` profile only when containerizing Nginx.
 
 ### Supply & Vault
 
@@ -129,7 +129,7 @@ Example SSE stream consumption:
 const es = new EventSource('https://spiralcoin.net/api/market/stream');
 es.onmessage = (e) => {
   const data = JSON.parse(e.data);
-  // { price, ts } — update chart/UI here
+  // { price, ts } - update chart/UI here
 };
 es.onerror = () => {
   // network hiccup: EventSource auto-reconnects
