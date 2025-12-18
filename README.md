@@ -2,6 +2,14 @@
 
 A complete cryptocurrency implementation featuring a C++ blockchain daemon with EVM integration, Node.js API server, real-time market data feeds, and a web dashboard.
 
+## Windows Build & Run (Ninja)
+
+- Fix CMake system module (one-time): run `scripts/fix-cmake-system.ps1` (elevates automatically)
+- Build with Ninja: run `scripts/configure-and-build-ninja.ps1` (uses `-O1` and single-threaded `-j1`)
+- Run daemon: `build-ninja/spiralcoind.exe --help`
+
+If Ninja is not found after install, restart the terminal or provide its path via `CMAKE_MAKE_PROGRAM`.
+
 ## Features
 
 - **Full Blockchain Node**: C++ daemon with EVM compatibility
