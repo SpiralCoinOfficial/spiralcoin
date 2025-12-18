@@ -37,7 +37,7 @@ if (-not (Test-Command 'docker')) {
 }
 
 # MSYS2 and MinGW toolchain
-if (-not (Test-Command 'g++')) {
+if (-not (Test-Command 'g++') -or -not (Test-Command 'mingw32-make')) {
   Install-WithWinget -Id 'MSYS2.MSYS2'
   $msysBash = 'C:\msys64\usr\bin\bash.exe'
   if (Test-Path $msysBash) {
@@ -56,7 +56,7 @@ if (-not (Test-Command 'g++')) {
     Write-Host "[WARN] MSYS2 not found at C:\\msys64 after winget install. Please restart shell or verify installation." -ForegroundColor Yellow
   }
 } else {
-  Write-Host "[INFO] MinGW g++ already available" -ForegroundColor Yellow
+  Write-Host "[INFO] MinGW g++ and make already available" -ForegroundColor Yellow
 }
 
 Write-Host "[DONE] Install prerequisites step complete" -ForegroundColor Cyan

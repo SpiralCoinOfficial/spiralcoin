@@ -101,3 +101,23 @@ For CI/CD pipelines, use the Docker option as it provides:
 - No environmental dependencies
 - Easy deployment to registries
 - Portable across platforms
+
+## Windows (Ninja) Workflow
+
+1. Install prerequisites: run `INSTALL_PREREQS.ps1` (installs CMake, MSYS2 toolchain, Ninja).
+2. Configure + build: run `scripts/configure-and-build-ninja.ps1` or use the "Configure + Build (Ninja)" task.
+3. Binary output: `build-ninja/spiralcoind.exe`.
+
+### Run & Stop
+- Run: Use the "Run SpiralCoin (script)" task which calls `scripts/run-spiralcoin.ps1`. It auto-finds the built executable and forwards any args.
+- Example manual run:
+  ```powershell
+  powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-spiralcoin.ps1 --help
+  ```
+- Stop: Use the "Stop SpiralCoin (script)" task which calls `scripts/stop-spiralcoin.ps1` to terminate any `spiralcoind.exe` processes.
+
+- Detached: Use the "Run SpiralCoin (detached)" task to start the daemon without blocking the terminal. It calls `scripts/run-spiralcoin-detached.ps1` and prints the PID.
+
+Notes:
+- The run script handles Windows path quoting and common build output locations.
+- If `--help` is ignored by the binary, it may start the daemon; use the stop task to terminate.

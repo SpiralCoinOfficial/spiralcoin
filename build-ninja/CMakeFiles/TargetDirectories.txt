@@ -1,0 +1,3 @@
+C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/build-ninja/CMakeFiles/spiralcoind.dir
+C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/build-ninja/CMakeFiles/edit_cache.dir
+C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/build-ninja/CMakeFiles/rebuild_cache.dir

@@ -3,12 +3,14 @@
 ## Quick Start
 
 ### 🐳 Docker (Recommended - Works Everywhere)
+
 ```bash
 docker build -f Dockerfile.dev -t spiralcoin:latest .
 docker run -p 8545:8545 -v $(pwd)/data:/app/data spiralcoin:latest
 ```
 
 ### 🪟 Windows (Direct Build)
+
 ```batch
 REM Option 1: Direct compilation (fastest)
 build.bat
@@ -18,6 +20,7 @@ cmake-build.bat
 ```
 
 ### 🐧 Linux/WSL2
+
 ```bash
 bash build.sh
 ```
@@ -27,6 +30,7 @@ bash build.sh
 ## Build Methods Details
 
 ### Method 1: Direct Build (Windows)
+
 **File**: `build.bat`
 **Time**: 5-15 minutes (depending on system)
 **Requirements**: MinGW g++ installed
@@ -39,6 +43,7 @@ build.bat
 ```
 
 ### Method 2: CMake with Wrappers (Windows)
+
 **File**: `cmake-build.bat`
 **Time**: 2-5 minutes
 **Requirements**: CMake, MinGW
@@ -51,12 +56,14 @@ cmake-build.bat
 ```
 
 **How it works**:
+
 - Creates compiler wrapper scripts (`gcc-wrapper.bat`, `g++-wrapper.bat`)
 - Configures CMake with `COMPILER_FORCED` to bypass detection
 - Uses Unix Makefiles generator with `mingw32-make`
 - Compiles with 4-job parallelization
 
 ### Method 3: Docker (All Platforms)
+
 **File**: `Dockerfile.dev`, `docker-compose.build.yml`
 **Time**: 5-10 minutes (first build)
 **Requirements**: Docker
@@ -72,6 +79,7 @@ docker-compose -f docker-compose.build.yml up --build
 ```
 
 ### Method 4: Linux Shell Script
+
 **File**: `build.sh`
 **Time**: 3-10 minutes
 **Requirements**: gcc, make, cmake, libssl-dev
@@ -83,6 +91,7 @@ bash build.sh
 ```
 
 ### Method 5: Manual CMake (All Platforms)
+
 ```bash
 mkdir -p build
 cd build
@@ -95,6 +104,7 @@ make -j$(nproc)
 ## Build Artifacts
 
 ### Output Binary Locations
+
 - **Windows**: `build/spiralcoind.exe`
 - **Linux**: `build/spiralcoind`
 
@@ -105,22 +115,27 @@ make -j$(nproc)
 ## Troubleshooting
 
 ### Windows CMake Issues
+
 **Problem**: "The C compiler is not able to compile a simple test program"
 
 **Solution**: Use `cmake-build.bat` instead - it includes compiler wrappers
+
 ```batch
 cmake-build.bat
 ```
 
 ### Build Timeout
+
 **Problem**: Compilation takes very long or seems to hang
 
 **Solution**: Use Docker for faster, more reliable build
+
 ```bash
 docker build -f Dockerfile.dev -t spiralcoin:latest .
 ```
 
 ### Missing Dependencies (Windows)
+
 ```batch
 REM Install MSYS2
 choco install msys2 -y
@@ -132,6 +147,7 @@ pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-make
 ```
 
 ### Missing Dependencies (Linux)
+
 ```bash
 # Ubuntu/Debian
 sudo apt-get install build-essential cmake g++ libssl-dev nlohmann-json3-dev
@@ -144,7 +160,8 @@ sudo dnf install gcc g++ cmake openssl-devel nlohmann-json-devel
 
 ## Running the Built Binary
 
-### Start the SpiralCoin daemon:
+### Start the SpiralCoin daemon
+
 ```bash
 # Windows
 build/spiralcoind.exe
@@ -153,7 +170,8 @@ build/spiralcoind.exe
 ./build/spiralcoind
 ```
 
-### Test RPC endpoint:
+### Test RPC endpoint
+
 ```bash
 curl -X POST http://localhost:8545/rpc \
   -H "Content-Type: application/json" \
@@ -161,6 +179,7 @@ curl -X POST http://localhost:8545/rpc \
 ```
 
 Expected response:
+
 ```json
 {"result": 1}
 ```
@@ -170,11 +189,13 @@ Expected response:
 ## Docker Usage
 
 ### Build
+
 ```bash
 docker build -f Dockerfile.dev -t spiralcoin:latest .
 ```
 
 ### Run
+
 ```bash
 # Foreground (for testing)
 docker run -p 8545:8545 -v ./data:/app/data spiralcoin:latest
@@ -187,11 +208,13 @@ docker-compose -f docker-compose.build.yml up -d
 ```
 
 ### View logs
+
 ```bash
 docker logs -f spiralcoin
 ```
 
 ### Stop container
+
 ```bash
 docker stop spiralcoin
 docker rm spiralcoin
@@ -213,6 +236,7 @@ docker rm spiralcoin
 ## Build Configuration
 
 ### Debug Build
+
 ```bash
 # CMake
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
@@ -222,6 +246,7 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 ```
 
 ### Release Build (Default)
+
 ```bash
 # All methods use Release configuration
 # Results in: ~3-5MB binary, optimized for performance
@@ -232,6 +257,7 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 ## CI/CD Integration
 
 ### GitHub Actions
+
 ```yaml
 jobs:
   build:
@@ -243,6 +269,7 @@ jobs:
 ```
 
 ### GitLab CI
+
 ```yaml
 build:
   image: docker:latest
@@ -256,12 +283,14 @@ build:
 ## Compiler Information
 
 ### Compiler Used
+
 - **Windows**: MinGW g++ (x86_64-w64-mingw32)
 - **Linux**: GCC/G++ (native)
 - **Docker**: GCC from Ubuntu 24.04 base image
 
 ### Compiler Flags
-```
+
+```text
 -std=c++20          # C++20 standard
 -Wall -Wextra       # All warnings
 -O3                 # Optimization level 3 (Release)
@@ -290,4 +319,4 @@ build:
 
 ---
 
-**For issues, refer to FINAL_STATUS.md or BUILD_GUIDE.md**
+For issues, refer to FINAL_STATUS.md or BUILD_GUIDE.md.
