@@ -32,6 +32,22 @@ This guide summarizes endpoints and steps to prepare for exchange listing.
 - **Docker Compose:** Run `DEPLOY_ALL_PROD.ps1` to build and start daemon, backend, marketfeed, and nginx
 - **Remote SSL:** Run `REMOTE_SSL_SETUP.ps1` after DNS is configured to set up HTTPS via Let’s Encrypt; certs are copied to `./ssl` and Nginx (compose) listens on 443
 
+### Production Routing (Recommended)
+
+- **Host Nginx:** Use the host-managed Nginx to serve HTTPS on 443 (already enabled via Certbot). This avoids port conflicts and simplifies SSL renewal.
+- **Compose Nginx (optional):** A compose-managed Nginx is available under the `web` profile. Only enable it when you intend to run Nginx inside Docker.
+  - Start without container Nginx:
+    - `docker compose -f compose.yaml up -d`
+  - Start with container Nginx:
+    - `docker compose -f compose.yaml --profile web up -d`
+
+### Production Modes
+
+- **Default (Host Nginx):** Recommended for production. Host-managed Nginx serves 443 with Certbot-managed certs. Run compose without the `web` profile so the container Nginx is not started.
+  - Example: `docker compose -f compose.yaml up -d`
+- **Optional (Container Nginx):** If you prefer containerizing Nginx, disable host Nginx and run compose with the `web` profile to publish 443 from the container. Ensure certs exist in `./ssl`.
+  - Example: `docker compose -f compose.yaml --profile web up -d`
+
 ## Verification
 
 - Run `VERIFY_LOCAL.ps1` to check:
@@ -46,6 +62,7 @@ This guide summarizes endpoints and steps to prepare for exchange listing.
 - **Ports:** Nginx publishes `8080:80` (HTTP redirect) and `443:443` (HTTPS)
 - **Cert Paths:** `ssl/fullchain.pem`, `ssl/privkey.pem` mounted to `/etc/nginx/ssl/` in the container
 - **Redirect:** All HTTP traffic is redirected to HTTPS
+ - **Host vs Container:** In production, prefer host-managed Nginx on 443. Use the compose `web` profile only when containerizing Nginx.
 
 ### Supply & Vault
 
