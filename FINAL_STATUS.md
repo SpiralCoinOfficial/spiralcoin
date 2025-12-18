@@ -82,7 +82,6 @@ bash build.sh
 
 ### 4. **CMake (Multi-platform)**
 
-
 ```bash
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cd build && make
@@ -91,7 +90,6 @@ cd build && make
 **Pros**: Industry standard, flexible configuration
 
 ---
-
 
 ## 🔒 Security Implementation
 
@@ -107,7 +105,6 @@ cd build && make
 ---
 
 ## 📊 Project Statistics
-
 
 - **Total Lines of Code**: ~2,400 (source files)
 - **Header Files**: 3
