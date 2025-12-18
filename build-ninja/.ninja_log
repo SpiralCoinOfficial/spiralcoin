@@ -1,6 +1,0 @@
-# ninja log v7
-47	11976	7877336844120263	CMakeFiles/spiralcoind.dir/src/dqve_calculator.cpp.obj	a30bdb2b2f70c183
-11989	14787	7877336963945114	CMakeFiles/spiralcoind.dir/src/evm_integration.cpp.obj	1553f7f6ca17dc30
-14795	79738	7877336991632088	CMakeFiles/spiralcoind.dir/src/main.cpp.obj	a51499e82eab6500
-79751	101031	7877337641247224	CMakeFiles/spiralcoind.dir/src/state_db_impl.cpp.obj	356ee5643f4e135b
-101033	103318	7877337854092358	spiralcoind.exe	2729eba1f81acf6d
