@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# FetchContent for header-only deps
+include(FetchContent)
+
 # Auto-detect MinGW make program
 if(NOT CMAKE_MAKE_PROGRAM)
   if(MINGW OR CMAKE_CXX_COMPILER MATCHES "mingw")
@@ -48,20 +51,24 @@ include_directories(
     C:/msys64/mingw64/include
 )
 
-# Try to find nlohmann_json package, fall back to include path if not found
+# Try to find nlohmann_json; if not found, fetch it
 find_package(nlohmann_json QUIET)
 if(NOT nlohmann_json_FOUND)
-    # Assume header-only nlohmann/json is available in include path
-    message(STATUS "nlohmann_json package not found, using header-only assumption")
+    message(STATUS "nlohmann_json not found; fetching via FetchContent")
+    FetchContent_Declare(
+        nlohmann_json
+        URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz
+    )
+    FetchContent_MakeAvailable(nlohmann_json)
 endif()
 
-# Find system OpenSSL (for httplib)
-find_package(OpenSSL)
+# Find system OpenSSL (optional for httplib HTTPS); build will proceed without it
+find_package(OpenSSL QUIET)
 if(OPENSSL_FOUND)
     message(STATUS "OpenSSL found: ${OPENSSL_INCLUDE_DIR}")
     include_directories(${OPENSSL_INCLUDE_DIR})
 else()
-    message(WARNING "OpenSSL not found, attempting to locate manually")
+    message(STATUS "OpenSSL not found; building without TLS support")
 endif()
 
 # Library directories
@@ -72,8 +79,7 @@ link_directories(
     C:/msys64/mingw64/lib
 )
 
-# Find OpenSSL (required for httplib)
-find_package(OpenSSL REQUIRED)
+# Do not hard-require OpenSSL; optional linking is handled below
 
 # Create executable
 add_executable(${EXECUTABLE_NAME} ${SRC_FILES})
@@ -108,6 +114,11 @@ target_link_libraries(${EXECUTABLE_NAME}
 # Link OpenSSL if found
 if(OPENSSL_FOUND)
     target_link_libraries(${EXECUTABLE_NAME} OpenSSL::SSL OpenSSL::Crypto)
+endif()
+
+# Link nlohmann_json target if available
+if(TARGET nlohmann_json::nlohmann_json)
+    target_link_libraries(${EXECUTABLE_NAME} nlohmann_json::nlohmann_json)
 endif()
 
 # Windows-specific libraries
