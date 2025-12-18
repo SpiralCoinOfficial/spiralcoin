@@ -57,6 +57,13 @@ This guide summarizes endpoints and steps to prepare for exchange listing.
   - RPC `/api/rpc` with `getblockcount`
   - Supply verification at `/api/wallet/verify-supply` (expects ≥ 22,000,000,000,000 SPRC total across primary + vault)
 
+### Submission Snapshot
+
+- Use `EXPORT_EXCHANGE_SNAPSHOT.ps1` to export JSON snapshots of key endpoints for exchange review. Files are written to `snapshots/`.
+  - Example:
+    - `./EXPORT_EXCHANGE_SNAPSHOT.ps1 -BaseUrl https://spiralcoin.net -OutDir snapshots`
+  - Outputs: `health.json`, `status.json`, `exchange_info.json`, `market_price.json`, `verify_supply.json`, `rpc_blockcount.json`, `trade_markets.json`, `trade_orders.json`
+
 ### HTTPS & Nginx
 
 - **Ports:** Nginx publishes `8080:80` (HTTP redirect) and `443:443` (HTTPS)
