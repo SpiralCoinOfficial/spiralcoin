@@ -1,0 +1,147 @@
+# SpiralCoin Exchange Listing Pack
+
+This guide summarizes endpoints and steps to prepare for exchange listing.
+
+## Asset Basics
+
+- **Name:** SpiralCoin
+- **Symbol:** SPRC
+- **RPC URL (public):** Use `/api/rpc` over HTTPS (e.g., `https://spiralcoin.net/api/rpc`). Internally, the backend forwards to the configured upstream `RPC_URL`.
+- **Status Dashboard:** Homepage shows live status at `/` (see Network Status section)
+- **Exchange Info Page:** `/exchange` or `/listing`
+
+## Public API Endpoints
+
+- **Health:** `/health` — returns `{ status, ts }`
+- **Status:** `/api/status` — returns `{ rpcUrl, chainId, blockNumber, gasPriceWei, peerCount }` with fallbacks
+- **RPC Proxy:** `/api/rpc` — POST JSON-RPC body forwarded to RPC URL
+- **Market Price:** `/api/market/price` — current market price (from marketfeed)
+- **Market Stream (SSE):** `/api/market/stream` — Server-Sent Events stream with `Content-Type: text/event-stream`; ~20 Hz updates; auto reconnect-friendly
+- **Wallet:** `/api/wallet/...` — wallet operations
+- **Aggregate Info:** `/api/exchange/info` — combines info and status into a single payload
+- **Auth:** `/api/auth/register`, `/api/auth/login` — JWT-based authentication
+- **User:** `/api/user/me`, `/api/user/wallet/my`, `/api/user/wallet/new` — JWT-protected user profile and wallet management
+- **Trading (paper):**
+  - `/api/trade/markets` — list of supported market pairs
+  - `/api/trade/order` — place a paper order `{ symbol, side, quantity, price?, type? }`; returns `{ ok, order }`
+  - `/api/trade/orders` — recent paper orders `{ orders: [...] }`
+
+## Deployment
+
+- **Local:** Use `START_LOCAL_STACK.ps1` task to start backend and (optionally) daemon
+- **Docker Compose:** Run `DEPLOY_ALL_PROD.ps1` to build and start daemon, backend, marketfeed, and nginx
+- **Remote SSL:** Run `REMOTE_SSL_SETUP.ps1` after DNS is configured to set up HTTPS via Let’s Encrypt; certs are copied to `./ssl` and Nginx (compose) listens on 443
+
+### Production Routing (Recommended)
+
+- **Host Nginx:** Use the host-managed Nginx to serve HTTPS on 443 (already enabled via Certbot). This avoids port conflicts and simplifies SSL renewal.
+- **Compose Nginx (optional):** A compose-managed Nginx is available under the `web` profile. Only enable it when you intend to run Nginx inside Docker.
+  - Start without container Nginx:
+    - `docker compose -f compose.yaml up -d`
+  - Start with container Nginx:
+    - `docker compose -f compose.yaml --profile web up -d`
+
+### Production Modes
+
+- **Default (Host Nginx):** Recommended for production. Host-managed Nginx serves 443 with Certbot-managed certs. Run compose without the `web` profile so the container Nginx is not started.
+  - Example: `docker compose -f compose.yaml up -d`
+- **Optional (Container Nginx):** If you prefer containerizing Nginx, disable host Nginx and run compose with the `web` profile to publish 443 from the container. Ensure certs exist in `./ssl`.
+  - Example: `docker compose -f compose.yaml --profile web up -d`
+
+## Verification
+
+- Run `VERIFY_LOCAL.ps1` to check:
+  - `/health`
+  - `/api/status`
+  - `/api/market/price`
+  - RPC `/api/rpc` with `getblockcount`
+  - Supply verification at `/api/wallet/verify-supply` (expects >= 22,000,000,000,000 SPRC total across primary + vault)
+
+### Submission Snapshot
+
+- Use `EXPORT_EXCHANGE_SNAPSHOT.ps1` to export JSON snapshots of key endpoints for exchange review. Files are written to `snapshots/`.
+  - Example:
+    - `./EXPORT_EXCHANGE_SNAPSHOT.ps1 -BaseUrl https://spiralcoin.net -OutDir snapshots`
+  - Outputs: `health.json`, `status.json`, `exchange_info.json`, `market_price.json`, `verify_supply.json`, `rpc_blockcount.json`, `trade_markets.json`, `trade_orders.json`
+
+### HTTPS & Nginx
+
+- **Ports:** Nginx publishes `8080:80` (HTTP redirect) and `443:443` (HTTPS)
+- **Cert Paths:** `ssl/fullchain.pem`, `ssl/privkey.pem` mounted to `/etc/nginx/ssl/` in the container
+- **Redirect:** All HTTP traffic is redirected to HTTPS
+- **Host vs Container:** In production, prefer host-managed Nginx on 443. Use the compose `web` profile only when containerizing Nginx.
+
+### Supply & Vault
+
+- **Primary Wallet:** `0x928072b3A3A42e7dFD577a91167DfAa08f0E653E`
+- **Supply Vault:** `0xSPRC1111111111111111111111111111SupplyVault`
+- **Expected Minimum Total:** `22,000,000,000,000` SPRC across the two addresses
+- Endpoint: `/api/wallet/verify-supply` returns `{ ok, expectedMin, total, addresses[] }`
+
+Example RPC check:
+
+```bash
+curl -s https://spiralcoin.net/api/rpc \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"getblockcount","params":[]}'
+```
+
+Example supply verification:
+
+```bash
+# Default (PRIMARY_WALLET + SUPPLY_VAULT from env, min 22T)
+curl -s https://spiralcoin.net/api/wallet/verify-supply | jq
+
+# Custom addresses and threshold
+curl -s "https://spiralcoin.net/api/wallet/verify-supply?addresses=0x928072b3A3A42e7dFD577a91167DfAa08f0E653E,0xSPRC1111111111111111111111111111SupplyVault&min=22000000000000" | jq
+```
+
+Example paper order:
+
+```bash
+curl -s https://spiralcoin.net/api/trade/order \
+  -H "Content-Type: application/json" \
+  -d '{
+    "symbol": "SPRC/USD",
+    "side": "BUY",
+    "quantity": 1000
+  }' | jq
+```
+
+Example recent orders:
+
+```bash
+curl -s https://spiralcoin.net/api/trade/orders | jq
+```
+
+If needed, the daemon supports one-time seeding via `data/wallets.override.json` (applied on startup and then renamed) to initialize balances, including the vault allocation.
+
+### Accounts & Dashboard
+
+- **Pages:** `/login`, `/register`, `/dashboard` (served via backend; proxied by Nginx over HTTPS)
+- **JWT:** Issued on register/login; send as `Authorization: Bearer <token>`
+- **Create Address:** `POST /api/user/wallet/new` calls daemon RPC `getnewaddress`; if unavailable, backend may attempt EVM-compatible `personal_newAccount`.
+- **List Balances:** `GET /api/user/wallet/my` returns associated addresses and current on-chain balances via daemon RPC `getbalance`.
+
+Example SSE stream consumption:
+
+```javascript
+const es = new EventSource('https://spiralcoin.net/api/market/stream');
+es.onmessage = (e) => {
+  const data = JSON.parse(e.data);
+  // { price, ts } - update chart/UI here
+};
+es.onerror = () => {
+  // network hiccup: EventSource auto-reconnects
+};
+```
+
+## Next Steps for Exchanges
+
+- Provide this document and the `/exchange` page link
+- See also: `EXCHANGE_SUBMISSION_PACK.md` for a compact submission-ready summary
+- Confirm RPC availability, peer count, and latest block are incrementing
+- Share market feed details for price source if required
+- Ensure branding, logo, and homepage are ready
+
+> Note: If RPC daemon is not EVM-compatible, `/api/status` falls back to non-EVM calls and local chain length.

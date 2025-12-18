@@ -1,3 +1,0 @@
-/root/spiralcoin/build/CMakeFiles/spiralcoind.dir
-/root/spiralcoin/build/CMakeFiles/edit_cache.dir
-/root/spiralcoin/build/CMakeFiles/rebuild_cache.dir

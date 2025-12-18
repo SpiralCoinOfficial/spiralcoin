@@ -2,6 +2,14 @@
 
 A complete cryptocurrency implementation featuring a C++ blockchain daemon with EVM integration, Node.js API server, real-time market data feeds, and a web dashboard.
 
+## Windows Build & Run (Ninja)
+
+- Fix CMake system module (one-time): run `scripts/fix-cmake-system.ps1` (elevates automatically)
+- Build with Ninja: run `scripts/configure-and-build-ninja.ps1` (uses `-O1` and single-threaded `-j1`)
+- Run daemon: `build-ninja/spiralcoind.exe --help`
+
+If Ninja is not found after install, restart the terminal or provide its path via `CMAKE_MAKE_PROGRAM`.
+
 ## Features
 
 - **Full Blockchain Node**: C++ daemon with EVM compatibility
@@ -128,6 +136,22 @@ The daemon automatically creates a primary wallet address. To customize:
 
 1. Edit `start_spiralcoin.sh` and set your `WALLET_ADDRESS`
 2. The daemon will mine blocks and credit rewards to this address
+
+#### Wallet Override Seeding (one-time)
+
+To seed specific balances (e.g., initialize a vault address) on startup, place a `wallets.override.json` file under the daemon `data/` directory with an address→balance map, then restart the daemon. On startup, the daemon will:
+- Load `data/wallets.override.json` (if present), replace in-memory balances, persist to `data/wallets.json`, and rename the override file to `wallets.override.applied-<timestamp>.json` to prevent reapplying.
+
+Example contents:
+
+```
+{
+  "0x928072b3A3A42e7dFD577a91167DfAa08f0E653E": 0,
+  "0xSPRC1111111111111111111111111111SupplyVault": 22000000000000
+}
+```
+
+Note: Balances are 64-bit integers; large supplies like 22,000,000,000,000 are supported.
 
 ## API Endpoints
 

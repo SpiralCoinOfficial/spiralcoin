@@ -1,0 +1,179 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║                SpiralCoin - BUILD TROUBLESHOOTING GUIDE                  ║
+║                                                                           ║
+║                      Compilation Failing? FIX IT HERE                   ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+═══════════════════════════════════════════════════════════════════════════════
+                              STEP 1: DIAGNOSE
+═══════════════════════════════════════════════════════════════════════════════
+
+Run the diagnostic test to identify the exact problem:
+
+    .\DIAGNOSTIC_BUILD_TEST.bat
+
+This will:
+  ✅ Check if g++ is installed and working
+  ✅ Test C++20 compilation
+  ✅ Verify all source files exist
+  ✅ Attempt simple compilation
+  ✅ Show detailed error messages
+
+═══════════════════════════════════════════════════════════════════════════════
+                          PROBLEM: g++ Not Found
+═══════════════════════════════════════════════════════════════════════════════
+
+If diagnostic shows: "g++ NOT FOUND"
+
+SOLUTION A: Install MinGW (Recommended)
+    1. Download MSYS2: https://www.msys2.org/
+    2. Run installer
+    3. In MSYS2 terminal, run:
+       pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-g++
+    4. Add to PATH: C:\msys64\mingw64\bin
+    5. Verify: g++ --version
+
+SOLUTION B: Use Docker Instead (Faster)
+    1. Download Docker: https://www.docker.com/products/docker-desktop
+    2. Run: .\DOCKER_BUILD.bat
+    3. No local compiler needed!
+
+═══════════════════════════════════════════════════════════════════════════════
+                      PROBLEM: C++20 Compilation Fails
+═══════════════════════════════════════════════════════════════════════════════
+
+If diagnostic shows: "C++20 compilation failed"
+
+SOLUTION: Upgrade MinGW g++
+    1. Check version: g++ --version
+    2. If < 11.0, upgrade:
+       pacman -S mingw-w64-x86_64-gcc
+    3. Verify: g++ --version should be 11.x or later
+    4. Retry: .\DIRECT_BUILD.bat
+
+═══════════════════════════════════════════════════════════════════════════════
+                    PROBLEM: "Compiler Exited with Code 1"
+═══════════════════════════════════════════════════════════════════════════════
+
+If you see exit code 1 but no error message:
+
+SOLUTION A: Check g++ is accessible
+    1. Open CMD or PowerShell
+    2. Run: where g++
+    3. Should show: C:\msys64\mingw64\bin\g++.exe
+    4. If not found, add to PATH
+
+SOLUTION B: Run with Verbose Output
+    The updated DIRECT_BUILD.bat now shows compiler output.
+    Check build\compile.log for detailed errors.
+
+SOLUTION C: Try Diagnostic
+    .\DIAGNOSTIC_BUILD_TEST.bat
+    This shows exactly what's wrong.
+
+═══════════════════════════════════════════════════════════════════════════════
+                  PROBLEM: Missing OpenSSL or Dependencies
+═══════════════════════════════════════════════════════════════════════════════
+
+If diagnostic or build mentions missing OpenSSL:
+
+SOLUTION: Install OpenSSL in MinGW
+    1. Open MSYS2 terminal
+    2. Run: pacman -S mingw-w64-x86_64-openssl
+    3. Verify: pkg-config --modversion openssl
+    4. Retry build
+
+═══════════════════════════════════════════════════════════════════════════════
+                      PROBLEM: Source Files Not Found
+═══════════════════════════════════════════════════════════════════════════════
+
+If diagnostic shows files not found:
+
+SOLUTION: Verify you're in correct directory
+    1. Check you're in:
+       c:\Users\Trisha Dreyer\Documents\GitHub\spiralcoin.worktrees\copilot\implement-feature
+    2. Verify files exist:
+       dir src\*.cpp
+       dir include\*.h
+    3. If missing, clone/pull latest from git
+
+═══════════════════════════════════════════════════════════════════════════════
+                    RECOMMENDED: USE DOCKER INSTEAD
+═══════════════════════════════════════════════════════════════════════════════
+
+If Windows build keeps failing, Docker is guaranteed to work:
+
+    .\DOCKER_BUILD.bat
+
+Docker Build Advantages:
+  ✅ No local compiler needed
+  ✅ Pre-tested environment
+  ✅ Guaranteed to work
+  ✅ Consistent builds
+  ✅ Can cache for speed
+
+Installation:
+  1. Download: https://www.docker.com/products/docker-desktop
+  2. Install and start Docker
+  3. Run: .\DOCKER_BUILD.bat
+  4. Done!
+
+═══════════════════════════════════════════════════════════════════════════════
+                         QUICK REFERENCE
+═══════════════════════════════════════════════════════════════════════════════
+
+Issue                          Solution
+─────────────────────────────────────────────────────────────────────────
+g++ not found                → Install MinGW via MSYS2
+C++20 fails                  → Upgrade g++ to 11.x or later
+Compilation exits with -1    → Run DIAGNOSTIC_BUILD_TEST.bat
+OpenSSL missing              → pacman -S mingw-w64-x86_64-openssl
+Source files not found       → Check current directory
+Still doesn't work           → Use Docker (DOCKER_BUILD.bat)
+
+═══════════════════════════════════════════════════════════════════════════════
+                          COMPLETE WORKFLOW
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Run Diagnostic:
+   .\DIAGNOSTIC_BUILD_TEST.bat
+
+2. If diagnostic passes:
+   .\DIRECT_BUILD.bat
+
+3. If direct build fails:
+   • Check build\compile.log for error details
+   • Try fixes from this guide
+   • Or use Docker: .\DOCKER_BUILD.bat
+
+4. If still stuck:
+   • Try Docker: .\DOCKER_BUILD.bat (guaranteed to work)
+   • Or use interactive menu: .\BUILD_SPIRALCOIN.bat
+
+═══════════════════════════════════════════════════════════════════════════════
+                    DOCKER FALLBACK (GUARANTEED)
+═══════════════════════════════════════════════════════════════════════════════
+
+If everything else fails, Docker WILL work:
+
+    .\DOCKER_BUILD.bat
+
+This:
+  ✅ Downloads Ubuntu image
+  ✅ Installs all dependencies
+  ✅ Compiles with proven settings
+  ✅ Creates working binary
+  ✅ No local setup needed
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Need help? Follow this:
+
+1. Run: .\DIAGNOSTIC_BUILD_TEST.bat
+2. Check output for errors
+3. Use solution from this guide
+4. If still broken: .\DOCKER_BUILD.bat (guaranteed!)
+
+═══════════════════════════════════════════════════════════════════════════════

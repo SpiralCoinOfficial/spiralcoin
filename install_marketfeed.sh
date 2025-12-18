@@ -5,10 +5,11 @@ echo "[*] Installing SpiralCoin Market Feed + WebSocket proxy (Part: marketfeed)
 BASE=~/spiralcoin
 MF_DIR=$BASE/marketfeed
 RPC_HOST="127.0.0.1"
-RPC_PORT=8545
-RPC_URL="http://${RPC_HOST}:${RPC_PORT}/rpc"
+RPC_PORT=5000
+# Use backend RPC proxy to reach daemon in Docker without exposing 8545
+RPC_URL="http://${RPC_HOST}:${RPC_PORT}/api/rpc"
 EXT_FEED="http://174.138.37.6:4000"   # external/global feed (market feed service, may be unreachable — script handles that)
-NODE_PORT=3000
+NODE_PORT=4000
 
 # 1) Create folder
 mkdir -p "$MF_DIR"
@@ -131,8 +132,9 @@ wss.on('connection', (ws, req) => {
   });
 });
 
-server.listen(${NODE_PORT}, '127.0.0.1', () => {
-  console.log("[marketfeed] listening on http://127.0.0.1:${NODE_PORT}");
+const NODE_PORT = process.env.NODE_PORT || ${NODE_PORT};
+server.listen(NODE_PORT, '127.0.0.1', () => {
+  console.log(`[marketfeed] listening on http://127.0.0.1:${NODE_PORT}`);
 });
 
 // start the poll loop
@@ -164,6 +166,7 @@ User=$USER
 WorkingDirectory=$MF_DIR
 Environment=RPC_URL=${RPC_URL}
 Environment=EXT_FEED=${EXT_FEED}
+Environment=NODE_PORT=${NODE_PORT}
 ExecStart=/usr/bin/node $MF_DIR/server.js
 Restart=always
 RestartSec=3

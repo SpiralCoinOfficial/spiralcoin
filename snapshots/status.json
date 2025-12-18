@@ -1,0 +1,7 @@
+﻿{
+    "rpcUrl":  "/api/rpc",
+    "chainId":  "0x0",
+    "blockNumber":  0,
+    "gasPriceWei":  0,
+    "peerCount":  0
+}

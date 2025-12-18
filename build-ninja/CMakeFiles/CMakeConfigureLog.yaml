@@ -1,0 +1,2950 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineSystem.cmake:212 (message)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      The system is: Windows - 10.0.22631 - AMD64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompiler.cmake:115 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:67 (_cmake_find_compiler_path)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "gcc"
+    candidate_directories:
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/msys64/mingw64/bin/"
+    searched_directories:
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/gcc.com"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/gcc.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/gcc"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/gcc.com"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/gcc.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/gcc"
+      - "C:/Program Files/Python314/Scripts/gcc.com"
+      - "C:/Program Files/Python314/Scripts/gcc.exe"
+      - "C:/Program Files/Python314/Scripts/gcc"
+      - "C:/Program Files/Python314/gcc.com"
+      - "C:/Program Files/Python314/gcc.exe"
+      - "C:/Program Files/Python314/gcc"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/gcc.com"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/gcc.exe"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/gcc"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/gcc.com"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/gcc.exe"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/gcc"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/gcc.com"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/gcc.exe"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/gcc"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/gcc.com"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/gcc.exe"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/gcc"
+      - "C:/Windows/System32/gcc.com"
+      - "C:/Windows/System32/gcc.exe"
+      - "C:/Windows/System32/gcc"
+      - "C:/Windows/gcc.com"
+      - "C:/Windows/gcc.exe"
+      - "C:/Windows/gcc"
+      - "C:/Windows/System32/wbem/gcc.com"
+      - "C:/Windows/System32/wbem/gcc.exe"
+      - "C:/Windows/System32/wbem/gcc"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc"
+      - "C:/Windows/System32/OpenSSH/gcc.com"
+      - "C:/Windows/System32/OpenSSH/gcc.exe"
+      - "C:/Windows/System32/OpenSSH/gcc"
+      - "C:/Program Files/dotnet/gcc.com"
+      - "C:/Program Files/dotnet/gcc.exe"
+      - "C:/Program Files/dotnet/gcc"
+      - "C:/Program Files (x86)/dotnet/gcc.com"
+      - "C:/Program Files (x86)/dotnet/gcc.exe"
+      - "C:/Program Files (x86)/dotnet/gcc"
+      - "C:/Program Files/HP/HP One Agent/gcc.com"
+      - "C:/Program Files/HP/HP One Agent/gcc.exe"
+      - "C:/Program Files/HP/HP One Agent/gcc"
+      - "D:/Git/cmd/gcc.com"
+      - "D:/Git/cmd/gcc.exe"
+      - "D:/Git/cmd/gcc"
+      - "C:/Program Files/nodejs/gcc.com"
+      - "C:/Program Files/nodejs/gcc.exe"
+      - "C:/Program Files/nodejs/gcc"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/gcc.com"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/gcc.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/gcc"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/gcc.com"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/gcc.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/gcc"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/gcc.com"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/gcc.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/gcc"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/gcc.com"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/gcc.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/gcc"
+      - "C:/Program Files/CMake/bin/gcc.com"
+      - "C:/Program Files/CMake/bin/gcc.exe"
+      - "C:/Program Files/CMake/bin/gcc"
+      - "C:/msys64/mingw64/bin/gcc.com"
+    found: "C:/msys64/mingw64/bin/gcc.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/msys64/mingw64/bin/gcc.exe 
+      Build flags: -O1
+      Id flags:  
+      
+      The output was:
+      1
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/msys64/mingw64/bin/gcc.exe 
+      Build flags: -O1
+      Id flags: -c 
+      
+      The output was:
+      1
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/msys64/mingw64/bin/gcc.exe 
+      Build flags: -O1
+      Id flags: -Aa 
+      
+      The output was:
+      1
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/msys64/mingw64/bin/gcc.exe 
+      Build flags: -O1
+      Id flags: -D__CLASSIC_C__ 
+      
+      The output was:
+      1
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/msys64/mingw64/bin/gcc.exe 
+      Build flags: -O1
+      Id flags: --target=arm-arm-none-eabi;-mcpu=cortex-m3 
+      
+      The output was:
+      1
+      gcc.exe: warning: '-mcpu=' is deprecated; use '-mtune=' or '-march=' instead
+      gcc.exe: error: unrecognized command-line option '--target=arm-arm-none-eabi'
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/msys64/mingw64/bin/gcc.exe 
+      Build flags: -O1
+      Id flags: -c;-I__does_not_exist__ 
+      
+      The output was:
+      1
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/msys64/mingw64/bin/gcc.exe 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/msys64/mingw64/bin/gcc.exe 
+      Build flags: 
+      Id flags: -c 
+      
+      The output was:
+      1
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/msys64/mingw64/bin/gcc.exe 
+      Build flags: 
+      Id flags: -Aa 
+      
+      The output was:
+      1
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/msys64/mingw64/bin/gcc.exe 
+      Build flags: 
+      Id flags: -D__CLASSIC_C__ 
+      
+      The output was:
+      1
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/msys64/mingw64/bin/gcc.exe 
+      Build flags: 
+      Id flags: --target=arm-arm-none-eabi;-mcpu=cortex-m3 
+      
+      The output was:
+      1
+      gcc.exe: warning: '-mcpu=' is deprecated; use '-mtune=' or '-march=' instead
+      gcc.exe: error: unrecognized command-line option '--target=arm-arm-none-eabi'
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/msys64/mingw64/bin/gcc.exe 
+      Build flags: 
+      Id flags: -c;-I__does_not_exist__ 
+      
+      The output was:
+      1
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:1303 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:86 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Checking whether the C compiler is IAR using "" did not match "IAR .+ Compiler":
+      gcc.exe: fatal error: no input files
+      compilation terminated.
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:1303 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:86 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Checking whether the C compiler is IAR using "" did not match "IAR .+ Compiler":
+      gcc.exe: fatal error: no input files
+      compilation terminated.
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_AR"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ar"
+    candidate_directories:
+      - "C:/msys64/mingw64/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+    searched_directories:
+      - "C:/msys64/mingw64/bin/ar.com"
+    found: "C:/msys64/mingw64/bin/ar.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_RANLIB"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ranlib"
+    candidate_directories:
+      - "C:/msys64/mingw64/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+    searched_directories:
+      - "C:/msys64/mingw64/bin/ranlib.com"
+    found: "C:/msys64/mingw64/bin/ranlib.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_STRIP"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "strip"
+    candidate_directories:
+      - "C:/msys64/mingw64/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+    searched_directories:
+      - "C:/msys64/mingw64/bin/strip.com"
+    found: "C:/msys64/mingw64/bin/strip.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ld"
+    candidate_directories:
+      - "C:/msys64/mingw64/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+    searched_directories:
+      - "C:/msys64/mingw64/bin/ld.com"
+    found: "C:/msys64/mingw64/bin/ld.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_NM"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "nm"
+    candidate_directories:
+      - "C:/msys64/mingw64/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+    searched_directories:
+      - "C:/msys64/mingw64/bin/nm.com"
+    found: "C:/msys64/mingw64/bin/nm.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJDUMP"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "objdump"
+    candidate_directories:
+      - "C:/msys64/mingw64/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+    searched_directories:
+      - "C:/msys64/mingw64/bin/objdump.com"
+    found: "C:/msys64/mingw64/bin/objdump.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJCOPY"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "objcopy"
+    candidate_directories:
+      - "C:/msys64/mingw64/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+    searched_directories:
+      - "C:/msys64/mingw64/bin/objcopy.com"
+    found: "C:/msys64/mingw64/bin/objcopy.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_READELF"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "readelf"
+    candidate_directories:
+      - "C:/msys64/mingw64/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+    searched_directories:
+      - "C:/msys64/mingw64/bin/readelf.com"
+    found: "C:/msys64/mingw64/bin/readelf.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_DLLTOOL"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "dlltool"
+    candidate_directories:
+      - "C:/msys64/mingw64/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+    searched_directories:
+      - "C:/msys64/mingw64/bin/dlltool.com"
+    found: "C:/msys64/mingw64/bin/dlltool.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_ADDR2LINE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "addr2line"
+    candidate_directories:
+      - "C:/msys64/mingw64/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+    searched_directories:
+      - "C:/msys64/mingw64/bin/addr2line.com"
+    found: "C:/msys64/mingw64/bin/addr2line.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_TAPI"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "tapi"
+    candidate_directories:
+      - "C:/msys64/mingw64/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+    searched_directories:
+      - "C:/msys64/mingw64/bin/tapi.com"
+      - "C:/msys64/mingw64/bin/tapi.exe"
+      - "C:/msys64/mingw64/bin/tapi"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/tapi.com"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/tapi.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/tapi"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/tapi.com"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/tapi.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/tapi"
+      - "C:/Program Files/Python314/Scripts/tapi.com"
+      - "C:/Program Files/Python314/Scripts/tapi.exe"
+      - "C:/Program Files/Python314/Scripts/tapi"
+      - "C:/Program Files/Python314/tapi.com"
+      - "C:/Program Files/Python314/tapi.exe"
+      - "C:/Program Files/Python314/tapi"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/tapi.com"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/tapi.exe"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/tapi"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/tapi.com"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/tapi.exe"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/tapi"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/tapi.com"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/tapi.exe"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/tapi"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/tapi.com"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/tapi.exe"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/tapi"
+      - "C:/Windows/System32/tapi.com"
+      - "C:/Windows/System32/tapi.exe"
+      - "C:/Windows/System32/tapi"
+      - "C:/Windows/tapi.com"
+      - "C:/Windows/tapi.exe"
+      - "C:/Windows/tapi"
+      - "C:/Windows/System32/wbem/tapi.com"
+      - "C:/Windows/System32/wbem/tapi.exe"
+      - "C:/Windows/System32/wbem/tapi"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/tapi.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/tapi.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/tapi"
+      - "C:/Windows/System32/OpenSSH/tapi.com"
+      - "C:/Windows/System32/OpenSSH/tapi.exe"
+      - "C:/Windows/System32/OpenSSH/tapi"
+      - "C:/Program Files/dotnet/tapi.com"
+      - "C:/Program Files/dotnet/tapi.exe"
+      - "C:/Program Files/dotnet/tapi"
+      - "C:/Program Files (x86)/dotnet/tapi.com"
+      - "C:/Program Files (x86)/dotnet/tapi.exe"
+      - "C:/Program Files (x86)/dotnet/tapi"
+      - "C:/Program Files/HP/HP One Agent/tapi.com"
+      - "C:/Program Files/HP/HP One Agent/tapi.exe"
+      - "C:/Program Files/HP/HP One Agent/tapi"
+      - "D:/Git/cmd/tapi.com"
+      - "D:/Git/cmd/tapi.exe"
+      - "D:/Git/cmd/tapi"
+      - "C:/Program Files/nodejs/tapi.com"
+      - "C:/Program Files/nodejs/tapi.exe"
+      - "C:/Program Files/nodejs/tapi"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/tapi.com"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/tapi.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/tapi"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/tapi.com"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/tapi.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/tapi"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/tapi.com"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/tapi.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/tapi"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/tapi.com"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/tapi.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/tapi"
+      - "C:/Program Files/CMake/bin/tapi.com"
+      - "C:/Program Files/CMake/bin/tapi.exe"
+      - "C:/Program Files/CMake/bin/tapi"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompiler.cmake:115 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:71 (_cmake_find_compiler_path)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "g++"
+    candidate_directories:
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "C:/Program Files/Python314/Scripts/"
+      - "C:/Program Files/Python314/"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/dotnet/"
+      - "C:/Program Files/HP/HP One Agent/"
+      - "D:/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/msys64/mingw64/bin/"
+    searched_directories:
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/g++.com"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/g++.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand/g++"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/g++.com"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/g++.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli/g++"
+      - "C:/Program Files/Python314/Scripts/g++.com"
+      - "C:/Program Files/Python314/Scripts/g++.exe"
+      - "C:/Program Files/Python314/Scripts/g++"
+      - "C:/Program Files/Python314/g++.com"
+      - "C:/Program Files/Python314/g++.exe"
+      - "C:/Program Files/Python314/g++"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/g++.com"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/g++.exe"
+      - "C:/Program Files (x86)/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/g++"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/g++.com"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/g++.exe"
+      - "C:/Program Files/Eclipse Adoptium/jre-8.0.402.6-hotspot/bin/g++"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/g++.com"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/g++.exe"
+      - "C:/Program Files/Eclipse Adoptium/jre-17.0.10.7-hotspot/bin/g++"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/g++.com"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/g++.exe"
+      - "C:/Program Files/Eclipse Adoptium/jre-11.0.22.7-hotspot/bin/g++"
+      - "C:/Windows/System32/g++.com"
+      - "C:/Windows/System32/g++.exe"
+      - "C:/Windows/System32/g++"
+      - "C:/Windows/g++.com"
+      - "C:/Windows/g++.exe"
+      - "C:/Windows/g++"
+      - "C:/Windows/System32/wbem/g++.com"
+      - "C:/Windows/System32/wbem/g++.exe"
+      - "C:/Windows/System32/wbem/g++"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/g++.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/g++.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/g++"
+      - "C:/Windows/System32/OpenSSH/g++.com"
+      - "C:/Windows/System32/OpenSSH/g++.exe"
+      - "C:/Windows/System32/OpenSSH/g++"
+      - "C:/Program Files/dotnet/g++.com"
+      - "C:/Program Files/dotnet/g++.exe"
+      - "C:/Program Files/dotnet/g++"
+      - "C:/Program Files (x86)/dotnet/g++.com"
+      - "C:/Program Files (x86)/dotnet/g++.exe"
+      - "C:/Program Files (x86)/dotnet/g++"
+      - "C:/Program Files/HP/HP One Agent/g++.com"
+      - "C:/Program Files/HP/HP One Agent/g++.exe"
+      - "C:/Program Files/HP/HP One Agent/g++"
+      - "D:/Git/cmd/g++.com"
+      - "D:/Git/cmd/g++.exe"
+      - "D:/Git/cmd/g++"
+      - "C:/Program Files/nodejs/g++.com"
+      - "C:/Program Files/nodejs/g++.exe"
+      - "C:/Program Files/nodejs/g++"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/g++.com"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/g++.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WindowsApps/g++"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/g++.com"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/g++.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Local/GitHubDesktop/bin/g++"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/g++.com"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/g++.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Local/Programs/Microsoft VS Code/bin/g++"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/g++.com"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/g++.exe"
+      - "C:/Users/Trisha Dreyer/AppData/Roaming/npm/g++"
+      - "C:/Program Files/CMake/bin/g++.com"
+      - "C:/Program Files/CMake/bin/g++.exe"
+      - "C:/Program Files/CMake/bin/g++"
+      - "C:/msys64/mingw64/bin/g++.com"
+    found: "C:/msys64/mingw64/bin/g++.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/msys64/mingw64/bin/g++.exe 
+      Build flags: -O1
+      Id flags:  
+      
+      The output was:
+      1
+      g++.exe: fatal error: cannot execute 'C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/cc1plus.exe': CreateProcess: No such file or directory
+      compilation terminated.
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/msys64/mingw64/bin/g++.exe 
+      Build flags: -O1
+      Id flags: -c 
+      
+      The output was:
+      1
+      g++.exe: fatal error: cannot execute 'C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/cc1plus.exe': CreateProcess: No such file or directory
+      compilation terminated.
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/msys64/mingw64/bin/g++.exe 
+      Build flags: -O1
+      Id flags: --c++ 
+      
+      The output was:
+      1
+      g++.exe: error: unrecognized command-line option '--c++'
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/msys64/mingw64/bin/g++.exe 
+      Build flags: -O1
+      Id flags: --ec++ 
+      
+      The output was:
+      1
+      g++.exe: error: unrecognized command-line option '--ec++'; did you mean '-Weffc++'?
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/msys64/mingw64/bin/g++.exe 
+      Build flags: -O1
+      Id flags: --target=arm-arm-none-eabi;-mcpu=cortex-m3 
+      
+      The output was:
+      1
+      g++.exe: warning: '-mcpu=' is deprecated; use '-mtune=' or '-march=' instead
+      g++.exe: error: unrecognized command-line option '--target=arm-arm-none-eabi'
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/msys64/mingw64/bin/g++.exe 
+      Build flags: -O1
+      Id flags: -c;-I__does_not_exist__ 
+      
+      The output was:
+      1
+      g++.exe: fatal error: cannot execute 'C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/cc1plus.exe': CreateProcess: No such file or directory
+      compilation terminated.
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/msys64/mingw64/bin/g++.exe 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      g++.exe: fatal error: cannot execute 'C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/cc1plus.exe': CreateProcess: No such file or directory
+      compilation terminated.
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/msys64/mingw64/bin/g++.exe 
+      Build flags: 
+      Id flags: -c 
+      
+      The output was:
+      1
+      g++.exe: fatal error: cannot execute 'C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/cc1plus.exe': CreateProcess: No such file or directory
+      compilation terminated.
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/msys64/mingw64/bin/g++.exe 
+      Build flags: 
+      Id flags: --c++ 
+      
+      The output was:
+      1
+      g++.exe: error: unrecognized command-line option '--c++'
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/msys64/mingw64/bin/g++.exe 
+      Build flags: 
+      Id flags: --ec++ 
+      
+      The output was:
+      1
+      g++.exe: error: unrecognized command-line option '--ec++'; did you mean '-Weffc++'?
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/msys64/mingw64/bin/g++.exe 
+      Build flags: 
+      Id flags: --target=arm-arm-none-eabi;-mcpu=cortex-m3 
+      
+      The output was:
+      1
+      g++.exe: warning: '-mcpu=' is deprecated; use '-mtune=' or '-march=' instead
+      g++.exe: error: unrecognized command-line option '--target=arm-arm-none-eabi'
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/"
+      - "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand"
+        - "c:\\Users\\Trisha Dreyer\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli"
+        - "C:\\Program Files\\Python314\\Scripts\\"
+        - "C:\\Program Files\\Python314\\"
+        - "C:\\Program Files (x86)\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-8.0.402.6-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-17.0.10.7-hotspot\\bin"
+        - "C:\\Program Files\\Eclipse Adoptium\\jre-11.0.22.7-hotspot\\bin"
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\dotnet\\"
+        - "C:\\Program Files\\HP\\HP One Agent"
+        - "D:\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Trisha Dreyer\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/msys64/mingw64/bin/g++.exe 
+      Build flags: 
+      Id flags: -c;-I__does_not_exist__ 
+      
+      The output was:
+      1
+      g++.exe: fatal error: cannot execute 'C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/cc1plus.exe': CreateProcess: No such file or directory
+      compilation terminated.
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:1303 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:86 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Checking whether the CXX compiler is IAR using "" did not match "IAR .+ Compiler":
+      g++.exe: fatal error: no input files
+      compilation terminated.
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:1303 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:86 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Checking whether the CXX compiler is IAR using "" did not match "IAR .+ Compiler":
+      g++.exe: fatal error: no input files
+      compilation terminated.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:3 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/build-ninja/CMakeFiles/CMakeScratch/TryCompile-vgab94"
+      binary: "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/build-ninja/CMakeFiles/CMakeScratch/TryCompile-vgab94"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-O1"
+      CMAKE_C_FLAGS_DEBUG: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/build-ninja/CMakeFiles/CMakeScratch/TryCompile-vgab94'
+        
+        Run Build Command(s): "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WinGet/Packages/Ninja-build.Ninja_Microsoft.Winget.Source_8wekyb3d8bbwe/ninja.exe" -v cmTC_a5646
+        [1/2] C:\\msys64\\mingw64\\bin\\gcc.exe   -O1 -o CMakeFiles\\cmTC_a5646.dir\\CMakeCCompilerABI.c.obj -c "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+        FAILED: [code=1] CMakeFiles/cmTC_a5646.dir/CMakeCCompilerABI.c.obj 
+        C:\\msys64\\mingw64\\bin\\gcc.exe   -O1 -o CMakeFiles\\cmTC_a5646.dir\\CMakeCCompilerABI.c.obj -c "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "cmake/Modules/CMakeTestCCompiler.cmake:56 (try_compile)"
+      - "CMakeLists.txt:3 (project)"
+    checks:
+      - "Check for working C compiler: C:/msys64/mingw64/bin/gcc.exe"
+    directories:
+      source: "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/build-ninja/CMakeFiles/CMakeScratch/TryCompile-5wi1me"
+      binary: "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/build-ninja/CMakeFiles/CMakeScratch/TryCompile-5wi1me"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-O1"
+      CMAKE_C_FLAGS_DEBUG: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/cmake/Modules"
+    buildResult:
+      variable: "CMAKE_C_COMPILER_WORKS"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/Trisha Dreyer/Documents/GitHub/spiralcoin.worktrees/copilot/implement-feature/build-ninja/CMakeFiles/CMakeScratch/TryCompile-5wi1me'
+        
+        Run Build Command(s): "C:/Users/Trisha Dreyer/AppData/Local/Microsoft/WinGet/Packages/Ninja-build.Ninja_Microsoft.Winget.Source_8wekyb3d8bbwe/ninja.exe" -v cmTC_a93d3
+        [1/2] C:\\msys64\\mingw64\\bin\\gcc.exe   -O1 -o CMakeFiles\\cmTC_a93d3.dir\\testCCompiler.c.obj -c "C:\\Users\\Trisha Dreyer\\Documents\\GitHub\\spiralcoin.worktrees\\copilot\\implement-feature\\build-ninja\\CMakeFiles\\CMakeScratch\\TryCompile-5wi1me\\testCCompiler.c"
+        FAILED: [code=1] CMakeFiles/cmTC_a93d3.dir/testCCompiler.c.obj 
+        C:\\msys64\\mingw64\\bin\\gcc.exe   -O1 -o CMakeFiles\\cmTC_a93d3.dir\\testCCompiler.c.obj -c "C:\\Users\\Trisha Dreyer\\Documents\\GitHub\\spiralcoin.worktrees\\copilot\\implement-feature\\build-ninja\\CMakeFiles\\CMakeScratch\\TryCompile-5wi1me\\testCCompiler.c"
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 1
+...

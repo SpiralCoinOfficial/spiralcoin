@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # C++ Blockchain Daemon
   daemon:
@@ -7,10 +5,9 @@ services:
       context: .
       dockerfile: Dockerfile.daemon
     container_name: spiralcoin-daemon
-    ports:
-      - "8545:8545"
+    # Keep RPC internal to the compose network; no host port mapping
     volumes:
-      - daemon-data:/app/data
+      - ./data:/app/data
     restart: unless-stopped
     networks:
       - spiralcoin-network
@@ -27,6 +24,9 @@ services:
       - NODE_ENV=production
       - PORT=5000
       - RPC_URL=http://daemon:8545
+      - JWT_SECRET=${JWT_SECRET:-please-set-a-strong-secret}
+    volumes:
+      - ./backend_data:/app/data
     depends_on:
       - daemon
     restart: unless-stopped
@@ -39,8 +39,6 @@ services:
       context: .
       dockerfile: Dockerfile.marketfeed
     container_name: spiralcoin-marketfeed
-    ports:
-      - "4000:4000"
     environment:
       - NODE_ENV=production
       - NODE_PORT=4000
@@ -52,24 +50,26 @@ services:
     networks:
       - spiralcoin-network
 
-  # Web Dashboard (Static Nginx)
-  web:
+  # Web Dashboard disabled (host nginx already serves :80)
+  # Nginx reverse proxy for HTTPS and static content
+  nginx:
     image: nginx:alpine
-    container_name: spiralcoin-web
+    container_name: spiralcoin-nginx
+    profiles:
+      - web
     ports:
-      - "3000:80"
+      - "8080:80"
+      - "443:443"
     volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./public:/usr/share/nginx/html:ro
+      - ./ssl:/etc/nginx/ssl:ro
     depends_on:
       - backend
-      - marketfeed
     restart: unless-stopped
     networks:
       - spiralcoin-network
 
-volumes:
-  daemon-data:
-    driver: local
 
 networks:
   spiralcoin-network:

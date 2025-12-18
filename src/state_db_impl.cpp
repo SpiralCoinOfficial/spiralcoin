@@ -6,7 +6,13 @@
 const std::string DATA_DIR = "data/";
 const std::string BLOCKCHAIN_FILE = DATA_DIR + "blockchain.json";
 const std::string WALLETS_FILE = DATA_DIR + "wallets.json";
+const std::string WALLETS_OVERRIDE_FILE = DATA_DIR + "wallets.override.json";
 const std::string PRIMARY_ADDRESS = "0x928072b3A3A42e7dFD577a91167DfAa08f0E653E";
+
+// Helper function to check if a file is open and not empty
+static bool isFileReadable(std::ifstream& stream) {
+    return stream.is_open() && stream.peek() != std::char_traits<char>::eof();
+}
 
 StateDBImpl::StateDBImpl() {
     std::error_code ec;
@@ -37,7 +43,7 @@ void StateDBImpl::commit() {
 }
 
 // Blockchain operations
-int StateDBImpl::getBalance(const std::string &addr) {
+int64_t StateDBImpl::getBalance(const std::string &addr) {
     std::lock_guard<std::mutex> lock(db_mutex);
     std::string address = addr.empty() ? PRIMARY_ADDRESS : addr;
     return wallets[address];
@@ -63,7 +69,7 @@ std::string StateDBImpl::getBlock(int height) {
     return "{\"error\":\"Block not found\"}";
 }
 
-std::string StateDBImpl::sendToAddress(const std::string &to, int amount) {
+std::string StateDBImpl::sendToAddress(const std::string &to, int64_t amount) {
     std::lock_guard<std::mutex> lock(db_mutex);
     if (wallets[PRIMARY_ADDRESS] < amount) return "{\"error\":\"Insufficient funds\"}";
     wallets[PRIMARY_ADDRESS] -= amount;
@@ -151,7 +157,7 @@ void StateDBImpl::saveState() {
 
 void StateDBImpl::loadState() {
     std::ifstream ifs(BLOCKCHAIN_FILE);
-    if (ifs.is_open()) {
+    if (isFileReadable(ifs)) {
         json j;
         ifs >> j;
         for (auto &[k, v] : j.items()) {
@@ -175,10 +181,43 @@ void StateDBImpl::loadState() {
         blockHeight = 1;
     }
     std::ifstream wifs(WALLETS_FILE);
-    if (wifs.is_open()) {
+    if (isFileReadable(wifs)) {
         json jw;
         wifs >> jw;
-        for (auto &[addr, bal] : jw.items()) wallets[addr] = bal;
+        for (auto &[addr, bal] : jw.items()) wallets[addr] = static_cast<int64_t>(bal.get<long long>());
         wifs.close();
     }
-    if (wallets.find(PRIMARY_ADDRESS) == wallets.end()) wallets[PRIMARY_ADDRESS] = 1000000;}
+    // Apply one-time wallets override if present
+    {
+        std::ifstream oifs(WALLETS_OVERRIDE_FILE);
+        if (isFileReadable(oifs)) {
+            try {
+                json ow;
+                oifs >> ow;
+                oifs.close();
+                wallets.clear();
+                for (auto &[addr, bal] : ow.items()) {
+                    wallets[addr] = static_cast<int64_t>(bal.get<long long>());
+                }
+                // Persist overridden state immediately
+                saveState();
+                // Rename override file to mark as applied
+                try {
+                    auto ts = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+                    std::string applied = DATA_DIR + std::string("wallets.override.applied-") + std::to_string(ts) + ".json";
+                    std::error_code rec;
+                    std::filesystem::rename(WALLETS_OVERRIDE_FILE, applied, rec);
+                    if (rec) {
+                        // If rename fails, attempt to remove to avoid re-applying
+                        std::filesystem::remove(WALLETS_OVERRIDE_FILE, rec);
+                    }
+                } catch (...) {
+                    // Best-effort: ignore rename errors
+                }
+            } catch (...) {
+                // Ignore malformed override; proceed with existing wallets
+            }
+        }
+    }
+    if (wallets.find(PRIMARY_ADDRESS) == wallets.end()) wallets[PRIMARY_ADDRESS] = 1000000;
+}

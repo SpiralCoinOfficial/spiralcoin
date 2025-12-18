@@ -1,0 +1,15 @@
+﻿{
+    "ok":  true,
+    "expectedMin":  22000000000000,
+    "total":  22000000030000,
+    "addresses":  [
+                      {
+                          "address":  "0x928072b3A3A42e7dFD577a91167DfAa08f0E653E",
+                          "balance":  30000
+                      },
+                      {
+                          "address":  "0xSPRC1111111111111111111111111111SupplyVault",
+                          "balance":  22000000000000
+                      }
+                  ]
+}

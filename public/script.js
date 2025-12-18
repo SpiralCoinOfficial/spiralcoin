@@ -250,8 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btn.textContent.includes('Get Started') || btn.textContent.includes('Launch') || btn.textContent.includes('Start Trading')) {
             btn.addEventListener('click', () => {
                 showNotification('Redirecting to trading platform...', 'success');
-                // Uncomment and set your actual redirect URL
-                // setTimeout(() => window.location.href = '/trading', 1500);
+                setTimeout(() => window.location.href = '/trading_platform.html', 600);
             });
         }
     });
@@ -334,3 +333,10 @@ if ('PerformanceObserver' in window) {
 }
 
 console.log('SpiralCoin Landing Page loaded successfully!');
+
+// Register Service Worker for PWA/offline support
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+    });
+}

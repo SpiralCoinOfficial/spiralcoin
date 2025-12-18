@@ -8,5 +8,14 @@
   "C_Cpp.intelliSenseEngine": "default",
   "git.inputValidation": false,
   "git.inputValidationSubjectLength": 1000,
-  "git.inputValidationBodyLength": 2000
+  "git.inputValidationBodyLength": 2000,
+  "cmake.configureSettings": {
+    "CMAKE_C_COMPILER": "C:/msys64/mingw64/bin/gcc.exe",
+    "CMAKE_CXX_COMPILER": "C:/msys64/mingw64/bin/g++.exe",
+    "CMAKE_MAKE_PROGRAM": "C:/msys64/mingw64/bin/mingw32-make.exe"
+  },
+  "cmake.generator": "Unix Makefiles",
+  "cmake.preferredGenerators": [
+    "Unix Makefiles"
+  ]
 }

@@ -2,7 +2,6 @@
 {
   "version": "0.2.0",
   "configurations": [
-
     {
       "name": "Debug SpiralCoin (MinGW gdb)",
       "type": "cppdbg",
@@ -16,6 +15,21 @@
       "MIMode": "gdb",
       "miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe",
       "preLaunchTask": "Build SpiralCoin (MinGW g++)"
+    },
+    {
+      "name": "Run SpiralCoin Backend (Node)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/server.js",
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env",
+      "runtimeArgs": [
+        "--trace-warnings"
+      ],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "console": "integratedTerminal"
     },
     {
       "name": "Debug SpiralCoin (MSVC)",
@@ -35,6 +49,29 @@
       "program": "${workspaceFolder}/marketfeed/server.js",
       "cwd": "${workspaceFolder}/marketfeed",
       "envFile": "${workspaceFolder}/.env"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Launch Backend + MarketFeed",
+      "configurations": [
+        "Run SpiralCoin Backend (Node)",
+        "Run MarketFeed (Node)"
+      ]
+    },
+    {
+      "name": "Debug Daemon + Backend (MSVC)",
+      "configurations": [
+        "Debug SpiralCoin (MSVC)",
+        "Run SpiralCoin Backend (Node)"
+      ]
+    },
+    {
+      "name": "Debug Daemon + Backend (MinGW)",
+      "configurations": [
+        "Debug SpiralCoin (MinGW gdb)",
+        "Run SpiralCoin Backend (Node)"
+      ]
     }
   ]
 }

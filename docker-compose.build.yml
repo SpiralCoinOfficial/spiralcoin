@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  spiralcoin-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: spiralcoin-build
+    volumes:
+      - ./build:/app/build
+      - ./data:/app/data
+    ports:
+      - "8545:8545"
+    environment:
+      - NODE_ENV=development
+    command: ./build/spiralcoind
+
+  spiralcoin:
+    image: spiralcoin:latest
+    container_name: spiralcoin-daemon
+    restart: unless-stopped
+    ports:
+      - "8545:8545"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - WALLET_ADDRESS=0x928072b3A3A42e7dFD577a91167DfAa08f0E653E

@@ -6,13 +6,14 @@
 #include <fstream>
 #include <filesystem>
 #include <mutex>
+#include <cstdint>
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
 struct Transaction {
     std::string from, to, txid;
-    int amount;
+    int64_t amount;
 };
 
 struct Block {
@@ -43,10 +44,10 @@ public:
     void updateMarketData(const DQVECalculator::MarketData& data) override;
 
     // Blockchain operations
-    int getBalance(const std::string &addr = "");
+    int64_t getBalance(const std::string &addr = "");
     int getBlockCount() const;
     std::string getBlock(int height);
-    std::string sendToAddress(const std::string &to, int amount);
+    std::string sendToAddress(const std::string &to, int64_t amount);
     std::string getWalletInfo();
     std::string getNewAddress();
     void mineBlock();
@@ -54,13 +55,14 @@ public:
 private:
     int blockHeight = 1;
     int txCounter = 0;
-    int miningReward = 50;
+    int64_t miningReward = 50;
     std::map<int, Block> blockchain;
-    std::map<std::string, int> wallets;
+    std::map<std::string, int64_t> wallets;
     DQVECalculator dqveCalculator;
     std::vector<DQVECalculator::MarketData> marketHistory;
     DQVECalculator::MarketData currentMarketData;
     std::mutex db_mutex;
 
     void saveState();
-    void loadState();};
+    void loadState();
+};

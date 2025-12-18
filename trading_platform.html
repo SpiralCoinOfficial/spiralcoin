@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpiralCoin Exchange - Professional Trading Platform</title>
-    <meta name="description" content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
-    <link rel="icon" type="image/png" sizes="64x64" href="public/assets/SpiralCoin_logo.png">
-    <link rel="apple-touch-icon" href="public/assets/SpiralCoin_logo.png">
+    <meta name="description"
+        content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/SpiralCoin_logo.png">
+    <link rel="apple-touch-icon" href="assets/SpiralCoin_logo.png">
     <meta property="og:type" content="website">
     <meta property="og:title" content="SpiralCoin Exchange">
-    <meta property="og:description" content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
-    <meta property="og:image" content="public/assets/SpiralCoin_logo.png">
+    <meta property="og:description"
+        content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
+    <meta property="og:image" content="assets/SpiralCoin_logo.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SpiralCoin Exchange">
-    <meta name="twitter:description" content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
-    <meta name="twitter:image" content="public/assets/SpiralCoin_logo.png">
+    <meta name="twitter:description"
+        content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
+    <meta name="twitter:image" content="assets/SpiralCoin_logo.png">
     <style>
         :root {
             --primary: #ffcc00;
@@ -49,7 +53,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
             position: fixed;
             top: 0;
             left: 0;
@@ -92,7 +96,8 @@
             transition: all 0.3s ease;
         }
 
-        .nav-links a:hover, .nav-links a.active {
+        .nav-links a:hover,
+        .nav-links a.active {
             background: var(--primary);
             color: var(--secondary);
         }
@@ -136,14 +141,16 @@
             height: calc(100vh - 100px);
         }
 
-        .orderbook-panel, .trades-panel {
+        .orderbook-panel,
+        .trades-panel {
             background: var(--card-bg);
             border-radius: 10px;
             padding: 1rem;
             border: 1px solid var(--border);
         }
 
-        .orderbook-panel h3, .trades-panel h3 {
+        .orderbook-panel h3,
+        .trades-panel h3 {
             color: var(--primary);
             margin-bottom: 1rem;
             border-bottom: 1px solid var(--border);
@@ -448,7 +455,8 @@
                 grid-template-rows: auto 1fr auto;
             }
 
-            .orderbook-panel, .trades-panel {
+            .orderbook-panel,
+            .trades-panel {
                 display: none;
             }
 
@@ -458,18 +466,13 @@
         }
     </style>
 </head>
+
 <body>
     <header class="header">
         <div class="logo">
-            <img
-            src="public/assets/SpiralCoin_logo.png"
-                srcset="public/assets/SpiralCoin_logo.png 1x, public/assets/SpiralCoin_logo.png 2x"
-                sizes="40px"
-                width="40" height="40"
-                alt="SpiralCoin Logo"
-                decoding="async"
-                fetchpriority="high"
-                onerror="this.src='public/assets/SpiralCoin_logo.png'"/>
+            <img src="assets/SpiralCoin_logo.png" srcset="assets/SpiralCoin_logo.png 1x, assets/SpiralCoin_logo.png 2x"
+                sizes="40px" width="40" height="40" alt="SpiralCoin Logo" decoding="async" fetchpriority="high"
+                onerror="this.src='assets/SpiralCoin_logo.png'" />
             SpiralCoin Exchange
         </div>
         <nav class="nav-links">
@@ -600,7 +603,8 @@
                             <button type="button" class="percentage-btn">75%</button>
                             <button type="button" class="percentage-btn">100%</button>
                         </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Place Buy Order</button>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Place Buy
+                            Order</button>
                     </form>
                     <div class="order-summary">
                         <div class="summary-row">
@@ -696,7 +700,7 @@
 
     <script>
         // Basic interactive functionality
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Tab switching
             const tabBtns = document.querySelectorAll('.tab-btn');
             tabBtns.forEach(btn => {
@@ -748,11 +752,12 @@
             if (connectBtn) {
                 connectBtn.addEventListener('click', () => {
                     const msg = 'Wallet connection would integrate with MetaMask, ' +
-                                'Trust Wallet, or SpiralCoin wallet';
+                        'Trust Wallet, or SpiralCoin wallet';
                     alert(msg);
                 });
             }
         });
     </script>
 </body>
+
 </html>

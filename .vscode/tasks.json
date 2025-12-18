@@ -1,130 +1,1252 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "CMake: build SpiralCoin (MSVC)",
-      "type": "shell",
-      "command": "cmake",
-      "args": [
-        "-S", "${workspaceFolder}",
-        "-B", "${workspaceFolder}/build",
-        "-G", "Ninja",
-        "-DCMAKE_C_COMPILER=cl",
-        "-DCMAKE_CXX_COMPILER=cl"
-      ],
-      "problemMatcher": ["$msCompile"],
-      "group": "build"
-    },
-    {
-      "label": "CMake: build SpiralCoin (MinGW)",
-      "type": "shell",
-      "command": "cmake",
-      "args": [
-        "-S", "${workspaceFolder}",
-        "-B", "${workspaceFolder}/build",
-        "-G", "MinGW Makefiles",
-        "-DCMAKE_C_COMPILER=gcc",
-        "-DCMAKE_CXX_COMPILER=g++"
-      ],
-      "problemMatcher": ["$gcc"],
-      "group": "build"
-    },
-    {
-      "label": "Compile main.cpp (g++)",
-      "type": "shell",
-      "command": "g++",
-      "args": [
-        "-std=c++20",
-        "-I${workspaceFolder}/include",
-        "${workspaceFolder}/src/main.cpp",
-        "-o",
-        "${workspaceFolder}/build/spiralcoind.exe"
-      ],
-      "problemMatcher": ["$gcc"],
-      "group": "build"
-    },
-    {
-      "label": "Build SpiralCoin (MinGW g++)",
-      "type": "shell",
-      "command": "C:/msys64/usr/bin/bash.exe",
-      "args": [
-        "-lc",
-        "/mingw64/bin/g++ -std=c++20 -I include src/*.cpp -o build/spiralcoind.exe -pthread -D HAVE_EVMONE=0 -lws2_32 -lcrypt32"
-      ],
-      "options": { "cwd": "${workspaceFolder}" },
-      "problemMatcher": ["$gcc"],
-      "group": { "kind": "build", "isDefault": true }
-    },
-    {
-      "label": "Build SpiralCoin (MSVC cl)",
-      "type": "shell",
-      "command": "cl",
-      "args": [
-        "/std:c++20",
-        "/EHsc",
-        "/I",
-        "include",
-        "src\\*.cpp",
-        "/Fe:build\\spiralcoind.exe",
-        "Ws2_32.lib",
-        "Crypt32.lib"
-      ],
-      "options": { "cwd": "${workspaceFolder}" },
-      "problemMatcher": ["$msCompile"]
-    },
-    {
-      "label": "CMake: Configure (MinGW)",
-      "type": "shell",
-      "command": "cmake",
-      "args": [
-        "-S", ".",
-        "-B", "build",
-        "-G", "MinGW Makefiles",
-        "-DCMAKE_C_COMPILER=gcc",
-        "-DCMAKE_CXX_COMPILER=g++"
-      ],
-      "options": { "cwd": "${workspaceFolder}" }
-    },
-    {
-      "label": "CMake: Build",
-      "type": "shell",
-      "command": "cmake",
-      "args": ["--build", "build"],
-      "options": { "cwd": "${workspaceFolder}" }
-    },
-    {
-      "type": "docker-build",
-      "label": "docker-build",
-      "platform": "node",
-      "dockerBuild": {
-        "dockerfile": "${workspaceFolder}/Dockerfile",
-        "context": "${workspaceFolder}",
-        "pull": true
-      }
-    },
-    {
-      "type": "docker-run",
-      "label": "docker-run: release",
-      "dependsOn": [
-        "docker-build"
-      ],
-      "platform": "node"
-    },
-    {
-      "type": "docker-run",
-      "label": "docker-run: debug",
-      "dependsOn": [
-        "docker-build"
-      ],
-      "dockerRun": {
-        "env": {
-          "DEBUG": "*",
-          "NODE_ENV": "development"
-        }
-      },
-      "node": {
-        "enableDebugging": true
-      }
-    }
-  ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "CMake: build SpiralCoin (MSVC)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-S",
+				"${workspaceFolder}",
+				"-B",
+				"${workspaceFolder}/build",
+				"-G",
+				"Ninja",
+				"-DCMAKE_C_COMPILER=cl",
+				"-DCMAKE_CXX_COMPILER=cl"
+			],
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Remote: Sync Code + Compose Up",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/REMOTE_SYNC_CODE.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Remote: Setup Monitoring",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/REMOTE_SETUP_MONITORING.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Remote: Harden SSH",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/REMOTE_HARDEN_SSH.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Remote: Tail Backend & Daemon (200)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"ssh -o BatchMode=yes -o StrictHostKeyChecking=no root@174.138.37.6 'docker logs --tail 200 spiralcoin-backend; echo ---; docker logs --tail 200 spiralcoin-daemon'"
+			]
+		},
+		{
+			"label": "Remote: Run Health Check Now",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"ssh -o BatchMode=yes -o StrictHostKeyChecking=no root@174.138.37.6 '/root/spiralcoin/scripts/remote_health_check.sh'"
+			]
+		},
+		{
+			"label": "Remote: Tail Health Log",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"ssh -o BatchMode=yes -o StrictHostKeyChecking=no root@174.138.37.6 'tail -n 100 /var/log/spiralcoin-health.log'"
+			]
+		},
+		{
+			"label": "CMake: build SpiralCoin (MinGW)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-S",
+				"${workspaceFolder}",
+				"-B",
+				"${workspaceFolder}/build",
+				"-G",
+				"MinGW Makefiles",
+				"-DCMAKE_C_COMPILER=gcc",
+				"-DCMAKE_CXX_COMPILER=g++"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Compile main.cpp (g++)",
+			"type": "shell",
+			"command": "g++",
+			"args": [
+				"-std=c++20",
+				"-I${workspaceFolder}/include",
+				"${workspaceFolder}/src/main.cpp",
+				"-o",
+				"${workspaceFolder}/build/spiralcoind.exe"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Build SpiralCoin (MinGW g++)",
+			"type": "shell",
+			"command": "C:/msys64/usr/bin/bash.exe",
+			"args": [
+				"-lc",
+				"/mingw64/bin/g++ -std=c++20 -I include src/*.cpp -o build/spiralcoind.exe -pthread -lws2_32 -lcrypt32"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "Build SpiralCoin (MSVC cl)",
+			"type": "shell",
+			"command": "cl",
+			"args": [
+				"/std:c++20",
+				"/EHsc",
+				"/I",
+				"include",
+				"src\\*.cpp",
+				"/Fe:build\\spiralcoind.exe",
+				"Ws2_32.lib",
+				"Crypt32.lib"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$msCompile"
+			]
+		},
+		{
+			"label": "CMake: Configure (MinGW)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-S",
+				".",
+				"-B",
+				"build",
+				"-G",
+				"MinGW Makefiles",
+				"-DCMAKE_C_COMPILER=gcc",
+				"-DCMAKE_CXX_COMPILER=g++"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "CMake: Build",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"build"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"type": "docker-build",
+			"label": "docker-build",
+			"platform": "node",
+			"dockerBuild": {
+				"dockerfile": "${workspaceFolder}/Dockerfile",
+				"context": "${workspaceFolder}",
+				"pull": true
+			}
+		},
+		{
+			"type": "docker-run",
+			"label": "docker-run: release",
+			"dependsOn": [
+				"docker-build"
+			],
+			"platform": "node"
+		},
+		{
+			"type": "docker-run",
+			"label": "docker-run: debug",
+			"dependsOn": [
+				"docker-build"
+			],
+			"dockerRun": {
+				"env": {
+					"DEBUG": "*",
+					"NODE_ENV": "development"
+				}
+			},
+			"node": {
+				"enableDebugging": true
+			}
+		},
+		{
+			"label": "Run Backend (Node)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"node ${workspaceFolder}/server.js"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Run MarketFeed (Node)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"node ${workspaceFolder}/marketfeed/server.js"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/marketfeed"
+			}
+		},
+		{
+			"label": "Remote: Upload SSH Key",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/UPLOAD_SSH_KEY.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Auto Setup and Publish (SSH + Publish + Verify)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/AUTO_SETUP_AND_PUBLISH.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Remote: Setup SSL (Certbot)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/REMOTE_SSL_SETUP.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Start Local Stack (Backend + Daemon)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/START_LOCAL_STACK.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Install Prerequisites (Docker + MSYS2)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/INSTALL_PREREQS.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Remote: docker compose ps",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"ssh root@174.138.37.6 \"cd /root/spiralcoin && docker compose ps\""
+			]
+		},
+		{
+			"label": "Remote: docker compose logs -f",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"ssh root@174.138.37.6 \"cd /root/spiralcoin && docker compose logs -f\""
+			]
+		},
+		{
+			"label": "Deploy: docker compose logs (prod)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"docker compose -f ${workspaceFolder}/docker-compose.prod.yaml logs -f"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Deploy: docker compose down (prod)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"docker compose -f ${workspaceFolder}/docker-compose.prod.yaml down"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Deploy SpiralCoin (Docker Compose Prod)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/DEPLOY_ALL_PROD.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Deploy SpiralCoin (Remote Production)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/deploy_production.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Open Local Web UI",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"Start-Process http://localhost:5000"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Open Remote Web UI",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"Start-Process http://spiralcoin.net"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Open Exchange Info Page",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"Start-Process http://localhost:5000/exchange"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Open Local Status Dashboard",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"Start-Process http://localhost:5000/status.html"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Verify Local Stack",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/VERIFY_LOCAL.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Build Exchange Pack",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/MAKE_EXCHANGE_PACK.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"group": {
+				"kind": "build"
+			}
+		},
+		{
+			"label": "Open Exchange Pack",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"Start-Process Explorer.exe ${workspaceFolder}/build/SpiralCoin-Exchange-Pack.zip"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Publish Exchange Pack to Remote",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/PUBLISH_EXCHANGE_PACK.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Open Publish Targets File",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"Start-Process ${workspaceFolder}/EXCHANGE_PUBLISH.targets.json"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Publish Exchange Pack (Multi-Target)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/PUBLISH_EXCHANGE_PACK_MULTI.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Publish Exchange Pack (Multi-Target, Verbose)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/PUBLISH_EXCHANGE_PACK_MULTI.ps1",
+				"-Verbose"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Publish+Verify Exchange Pack (Multi-Target)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/PUBLISH_EXCHANGE_PACK_MULTI.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Verify Remote Pack (Multi-Target)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/VERIFY_REMOTE_PACK.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "List Remote Pack Directory",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"ssh -o BatchMode=yes -o StrictHostKeyChecking=no root@174.138.37.6 'ls -l /root/spiralcoin/exchange-pack'"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Fetch Remote Pack Locally",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/FETCH_REMOTE_PACK.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Open Publish Log",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"if (Test-Path '${workspaceFolder}/build/publish_log.txt') { Start-Process '${workspaceFolder}/build/publish_log.txt' } else { Write-Host 'publish_log.txt not found. Run a publish task first.' -ForegroundColor Yellow }"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Install OpenSSH Client",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Test Remote SSH Connectivity",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"ssh root@174.138.37.6 'echo ok'"
+			]
+		},
+		{
+			"label": "Prepublish Check",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/PREPARE_PUBLISH_CHECK.ps1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Exchange: Build → Prepublish → Publish+Verify",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"Build Exchange Pack",
+				"Prepublish Check",
+				"Publish+Verify Exchange Pack (Multi-Target)"
+			]
+		},
+		{
+			"label": "Exchange: Publish → List → Fetch → Verify",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"Publish Exchange Pack (Multi-Target, Verbose)",
+				"List Remote Pack Directory",
+				"Fetch Remote Pack Locally",
+				"Verify Remote Pack (Multi-Target)"
+			]
+		},
+		{
+			"label": "TEMP: Remote Upload SSH Key",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/UPLOAD_SSH_KEY.ps1"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Deploy: Remote Production",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/deploy_production.ps1"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "TEMP: Remote docker compose ps",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"ssh -o BatchMode=yes -o StrictHostKeyChecking=no root@174.138.37.6 \"cd /root/spiralcoin && docker compose ps\""
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "TEMP: Remote docker compose ps",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"& ssh -o BatchMode=yes -o StrictHostKeyChecking=no root@174.138.37.6 'cd /root/spiralcoin; docker compose ps'"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "TEMP: Remote list spiralcoin",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"ssh -o BatchMode=yes -o StrictHostKeyChecking=no root@174.138.37.6 ls -l /root/spiralcoin"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "TEMP: Remote SSL Setup",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/REMOTE_SSL_SETUP.ps1"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Run Remote SSL Setup",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/REMOTE_SSL_SETUP.ps1"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Run Remote Monitoring Setup",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/REMOTE_SETUP_MONITORING.ps1"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Run Remote Code Sync",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/REMOTE_SYNC_CODE.ps1"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Fix CMake System (Admin)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/fix-cmake-system.ps1"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Configure + Build (Ninja)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/configure-and-build-ninja.ps1"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run SpiralCoin (Ninja)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"& '${workspaceFolder}/build-ninja/spiralcoind.exe' --help"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run SpiralCoin (Ninja quoted path)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"& \"${workspaceFolder}/build-ninja/spiralcoind.exe\" --help"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run SpiralCoin (Ninja safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"$exe = Join-Path \"${workspaceFolder}\" \"build-ninja/spiralcoind.exe\"; & $exe --help"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run SpiralCoin (Ninja path fix)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"$wd = \"${workspaceFolder}\"; $exe = \"$wd/build-ninja/spiralcoind.exe\"; & \"$exe\" --help"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run SpiralCoin (Ninja cwd)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"Set-Location \"${workspaceFolder}\"; & \".\\build-ninja\\spiralcoind.exe\" --help"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run SpiralCoin (script)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/run-spiralcoin.ps1",
+				"--help"
+			]
+		},
+		{
+			"label": "Run SpiralCoin (script)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/run-spiralcoin.ps1",
+				"--help"
+			]
+		},
+		{
+			"label": "Run SpiralCoin (script)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/run-spiralcoin.ps1",
+				"--help"
+			]
+		},
+		{
+			"label": "Stop SpiralCoin (script)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/stop-spiralcoin.ps1"
+			]
+		},
+		{
+			"label": "Run SpiralCoin (--help)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/run-spiralcoin.ps1",
+				"--help"
+			]
+		},
+		{
+			"label": "Run SpiralCoin (detached)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/run-spiralcoin-detached.ps1"
+			]
+		},
+		{
+			"label": "Run SpiralCoin (detached)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/run-spiralcoin-detached.ps1"
+			]
+		},
+		{
+			"label": "Remote: docker compose ps (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-ps.ps1"
+			]
+		},
+		{
+			"label": "Remote: docker compose ps (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-ps.ps1"
+			]
+		},
+		{
+			"label": "Remote: docker service status (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-ps.ps1"
+			]
+		},
+		{
+			"label": "Remote: docker service status (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-ps.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		},
+		{
+			"label": "Remote: docker service status (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-ps.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		},
+		{
+			"label": "Remote: tail docker logs (safe)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}/scripts/remote-docker-logs.ps1"
+			]
+		}
+	]
 }

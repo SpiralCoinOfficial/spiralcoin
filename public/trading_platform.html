@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiralCoin Exchange - Professional Trading Platform</title>
+    <meta name="description"
+        content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0b132b" />
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/SpiralCoin_logo.png">
+    <link rel="apple-touch-icon" href="assets/SpiralCoin_logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SpiralCoin Exchange">
+    <meta property="og:description"
+        content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
+    <meta property="og:image" content="assets/SpiralCoin_logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SpiralCoin Exchange">
+    <meta name="twitter:description"
+        content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
+    <meta name="twitter:image" content="assets/SpiralCoin_logo.png">
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js" defer></script>
+    <style>
+        :root {
+            --primary: #ffcc00;
+            --secondary: #1a1a2e;
+            --accent: #16213e;
+            --text: #ffffff;
+            --text-secondary: #b0b0b0;
+            --success: #00ff88;
+            --danger: #ff4444;
+            --warning: #ffaa00;
+            --bg: #0f0f23;
+            --card-bg: rgba(26, 26, 46, 0.9);
+            --border: rgba(255, 204, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+            image-rendering: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .main-content {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .trading-section {
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            gap: 1rem;
+            padding: 1rem;
+            height: calc(100vh - 100px);
+        }
+
+        .orderbook-panel,
+        .trades-panel {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .orderbook-panel h3,
+        .trades-panel h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .orderbook {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .order-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+
+        .order-ask {
+            background: rgba(255, 68, 68, 0.1);
+            border-left: 3px solid var(--danger);
+        }
+
+        .order-bid {
+            background: rgba(0, 255, 136, 0.1);
+            border-left: 3px solid var(--success);
+        }
+
+        .chart-panel {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .pair-selector {
+            background: var(--secondary);
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+        }
+
+        .price-display {
+            text-align: center;
+        }
+
+        .current-price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .price-change {
+            font-size: 1.2rem;
+            color: var(--success);
+        }
+
+        .chart-container {
+            flex: 1;
+            background: var(--secondary);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+
+        .trading-panel {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            margin-top: 1rem;
+        }
+
+        .trading-tabs {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: var(--secondary);
+            border-color: var(--primary);
+        }
+
+        .tab-btn:first-child {
+            border-radius: 5px 0 0 5px;
+        }
+
+        .tab-btn:last-child {
+            border-radius: 0 5px 5px 0;
+        }
+
+        .order-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .form-row input {
+            flex: 1;
+            padding: 0.5rem;
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            color: var(--text);
+        }
+
+        .form-row input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .percentage-btns {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .percentage-btn {
+            padding: 0.25rem 0.5rem;
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .percentage-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .order-summary {
+            background: var(--secondary);
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .market-data {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .market-card {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .market-pair {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .market-price {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .market-change {
+            color: var(--success);
+            font-size: 0.9rem;
+        }
+
+        .recent-trades {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .trade-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .trade-price {
+            color: var(--success);
+        }
+
+        .balance-panel {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .balance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .balance-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--secondary);
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .balance-symbol {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .balance-amount {
+            text-align: right;
+        }
+
+        .footer {
+            background: var(--secondary);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .trading-section {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr auto;
+            }
+
+            .orderbook-panel,
+            .trades-panel {
+                display: none;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="assets/SpiralCoin_logo.png" srcset="assets/SpiralCoin_logo.png 1x, assets/SpiralCoin_logo.png 2x"
+                sizes="40px" width="40" height="40" alt="SpiralCoin Logo" decoding="async" fetchpriority="high"
+                onerror="this.src='assets/SpiralCoin_logo.png'" />
+            SpiralCoin Exchange
+        </div>
+        <nav class="nav-links">
+            <a href="#trade" class="active">Trade</a>
+            <a href="#markets">Markets</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#history">History</a>
+        </nav>
+        <div class="user-menu">
+            <button class="btn btn-secondary">Connect Wallet</button>
+            <div class="user-info">
+                <span>Balance: 1,250.00 SPRC</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="market-data">
+            <div class="market-card">
+                <div class="market-pair">SPRC/USDT</div>
+                <div class="market-price">$1.25</div>
+                <div class="market-change">+2.45%</div>
+            </div>
+            <div class="market-card">
+                <div class="market-pair">SPRC/BTC</div>
+                <div class="market-price">0.000025 BTC</div>
+                <div class="market-change">+1.23%</div>
+            </div>
+            <div class="market-card">
+                <div class="market-pair">SPRC/ETH</div>
+                <div class="market-price">0.00035 ETH</div>
+                <div class="market-change">-0.87%</div>
+            </div>
+            <div class="market-card">
+                <div class="market-pair">SPRC/USD</div>
+                <div class="market-price">$1.24</div>
+                <div class="market-change">+1.89%</div>
+            </div>
+        </div>
+
+        <div class="trading-section">
+            <div class="orderbook-panel">
+                <h3>Order Book</h3>
+                <div class="orderbook">
+                    <div class="order-row order-ask">
+                        <span>1.26</span>
+                        <span>500.00</span>
+                        <span>630.00</span>
+                    </div>
+                    <div class="order-row order-ask">
+                        <span>1.25</span>
+                        <span>750.00</span>
+                        <span>937.50</span>
+                    </div>
+                    <div class="order-row order-ask">
+                        <span>1.24</span>
+                        <span>1200.00</span>
+                        <span>1488.00</span>
+                    </div>
+                    <div class="order-row order-bid">
+                        <span>1.23</span>
+                        <span>800.00</span>
+                        <span>984.00</span>
+                    </div>
+                    <div class="order-row order-bid">
+                        <span>1.22</span>
+                        <span>600.00</span>
+                        <span>732.00</span>
+                    </div>
+                    <div class="order-row order-bid">
+                        <span>1.21</span>
+                        <span>900.00</span>
+                        <span>1089.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-panel">
+                <div class="chart-header">
+                    <div class="pair-selector">
+                        <select>
+                            <option>SPRC/USDT</option>
+                            <option>SPRC/BTC</option>
+                            <option>SPRC/ETH</option>
+                            <option>SPRC/USD</option>
+                        </select>
+                    </div>
+                    <div class="price-display">
+                        <div class="current-price">$1.25</div>
+                        <div class="price-change">+2.45%</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div id="sprcChart" style="width:100%;height:100%"></div>
+                </div>
+                <div class="trading-panel">
+                    <div class="trading-tabs">
+                        <button class="tab-btn active">Buy</button>
+                        <button class="tab-btn">Sell</button>
+                    </div>
+                    <form class="order-form" id="order-form">
+                        <div class="form-group">
+                            <label for="order-type">Order Type</label>
+                            <select id="order-type" name="orderType">
+                                <option value="market">Market Order</option>
+                                <option value="limit">Limit Order</option>
+                                <option value="stop">Stop Order</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="amount-input">Amount (SPRC)</label>
+                                <input id="amount-input" type="number" placeholder="0.00" min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="price-input">Price (USDT)</label>
+                                <input id="price-input" type="number" placeholder="1.25" min="0" step="0.0001">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="total-input">Total</label>
+                            <input id="total-input" type="number" placeholder="0.00" readonly>
+                        </div>
+                        <div class="percentage-btns" id="percentage-btns">
+                            <button type="button" class="percentage-btn">25%</button>
+                            <button type="button" class="percentage-btn">50%</button>
+                            <button type="button" class="percentage-btn">75%</button>
+                            <button type="button" class="percentage-btn">100%</button>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Place Buy
+                            Order</button>
+                    </form>
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span>Available Balance:</span>
+                            <span>1,250.00 USDT</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Order Total:</span>
+                            <span>0.00 USDT</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Fee (0.1%):</span>
+                            <span>0.00 USDT</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>You will receive:</span>
+                            <span>0.00 SPRC</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trades-panel">
+                <h3>Recent Trades</h3>
+                <div class="recent-trades">
+                    <div class="trade-item">
+                        <span>1.25</span>
+                        <span>50.00</span>
+                        <span class="trade-price">Buy</span>
+                    </div>
+                    <div class="trade-item">
+                        <span>1.24</span>
+                        <span>75.00</span>
+                        <span class="trade-price">Sell</span>
+                    </div>
+                    <div class="trade-item">
+                        <span>1.26</span>
+                        <span>25.00</span>
+                        <span class="trade-price">Buy</span>
+                    </div>
+                    <div class="trade-item">
+                        <span>1.23</span>
+                        <span>100.00</span>
+                        <span class="trade-price">Sell</span>
+                    </div>
+                    <div class="trade-item">
+                        <span>1.25</span>
+                        <span>30.00</span>
+                        <span class="trade-price">Buy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="balance-panel">
+            <div class="balance-header">
+                <h3>Your Portfolio</h3>
+                <button class="btn btn-secondary">Deposit</button>
+            </div>
+            <div class="balance-item">
+                <div>
+                    <div class="balance-symbol">SPRC</div>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem;">SpiralCoin</div>
+                </div>
+                <div class="balance-amount">
+                    <div>1,250.00</div>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem;">≈ $1,562.50</div>
+                </div>
+            </div>
+            <div class="balance-item">
+                <div>
+                    <div class="balance-symbol">USDT</div>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem;">Tether</div>
+                </div>
+                <div class="balance-amount">
+                    <div>500.00</div>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem;">≈ $500.00</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="/about.html">About</a>
+            <a href="/support.html">Support</a>
+            <a href="/api.html">API</a>
+            <a href="/fees.html">Fees</a>
+            <a href="/legal.html">Legal</a>
+        </div>
+        <p>&copy; 2025 SpiralCoin Exchange. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Basic interactive functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            // Tab switching
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+
+            // Form calculations (use stable IDs to avoid nulls)
+            const amountInput = document.getElementById('amount-input');
+            const priceInput = document.getElementById('price-input');
+            const totalInput = document.getElementById('total-input');
+            const orderForm = document.getElementById('order-form');
+
+            function updateTotal() {
+                const amount = parseFloat(amountInput?.value) || 0;
+                const price = parseFloat(priceInput?.value) || 0;
+                totalInput.value = (amount * price).toFixed(2);
+            }
+
+            if (amountInput) amountInput.addEventListener('input', updateTotal);
+            if (priceInput) priceInput.addEventListener('input', updateTotal);
+            if (orderForm) {
+                orderForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    updateTotal();
+                    const tabs = document.querySelectorAll('.trading-tabs .tab-btn');
+                    const side = tabs[0].classList.contains('active') ? 'BUY' : 'SELL';
+                    const symbolSel = document.querySelector('.pair-selector select');
+                    const symbol = (symbolSel?.value || 'SPRC/USD').replace('USDT', 'USD');
+                    const qty = parseFloat(amountInput?.value) || 0;
+                    const statusEl = document.querySelector('.order-summary .summary-row:last-child span:last-child');
+                    try {
+                        const resp = await fetch('/api/trade/order', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ symbol, side, quantity: qty })
+                        });
+                        const data = await resp.json();
+                        if (data.ok && data.order) {
+                            if (statusEl) statusEl.textContent = `${data.order.quantity.toFixed(4)} ${data.order.symbol.split('/')[0]}`;
+                            alert(`Order ${data.order.id} ${data.order.side} ${data.order.quantity} ${data.order.symbol} FILLED`);
+                        } else {
+                            alert(data.error || 'Order failed');
+                        }
+                    } catch (err) {
+                        alert(err.message || 'Network error');
+                    }
+                });
+            }
+
+            // Percentage buttons (scope to the form)
+            const percentageContainer = document.getElementById('percentage-btns');
+            if (percentageContainer) {
+                const percentageBtns = percentageContainer.querySelectorAll('.percentage-btn');
+                percentageBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const percentage = parseInt(btn.textContent, 10) / 100;
+                        const available = 1250; // Example balance in USDT
+                        const currentPrice = parseFloat(priceInput.value) || 1.25;
+                        amountInput.value = (available * percentage / currentPrice).toFixed(2);
+                        updateTotal();
+                    });
+                });
+            }
+
+            // Connect wallet placeholder
+            const connectBtn = document.querySelector('.btn.btn-secondary');
+            if (connectBtn) {
+                connectBtn.addEventListener('click', () => {
+                    const msg = 'Wallet connection would integrate with MetaMask, ' +
+                        'Trust Wallet, or SpiralCoin wallet';
+                    alert(msg);
+                });
+            }
+
+            // Real-time price chart (Lightweight Charts)
+            const chartEl = document.getElementById('sprcChart');
+            if (chartEl && window.LightweightCharts) {
+                const chart = LightweightCharts.createChart(chartEl, {
+                    layout: { background: { color: '#16213e' }, textColor: '#ffffff' },
+                    rightPriceScale: { borderColor: 'rgba(197, 203, 206, 0.4)' },
+                    timeScale: { borderColor: 'rgba(197, 203, 206, 0.4)' },
+                    grid: {
+                        vertLines: { color: 'rgba(42, 46, 57, 0.6)' },
+                        horzLines: { color: 'rgba(42, 46, 57, 0.6)' },
+                    },
+                    crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+                });
+                const series = chart.addLineSeries({ color: '#ffcc00', lineWidth: 2 });
+
+                const points = [];
+                const maxPoints = 2000; // keep memory bounded
+                let lastPrice = 0;
+                let fetching = false;
+                const targetHzMs = 50; // ~20 Hz
+
+                function nowSec() { return Math.floor(Date.now() / 1000); }
+                function pushPoint(price) {
+                    const t = nowSec();
+                    points.push({ time: t, value: price });
+                    while (points.length > maxPoints) points.shift();
+                    series.setData(points);
+                    const priceEl = document.querySelector('.current-price');
+                    if (priceEl) priceEl.textContent = `$${Number(price).toFixed(4)}`;
+                }
+
+                // SSE first, fallback to polling
+                function startPolling() {
+                    return setInterval(async () => {
+                        if (fetching) return;
+                        fetching = true;
+                        try {
+                            const resp = await fetch('/api/market/price', { cache: 'no-store' });
+                            const data = await resp.json().catch(() => ({}));
+                            const price = Number(data.price ?? lastPrice || 0);
+                            if (Number.isFinite(price) && price > 0) {
+                                lastPrice = price;
+                                pushPoint(price);
+                            } else if (lastPrice) {
+                                pushPoint(lastPrice);
+                            }
+                        } catch {
+                            if (lastPrice) pushPoint(lastPrice);
+                        } finally {
+                            fetching = false;
+                        }
+                    }, targetHzMs);
+                }
+
+                // Warm start with a few points
+                const seed = Number.isFinite(lastPrice) && lastPrice > 0 ? lastPrice : 1.25;
+                for (let i = 5; i >= 1; i--) points.push({ time: nowSec() - i, value: seed });
+                series.setData(points);
+
+                let pollTimer = null;
+                try {
+                    if ('EventSource' in window) {
+                        const es = new EventSource('/api/market/stream');
+                        es.onmessage = (evt) => {
+                            try {
+                                const data = JSON.parse(evt.data || '{}');
+                                const price = Number(data.price ?? lastPrice || 0);
+                                if (Number.isFinite(price) && price > 0) {
+                                    lastPrice = price;
+                                    pushPoint(price);
+                                }
+                            } catch {
+                                // ignore parse issues
+                            }
+                        };
+                        es.onerror = () => {
+                            // fallback to polling on error
+                            try { es.close(); } catch { }
+                            if (!pollTimer) pollTimer = startPolling();
+                        };
+                    } else {
+                        pollTimer = startPolling();
+                    }
+                } catch {
+                    pollTimer = startPolling();
+                }
+            }
+
+            // Recent orders panel (paper trading)
+            const recentContainer = document.querySelector('.trades-panel .recent-trades');
+            async function refreshOrders() {
+                if (!recentContainer) return;
+                try {
+                    const resp = await fetch('/api/trade/orders', { cache: 'no-store' });
+                    const data = await resp.json();
+                    const orders = Array.isArray(data.orders) ? data.orders : [];
+                    const html = orders.slice(0, 20).map(o => {
+                        const side = (o.side || '').toUpperCase();
+                        const cls = side === 'BUY' ? 'trade-price' : '';
+                        const price = Number(o.price || 0) || (Number.isFinite(lastPrice) ? lastPrice : 0);
+                        const qty = Number(o.quantity || 0).toFixed(2);
+                        const sym = o.symbol || 'SPRC/USD';
+                        const t = new Date(o.ts || Date.now()).toLocaleTimeString();
+                        return `<div class="trade-item"><span>${sym}</span><span>${qty}</span><span class="${cls}">${side || 'FILLED'} @ ${price}</span><span>${t}</span></div>`;
+                    }).join('');
+                    recentContainer.innerHTML = html || '<div class="trade-item"><span>No orders yet</span></div>';
+                } catch {
+                    // ignore network errors
+                }
+            }
+            refreshOrders();
+            setInterval(refreshOrders, 3000);
+        });
+    </script>
+</body>
+
+</html>
