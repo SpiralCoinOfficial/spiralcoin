@@ -7,6 +7,8 @@
     <title>SpiralCoin Exchange - Professional Trading Platform</title>
     <meta name="description"
         content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0b132b" />
     <link rel="icon" type="image/png" sizes="64x64" href="assets/SpiralCoin_logo.png">
     <link rel="apple-touch-icon" href="assets/SpiralCoin_logo.png">
     <meta property="og:type" content="website">
@@ -19,6 +21,7 @@
     <meta name="twitter:description"
         content="Trade SpiralCoin (SPRC) with pro charts, order books, portfolio, and lightning execution.">
     <meta name="twitter:image" content="assets/SpiralCoin_logo.png">
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js" defer></script>
     <style>
         :root {
             --primary: #ffcc00;
@@ -566,8 +569,7 @@
                     </div>
                 </div>
                 <div class="chart-container">
-                    <div>Interactive Trading Chart</div>
-                    <small>Chart library integration needed</small>
+                    <div id="sprcChart" style="width:100%;height:100%"></div>
                 </div>
                 <div class="trading-panel">
                     <div class="trading-tabs">
@@ -689,11 +691,11 @@
 
     <footer class="footer">
         <div class="footer-links">
-            <a href="#about">About</a>
-            <a href="#support">Support</a>
-            <a href="#api">API</a>
-            <a href="#fees">Fees</a>
-            <a href="#legal">Legal</a>
+            <a href="/about.html">About</a>
+            <a href="/support.html">Support</a>
+            <a href="/api.html">API</a>
+            <a href="/fees.html">Fees</a>
+            <a href="/legal.html">Legal</a>
         </div>
         <p>&copy; 2025 SpiralCoin Exchange. All rights reserved.</p>
     </footer>
@@ -755,6 +757,94 @@
                         'Trust Wallet, or SpiralCoin wallet';
                     alert(msg);
                 });
+            }
+
+            // Real-time price chart (Lightweight Charts)
+            const chartEl = document.getElementById('sprcChart');
+            if (chartEl && window.LightweightCharts) {
+                const chart = LightweightCharts.createChart(chartEl, {
+                    layout: { background: { color: '#16213e' }, textColor: '#ffffff' },
+                    rightPriceScale: { borderColor: 'rgba(197, 203, 206, 0.4)' },
+                    timeScale: { borderColor: 'rgba(197, 203, 206, 0.4)' },
+                    grid: {
+                        vertLines: { color: 'rgba(42, 46, 57, 0.6)' },
+                        horzLines: { color: 'rgba(42, 46, 57, 0.6)' },
+                    },
+                    crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+                });
+                const series = chart.addLineSeries({ color: '#ffcc00', lineWidth: 2 });
+
+                const points = [];
+                const maxPoints = 2000; // keep memory bounded
+                let lastPrice = 0;
+                let fetching = false;
+                const targetHzMs = 50; // ~20 Hz
+
+                function nowSec() { return Math.floor(Date.now() / 1000); }
+                function pushPoint(price) {
+                    const t = nowSec();
+                    points.push({ time: t, value: price });
+                    while (points.length > maxPoints) points.shift();
+                    series.setData(points);
+                    const priceEl = document.querySelector('.current-price');
+                    if (priceEl) priceEl.textContent = `$${Number(price).toFixed(4)}`;
+                }
+
+                // SSE first, fallback to polling
+                function startPolling() {
+                    return setInterval(async () => {
+                        if (fetching) return;
+                        fetching = true;
+                        try {
+                            const resp = await fetch('/api/market/price', { cache: 'no-store' });
+                            const data = await resp.json().catch(() => ({}));
+                            const price = Number(data.price ?? lastPrice || 0);
+                            if (Number.isFinite(price) && price > 0) {
+                                lastPrice = price;
+                                pushPoint(price);
+                            } else if (lastPrice) {
+                                pushPoint(lastPrice);
+                            }
+                        } catch {
+                            if (lastPrice) pushPoint(lastPrice);
+                        } finally {
+                            fetching = false;
+                        }
+                    }, targetHzMs);
+                }
+
+                // Warm start with a few points
+                const seed = Number.isFinite(lastPrice) && lastPrice > 0 ? lastPrice : 1.25;
+                for (let i = 5; i >= 1; i--) points.push({ time: nowSec() - i, value: seed });
+                series.setData(points);
+
+                let pollTimer = null;
+                try {
+                    if ('EventSource' in window) {
+                        const es = new EventSource('/api/market/stream');
+                        es.onmessage = (evt) => {
+                            try {
+                                const data = JSON.parse(evt.data || '{}');
+                                const price = Number(data.price ?? lastPrice || 0);
+                                if (Number.isFinite(price) && price > 0) {
+                                    lastPrice = price;
+                                    pushPoint(price);
+                                }
+                            } catch {
+                                // ignore parse issues
+                            }
+                        };
+                        es.onerror = () => {
+                            // fallback to polling on error
+                            try { es.close(); } catch { }
+                            if (!pollTimer) pollTimer = startPolling();
+                        };
+                    } else {
+                        pollTimer = startPolling();
+                    }
+                } catch {
+                    pollTimer = startPolling();
+                }
             }
         });
     </script>

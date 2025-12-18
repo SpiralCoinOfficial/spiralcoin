@@ -16,3 +16,25 @@ marketRouter.post("/update", (req, res) => {
         res.status(400).json({ error: "Invalid price" });
     }
 });
+
+// Server-Sent Events stream for price updates (~20 Hz)
+marketRouter.get("/stream", (req, res) => {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+    res.flushHeaders?.();
+
+    const send = () => {
+        const payload = JSON.stringify({ price: currentPrice, ts: Date.now() });
+        res.write(`data: ${payload}\n\n`);
+    };
+    // Send an initial event promptly
+    send();
+    // Stream at ~50ms interval (~20 Hz)
+    const interval = setInterval(send, 50);
+
+    req.on("close", () => {
+        clearInterval(interval);
+        try { res.end(); } catch {}
+    });
+});

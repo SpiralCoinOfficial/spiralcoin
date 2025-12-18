@@ -9,10 +9,12 @@ import https from "https";
 import path from "path";
 import { fileURLToPath, URL as NodeURL } from "url";
 
+import { authRouter } from "./routes/auth.js";
 import { blockchainRouter } from "./routes/blockchain.js";
 import { marketRouter } from "./routes/market.js";
 import { miningRouter } from "./routes/mining.js";
 import { statsRouter } from "./routes/stats.js";
+import { userRouter } from "./routes/user.js";
 import { walletRouter } from "./routes/wallet.js";
 
 // Set up __dirname for ES6 modules
@@ -72,6 +74,17 @@ app.get(['/trading', '/trade', '/start', '/app/trade'], (req, res) => {
     res.redirect(302, '/trading_platform.html');
 });
 
+// Convenient routes for auth and dashboard pages
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'register.html'));
+});
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+
 app.get('/health', (_req, res) => {
   res.status(200).json({ status: 'healthy', ts: new Date().toISOString() });
 });
@@ -108,6 +121,8 @@ app.get('/api/info', async (req, res) => {
 
 // Routes
 app.use("/api/market", marketRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
 app.use("/api/blockchain", blockchainRouter);
 app.use("/api/mining", miningRouter);
 app.use("/api/stats", statsRouter);
@@ -168,6 +183,55 @@ app.post("/api/rpc", async (req, res) => {
     } catch (err) {
         console.error("/api/rpc error:", err);
         res.status(500).json({ error: err.message });
+    }
+});
+
+// Dump wallet info from daemon (addresses and balances)
+app.get('/api/wallet/info', async (_req, res) => {
+    try {
+        const r = await rpcCall('getwalletinfo', []);
+        res.json(r?.result || r || {});
+    } catch (err) {
+        res.status(200).json({ error: err.message });
+    }
+});
+
+// On-chain wallet balance via daemon RPC
+app.get('/api/wallet/balance/onchain/:address', async (req, res) => {
+    try {
+        const { address } = req.params;
+        if (!address) return res.status(400).json({ error: 'Missing address' });
+        const r = await rpcCall('getbalance', [address]);
+        const balance = (typeof r?.result !== 'undefined') ? Number(r.result) : null;
+        res.json({ address, balance, source: 'daemon' });
+    } catch (err) {
+        res.status(200).json({ address: req.params.address, error: err.message });
+    }
+});
+
+// Verify supply balances remain secured in designated wallets
+app.get('/api/wallet/verify-supply', async (req, res) => {
+    try {
+        const primary = process.env.PRIMARY_WALLET || '0x928072b3A3A42e7dFD577a91167DfAa08f0E653E';
+        const vault = process.env.SUPPLY_VAULT || '0xSPRC1111111111111111111111111111SupplyVault';
+        const expectedMin = Number(req.query.min || process.env.SUPPLY_MIN || 22000000000000);
+        const listParam = (req.query.addresses || '').toString().trim();
+        const addresses = listParam
+            ? listParam.split(',').map(s => s.trim()).filter(Boolean)
+            : [primary, vault];
+
+        const results = await Promise.all(addresses.map(a => rpcCall('getbalance', [a]).catch(() => null)));
+        const details = addresses.map((addr, i) => ({ address: addr, balance: (results[i] && typeof results[i].result !== 'undefined') ? Number(results[i].result) : 0 }));
+        const total = details.reduce((acc, d) => acc + (Number.isFinite(d.balance) ? d.balance : 0), 0);
+        const ok = total >= expectedMin;
+        res.json({
+            ok,
+            expectedMin,
+            total,
+            addresses: details
+        });
+    } catch (err) {
+        res.status(200).json({ ok: false, error: err.message });
     }
 });
 

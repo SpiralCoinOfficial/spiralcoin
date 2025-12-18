@@ -16,8 +16,11 @@ This guide summarizes endpoints and steps to prepare for exchange listing.
 - **Status:** `/api/status` — returns `{ rpcUrl, chainId, blockNumber, gasPriceWei, peerCount }` with fallbacks
 - **RPC Proxy:** `/api/rpc` — POST JSON-RPC body forwarded to RPC URL
 - **Market Price:** `/api/market/price` — current market price (from marketfeed)
+- **Market Stream (SSE):** `/api/market/stream` — Server-Sent Events stream with `Content-Type: text/event-stream`; ~20 Hz updates; auto reconnect-friendly
 - **Wallet:** `/api/wallet/...` — wallet operations
 - **Aggregate Info:** `/api/exchange/info` — combines info and status into a single payload
+ - **Auth:** `/api/auth/register`, `/api/auth/login` — JWT-based authentication
+ - **User:** `/api/user/me`, `/api/user/wallet/my`, `/api/user/wallet/new` — JWT-protected user profile and wallet management
 
 ## Deployment
 
@@ -31,7 +34,55 @@ This guide summarizes endpoints and steps to prepare for exchange listing.
   - `/health`
   - `/api/status`
   - `/api/market/price`
-  - RPC `/rpc` with `getblockcount`
+  - RPC `/api/rpc` with `getblockcount`
+  - Supply verification at `/api/wallet/verify-supply` (expects ≥ 22,000,000,000,000 SPRC total across primary + vault)
+
+### Supply & Vault
+
+- **Primary Wallet:** `0x928072b3A3A42e7dFD577a91167DfAa08f0E653E`
+- **Supply Vault:** `0xSPRC1111111111111111111111111111SupplyVault`
+- **Expected Minimum Total:** `22,000,000,000,000` SPRC across the two addresses
+- Endpoint: `/api/wallet/verify-supply` returns `{ ok, expectedMin, total, addresses[] }`
+
+Example RPC check:
+
+```bash
+curl -s https://spiralcoin.net/api/rpc \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"getblockcount","params":[]}'
+```
+
+Example supply verification:
+
+```bash
+# Default (PRIMARY_WALLET + SUPPLY_VAULT from env, min 22T)
+curl -s https://spiralcoin.net/api/wallet/verify-supply | jq
+
+# Custom addresses and threshold
+curl -s "https://spiralcoin.net/api/wallet/verify-supply?addresses=0x928072b3A3A42e7dFD577a91167DfAa08f0E653E,0xSPRC1111111111111111111111111111SupplyVault&min=22000000000000" | jq
+```
+
+If needed, the daemon supports one-time seeding via `data/wallets.override.json` (applied on startup and then renamed) to initialize balances, including the vault allocation.
+
+### Accounts & Dashboard
+
+- **Pages:** `/login`, `/register`, `/dashboard` (served via backend; proxied by Nginx over HTTPS)
+- **JWT:** Issued on register/login; send as `Authorization: Bearer <token>`
+- **Create Address:** `POST /api/user/wallet/new` calls daemon RPC `getnewaddress`; if unavailable, backend may attempt EVM-compatible `personal_newAccount`.
+- **List Balances:** `GET /api/user/wallet/my` returns associated addresses and current on-chain balances via daemon RPC `getbalance`.
+
+Example SSE stream consumption:
+
+```javascript
+const es = new EventSource('https://spiralcoin.net/api/market/stream');
+es.onmessage = (e) => {
+  const data = JSON.parse(e.data);
+  // { price, ts } — update chart/UI here
+};
+es.onerror = () => {
+  // network hiccup: EventSource auto-reconnects
+};
+```
 
 ## Next Steps for Exchanges
 

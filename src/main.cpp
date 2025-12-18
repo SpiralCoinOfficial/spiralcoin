@@ -39,7 +39,7 @@ json handleSendToAddress(const json &jreq) {
         return {{"error", "Invalid parameters"}};
     }
     std::string to = jreq["params"][0].get<std::string>();
-    int amount = jreq["params"][1].get<int>();
+    long long amount = jreq["params"][1].get<long long>();
     return {{"result", db->sendToAddress(to, amount)}};
 }
 

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SpiralCoin Register</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/SpiralCoin_logo.png">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+            background: #0f0f23;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 204, 0, .2);
+            border-radius: 10px;
+            padding: 20px;
+            width: 320px;
+        }
+
+        h1 {
+            margin: 0 0 12px 0;
+            color: #ffcc00;
+            font-size: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 4px;
+            color: #b0b0c0;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #333a;
+            background: #101622;
+            color: #fff;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ffcc00;
+            background: transparent;
+            color: #ffcc00;
+            cursor: pointer;
+        }
+
+        .row {
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        a {
+            color: #ffcc00;
+        }
+
+        .err {
+            color: #ff6b6b;
+            min-height: 20px;
+            margin-top: 8px;
+        }
+    </style>
+    <script>
+        async function submitRegister(ev) {
+            ev.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const err = document.getElementById('err');
+            err.textContent = '';
+            try {
+                const r = await fetch('/api/auth/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, password }) });
+                const j = await r.json();
+                if (!r.ok) { err.textContent = j.error || 'Registration failed'; return; }
+                localStorage.setItem('spc_token', j.token);
+                location.href = '/dashboard.html';
+            } catch (e) { err.textContent = e.message; }
+        }
+    </script>
+</head>
+
+<body>
+    <form class="card" onsubmit="submitRegister(event)">
+        <h1>Create your account</h1>
+        <label>Username</label>
+        <input id="username" autocomplete="username" required />
+        <label>Password</label>
+        <input id="password" type="password" autocomplete="new-password" required />
+        <div class="err" id="err"></div>
+        <button type="submit">Create Account</button>
+        <div class="row">Have an account? <a href="/login.html">Sign in</a></div>
+    </form>
+</body>
+
+</html>

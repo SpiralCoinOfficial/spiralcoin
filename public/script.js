@@ -333,3 +333,10 @@ if ('PerformanceObserver' in window) {
 }
 
 console.log('SpiralCoin Landing Page loaded successfully!');
+
+// Register Service Worker for PWA/offline support
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+    });
+}
