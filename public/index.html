@@ -2,94 +2,119 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SpiralCoin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiralCoin Exchange - Professional Trading Platform</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div id="main">
-        <img src="spiral_logo.png" alt="SpiralCoin Logo" />
-        <h1>SpiralCoin-SPRC</h1>
-        <p>Current Price: <span id="price-display">$0.00</span></p>
-        <button onclick="getPrice()">Get Price</button>
-        <button onclick="updatePrice()">Update Price</button>
-        <button onclick="mineBlock()">Mine Block</button>
-        <button onclick="sendTransaction()">Send Transaction</button>
-        <button onclick="checkBalance()">Check Balance</button>
-        <button onclick="refreshStats()">Refresh Stats</button>
-        <div>
-            <p>Blocks: <span id="stats-blocks">0</span></p>
-            <p>Pending: <span id="stats-pending">0</span></p>
-            <p>Total Coins: <span id="stats-total">0</span></p>
+    <header class="header">
+        <div class="logo">
+            <img src="https://github.com/SpiralCoinOfficial.png?size=80" alt="SpiralCoin Logo"
+                onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNmZmNjMDAiLz4KPHRleHQgeD0iMjAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMxYTE4MmUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxPR088L3RleHQ+Cjwvc3ZnPg=='">
+            SpiralCoin Exchange
         </div>
-    </div>
-    <script>
-        const API_BASE =
-            (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-                ? `${location.protocol}//${location.hostname}:${location.port || 5000}/api`
-                : `https://www.spiralcoin.net/api`;
+        <nav class="nav-links">
+            <a href="/exchange.trade" class="active">Trade</a>
+            <a href="#markets">Markets</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#history">History</a>
+            <a href="/login.html">Login</a>
+            <a href="/signup.html">Create Account</a>
+        </nav>
+        <div class="user-menu">
+            <button class="btn btn-secondary" id="connect-wallet">Connect Wallet</button>
+            <div class="user-info">
+                <span id="wallet-address">Not connected</span>
+            </div>
+        </div>
+    </header>
+    <main class="main-content">
+        <div class="market-data" id="markets">
+            <div class="market-card">
+                <div class="market-pair">SPC/USDT</div>
+                <div class="market-price" id="spc-usdt-price">$1.25</div>
+                <div class="market-change" id="spc-usdt-change">+2.45%</div>
+            </div>
+            <div class="market-card">
+                <div class="market-pair">SPC/BTC</div>
+                <div class="market-price" id="spc-btc-price">0.000025 BTC</div>
+                <div class="market-change" id="spc-btc-change">+1.23%</div>
+            </div>
+            <div class="market-card">
+                <div class="market-pair">SPC/ETH</div>
+                <div class="market-price" id="spc-eth-price">0.00035 ETH</div>
+                <div class="market-change" id="spc-eth-change">-0.87%</div>
+            </div>
+            <div class="market-card">
+                <div class="market-pair">SPC/USD</div>
+                <div class="market-price" id="spc-usd-price">$1.24</div>
+                <div class="market-change" id="spc-usd-change">+1.89%</div>
+            </div>
+        </div>
+        <!-- Trading chart and orderbook UI copied from trading_platform.html -->
+        <div class="trading-section" id="trade">
+            <!-- ...existing code from trading_platform.html... -->
+        </div>
+    </main>
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="/js/trading_platform_live.js"></script>
+</body>
 
-        async function getPrice() {
-            try {
-                const res = await fetch(`${API_BASE}/market/quotes`, { cache: 'no-store' });
-                const data = await res.json();
-                const sprc = data?.SPRC?.usd;
-                document.getElementById("price-display").innerText = sprc ? `$${Number(sprc).toFixed(4)}` : '—';
-            } catch (e) {
-                document.getElementById("price-display").innerText = '—';
-            }
-        }
+</html>
+document.getElementById("price-display").innerText = '—';
+}
+}
 
-        async function updatePrice() {
-            const newPrice = parseFloat(prompt("Enter new SpiralCoin price:"));
-            if (isNaN(newPrice)) return alert("Invalid number");
-            const res = await fetch(`${API_BASE}/market/update`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ price: newPrice })
-            });
-            const data = await res.json();
-            alert(`Price updated: $${data.price}`);
-        }
+async function updatePrice() {
+const newPrice = parseFloat(prompt("Enter new SpiralCoin price:"));
+if (isNaN(newPrice)) return alert("Invalid number");
+const res = await fetch(`${API_BASE}/market/update`, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({ price: newPrice })
+});
+const data = await res.json();
+alert(`Price updated: $${data.price}`);
+}
 
-        async function mineBlock() {
-            const res = await fetch(`${API_BASE}/mining`, { method: "POST" });
-            const data = await res.json();
-            alert(`Block mined! Hash: ${data.block.hash}`);
-        }
+async function mineBlock() {
+const res = await fetch(`${API_BASE}/mining`, { method: "POST" });
+const data = await res.json();
+alert(`Block mined! Hash: ${data.block.hash}`);
+}
 
-        async function sendTransaction() {
-            const from = prompt("From wallet address:");
-            const to = prompt("To wallet address:");
-            const amount = parseFloat(prompt("Amount:"));
-            const res = await fetch(`${API_BASE}/mining/transaction`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ from, to, amount })
-            });
-            const data = await res.json();
-            alert(`Transaction added! Pending: ${data.pendingTransactions.length}`);
-        }
+async function sendTransaction() {
+const from = prompt("From wallet address:");
+const to = prompt("To wallet address:");
+const amount = parseFloat(prompt("Amount:"));
+const res = await fetch(`${API_BASE}/mining/transaction`, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({ from, to, amount })
+});
+const data = await res.json();
+alert(`Transaction added! Pending: ${data.pendingTransactions.length}`);
+}
 
-        async function checkBalance() {
-            const address = prompt("Enter wallet address:");
-            const res = await fetch(`${API_BASE}/wallet/balance/${address}`);
-            const data = await res.json();
-            alert(`Balance for ${address}: ${data.balance} SC`);
-        }
+async function checkBalance() {
+const address = prompt("Enter wallet address:");
+const res = await fetch(`${API_BASE}/wallet/balance/${address}`);
+const data = await res.json();
+alert(`Balance for ${address}: ${data.balance} SC`);
+}
 
-        async function refreshStats() {
-            const res = await fetch(`${API_BASE}/stats`, { cache: 'no-store' });
-            const data = await res.json();
-            document.getElementById("stats-blocks").innerText = data.blocks;
-            document.getElementById("stats-pending").innerText = data.pendingTransactions;
-            document.getElementById("stats-total").innerText = data.totalCoins;
-        }
+async function refreshStats() {
+const res = await fetch(`${API_BASE}/stats`, { cache: 'no-store' });
+const data = await res.json();
+document.getElementById("stats-blocks").innerText = data.blocks;
+document.getElementById("stats-pending").innerText = data.pendingTransactions;
+document.getElementById("stats-total").innerText = data.totalCoins;
+}
 
-        getPrice(); refreshStats();
-    </script>
+getPrice(); refreshStats();
+</script>
 </body>
 
 </html>

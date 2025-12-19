@@ -103,7 +103,8 @@ const dataDir = path.join(__dirname, "data");
 
 app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/index.html"));
+    // Serve the exchange UI at the homepage to match production behavior
+    res.sendFile(path.join(__dirname, "trading_platform.html"));
 });
 app.get('/trading_platform.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'trading_platform.html'));
@@ -114,6 +115,13 @@ app.get('/Trading_platform.html', (req, res) => {
 });
 app.get('/trading', (req, res) => {
   res.redirect(302, '/trading_platform.html');
+});
+// Canonical Exchange URL
+app.get('/exchange.trade', (req, res) => {
+  res.sendFile(path.join(__dirname, 'trading_platform.html'));
+});
+app.get('/exchange', (req, res) => {
+  res.redirect(301, '/exchange.trade');
 });
 
 app.get('/health', (_req, res) => {
