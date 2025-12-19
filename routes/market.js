@@ -287,31 +287,59 @@ marketRouter.get('/stream/quotes', async (req, res) => {
     sseHeaders(res);
     const selfPort = req.socket?.localPort || 5000;
     const sprcUrl = `http://127.0.0.1:${selfPort}/api/market/price`;
-    let timer = null;
 
-    async function pushQuotes() {
-        try {
-            const coingeckoUrl = `${CG_BASE}/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd&include_24hr_change=true`;
-            const [cgResp, sprcResp] = await Promise.all([
-                fetch(coingeckoUrl, { cache: 'no-store' }).catch(() => null),
-                fetch(sprcUrl, { cache: 'no-store' }).catch(() => null)
-            ]);
-            const cgJson = cgResp ? await cgResp.json().catch(() => ({})) : {};
-            const sprcJson = sprcResp ? await sprcResp.json().catch(() => ({})) : {};
-            const data = {
-                SPRC: { usd: typeof sprcJson.price === 'number' ? sprcJson.price : null, usd_24h_change: null },
-                BTC: { usd: cgJson?.bitcoin?.usd ?? null, usd_24h_change: cgJson?.bitcoin?.usd_24h_change ?? null },
-                ETH: { usd: cgJson?.ethereum?.usd ?? null, usd_24h_change: cgJson?.ethereum?.usd_24h_change ?? null },
-                USDT: { usd: cgJson?.tether?.usd ?? null, usd_24h_change: cgJson?.tether?.usd_24h_change ?? null },
-                ts: new Date().toISOString()
-            };
-            sseWrite(res, data);
-        } catch (e) {
-            sseWrite(res, { error: 'sse_quotes_error', details: e?.message || String(e) });
-        }
+    async function aggregateQuotes() {
+        const coingeckoUrl = `${CG_BASE}/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd&include_24hr_change=true`;
+        const [cgResp, sprcResp] = await Promise.all([
+            fetch(coingeckoUrl, { cache: 'no-store' }).catch(() => null),
+            fetch(sprcUrl, { cache: 'no-store' }).catch(() => null)
+        ]);
+        const cgJson = cgResp ? await cgResp.json().catch(() => ({})) : {};
+        const sprcJson = sprcResp ? await sprcResp.json().catch(() => ({})) : {};
+        return {
+            SPRC: { usd: typeof sprcJson.price === 'number' ? sprcJson.price : null, usd_24h_change: null },
+            BTC: { usd: cgJson?.bitcoin?.usd ?? null, usd_24h_change: cgJson?.bitcoin?.usd_24h_change ?? null },
+            ETH: { usd: cgJson?.ethereum?.usd ?? null, usd_24h_change: cgJson?.ethereum?.usd_24h_change ?? null },
+            USDT: { usd: cgJson?.tether?.usd ?? null, usd_24h_change: cgJson?.tether?.usd_24h_change ?? null },
+            ts: new Date().toISOString()
+        };
     }
 
-    await pushQuotes();
-    timer = setInterval(pushQuotes, 15000);
+    let timer = null;
+    try {
+        const initial = await aggregateQuotes();
+        sseWrite(res, initial);
+        timer = setInterval(async () => {
+            try { sseWrite(res, await aggregateQuotes()); } catch {}
+        }, 15000);
+    } catch (e) {
+        sseWrite(res, { error: 'sse_quotes_error', details: e?.message || String(e) });
+    }
+
     req.on('close', () => { try { if (timer) clearInterval(timer); } catch {} });
+});
+
+// Simple quotes JSON endpoint (non-streaming)
+marketRouter.get('/quotes', async (req, res) => {
+    try {
+        const selfPort = req.socket?.localPort || 5000;
+        const sprcUrl = `http://127.0.0.1:${selfPort}/api/market/price`;
+        const coingeckoUrl = `${CG_BASE}/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd&include_24hr_change=true`;
+        const [cgResp, sprcResp] = await Promise.all([
+            fetch(coingeckoUrl, { cache: 'no-store' }).catch(() => null),
+            fetch(sprcUrl, { cache: 'no-store' }).catch(() => null)
+        ]);
+        const cgJson = cgResp ? await cgResp.json().catch(() => ({})) : {};
+        const sprcJson = sprcResp ? await sprcResp.json().catch(() => ({})) : {};
+        const data = {
+            SPRC: { usd: typeof sprcJson.price === 'number' ? sprcJson.price : null, usd_24h_change: null },
+            BTC: { usd: cgJson?.bitcoin?.usd ?? null, usd_24h_change: cgJson?.bitcoin?.usd_24h_change ?? null },
+            ETH: { usd: cgJson?.ethereum?.usd ?? null, usd_24h_change: cgJson?.ethereum?.usd_24h_change ?? null },
+            USDT: { usd: cgJson?.tether?.usd ?? null, usd_24h_change: cgJson?.tether?.usd_24h_change ?? null },
+            ts: new Date().toISOString()
+        };
+        res.json(data);
+    } catch (e) {
+        res.status(502).json({ error: 'quotes_failed', details: e?.message || String(e) });
+    }
 });
