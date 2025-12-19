@@ -350,6 +350,25 @@ The trading page loads Lightweight Charts from a CDN and uses SSE streams. Make 
 
 If charts still do not render, check browser console for CSP violations and adjust the allowed origins accordingly.
 
+## 🧪 Production Verification Scripts
+
+Run these from your Windows dev box (PowerShell + Node installed):
+
+```powershell
+# 1) TLS inspection (protocol/cipher/chain/OCSP) and HTTPS reachability
+node scripts/prod_tls_check.js --host www.spiralcoin.net
+
+# 2) End-to-end verification (DNS, HTTP redirect, TLS trust, headers, trading page, SSE)
+PowerShell -NoProfile -ExecutionPolicy Bypass -File scripts/prod_verify.ps1 -Domain www.spiralcoin.net
+```
+
+Expected results:
+- HTTPS request OK (status 200/301)
+- TLS protocol TLSv1.2 or TLSv1.3, OCSP stapling present: yes, chain shows leaf + intermediate(s)
+- HSTS header present; CSP present and allows CDN scripts and SSE
+- Trading page returns 200
+- SSE quotes and candles deliver events
+
 ## 🔄 Auto-Start Configuration
 
 ### Create Systemd Service
