@@ -709,6 +709,7 @@
                 });
                 const series = chart.addCandlestickSeries({ upColor: '#00ff88', downColor: '#ff4444', borderDownColor: '#ff4444', borderUpColor: '#00ff88', wickDownColor: '#ff4444', wickUpColor: '#00ff88' });
                 let lastClose = null;
+                const state = { asset: 'SPRC', vs: 'USD', interval: '1h', lastTime: null, initialized: false };
 
                 async function safeJsonFetch(url) {
                     try {
@@ -719,13 +720,28 @@
                     } catch { return null; }
                 }
 
-                async function loadCandles(assetSymbol, vs, interval) {
+                async function loadCandles(assetSymbol, vs, interval, initialLoad) {
                     try {
                         const params = new URLSearchParams({ asset: assetSymbol || 'SPRC', vs: vs || 'USD', interval: interval || '1h' });
                         const data = await safeJsonFetch(`/api/market/candles?${params.toString()}`);
                         if (data && Array.isArray(data.candles)) {
                             const formatted = data.candles.map(c => ({ time: c.time, open: c.open, high: c.high, low: c.low, close: c.close }));
-                            series.setData(formatted);
+                            if (!state.initialized || initialLoad) {
+                                series.setData(formatted);
+                                state.initialized = true;
+                                state.lastTime = formatted.length ? formatted[formatted.length - 1].time : null;
+                            } else {
+                                // Incremental update: append or update last bar
+                                const last = formatted[formatted.length - 1];
+                                if (last) {
+                                    if (state.lastTime == null || last.time > state.lastTime) {
+                                        series.update(last);
+                                        state.lastTime = last.time;
+                                    } else if (last.time === state.lastTime) {
+                                        series.update(last);
+                                    }
+                                }
+                            }
                             if (formatted.length) {
                                 lastClose = formatted[formatted.length - 1].close;
                                 const priceEl = document.getElementById('current-price');
@@ -791,13 +807,20 @@
                             const val = assetSearch.value.trim();
                             if (val) { assetSel.value = val; refresh(); }
                         });
-                        function refresh() { const val = assetSel.value || 'SPRC'; loadCandles(val, vsSel.value, intSel.value); updateQuotes(val); }
+                        function refresh(initial = false) {
+                            const val = assetSel.value || 'SPRC';
+                            state.asset = val; state.vs = vsSel.value; state.interval = intSel.value;
+                            loadCandles(state.asset, state.vs, state.interval, initial);
+                            updateQuotes(state.asset);
+                        }
                         netSel.addEventListener('change', refresh);
                         assetSel.addEventListener('change', refresh);
                         vsSel.addEventListener('change', refresh);
                         intSel.addEventListener('change', refresh);
-                        refresh();
-                        setInterval(refresh, 30000);
+                        refresh(true);
+                        // Poll for incremental candle updates and quotes
+                        setInterval(() => loadCandles(state.asset, state.vs, state.interval, false), 20000);
+                        setInterval(() => updateQuotes(state.asset), 15000);
                     } catch { }
                 }
                 initPairs();
