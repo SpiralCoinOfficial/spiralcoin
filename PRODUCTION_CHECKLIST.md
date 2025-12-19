@@ -169,6 +169,9 @@ server {
     # SSL certificates (will be added by certbot)
     ssl_certificate /etc/letsencrypt/live/spiralcoin.net/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/spiralcoin.net/privkey.pem;
+  # Trusted cert chain for OCSP stapling verification
+  # (chain.pem is typically symlinked in LE live directory)
+  ssl_trusted_certificate /etc/letsencrypt/live/spiralcoin.net/chain.pem;
 
   # Enforce modern TLS
   ssl_protocols TLSv1.2 TLSv1.3;
