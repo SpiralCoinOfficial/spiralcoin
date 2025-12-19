@@ -23,7 +23,22 @@ const PORT = process.env.PORT || 5000;
 // Ensure fetch is available on older Node.js versions
 const fetch = globalThis.fetch ?? undiciFetch;
 
-app.use(cors());
+// Restrict CORS to known origins (dev localhost and production domains)
+const allowedOrigins = [
+  /^https?:\/\/localhost(?::\d+)?$/i,
+  /^https?:\/\/127\.0\.0\.1(?::\d+)?$/i,
+  /^https?:\/\/(www\.)?spiralcoin\.net$/i
+];
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // same-origin or non-browser requests
+    const ok = allowedOrigins.some((re) => re.test(origin));
+    return ok ? callback(null, true) : callback(new Error("Not allowed by CORS"));
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: false
+}));
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(helmet.hsts({ maxAge: 15552000 }));

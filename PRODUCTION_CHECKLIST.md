@@ -141,6 +141,7 @@ curl http://localhost:5000/api/supply/vault | jq
 curl http://localhost:5000/api/supply/total | jq
 ```
 
+
 ## 🔒 Security Configuration
 
 ### Install Nginx
@@ -157,7 +158,8 @@ cat > /etc/nginx/sites-available/spiralcoin.net << 'EOF'
 server {
     listen 80;
     server_name spiralcoin.net www.spiralcoin.net;
-    return 301 https://$host$request_uri;
+  # Canonical redirect to www
+  return 301 https://www.spiralcoin.net$request_uri;
 }
 
 server {
@@ -167,6 +169,32 @@ server {
     # SSL certificates (will be added by certbot)
     ssl_certificate /etc/letsencrypt/live/spiralcoin.net/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/spiralcoin.net/privkey.pem;
+
+  # Enforce modern TLS
+  ssl_protocols TLSv1.2 TLSv1.3;
+  ssl_prefer_server_ciphers on;
+  ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256';
+  ssl_session_cache shared:SSL:10m;
+  ssl_session_timeout 10m;
+
+  # OCSP stapling
+  ssl_stapling on;
+  ssl_stapling_verify on;
+  resolver 1.1.1.1 1.0.0.1 valid=300s;
+  resolver_timeout 5s;
+
+  # Redirect apex to canonical www on HTTPS
+  if ($host = spiralcoin.net) {
+    return 301 https://www.spiralcoin.net$request_uri;
+  }
+
+  # Security headers
+  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+  add_header X-Content-Type-Options "nosniff" always;
+  add_header X-Frame-Options "SAMEORIGIN" always;
+  add_header Referrer-Policy "no-referrer-when-downgrade" always;
+  add_header X-XSS-Protection "1; mode=block" always;
+  add_header Content-Security-Policy "default-src 'self' https: data blob 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: wss:; img-src 'self' https: data blob; font-src 'self' https: data; frame-ancestors 'self'; upgrade-insecure-requests" always;
 
     # Trading Platform
     location / {
@@ -182,6 +210,8 @@ server {
         proxy_pass http://localhost:5000/api/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     # MarketFeed WebSocket
@@ -200,6 +230,8 @@ server {
       proxy_set_header X-Real-IP $remote_addr;
       # Disable response buffering for SSE
       proxy_buffering off;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     # Health check
