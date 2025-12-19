@@ -1,130 +1,191 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "CMake: build SpiralCoin (MSVC)",
-      "type": "shell",
-      "command": "cmake",
-      "args": [
-        "-S", "${workspaceFolder}",
-        "-B", "${workspaceFolder}/build",
-        "-G", "Ninja",
-        "-DCMAKE_C_COMPILER=cl",
-        "-DCMAKE_CXX_COMPILER=cl"
-      ],
-      "problemMatcher": ["$msCompile"],
-      "group": "build"
-    },
-    {
-      "label": "CMake: build SpiralCoin (MinGW)",
-      "type": "shell",
-      "command": "cmake",
-      "args": [
-        "-S", "${workspaceFolder}",
-        "-B", "${workspaceFolder}/build",
-        "-G", "MinGW Makefiles",
-        "-DCMAKE_C_COMPILER=gcc",
-        "-DCMAKE_CXX_COMPILER=g++"
-      ],
-      "problemMatcher": ["$gcc"],
-      "group": "build"
-    },
-    {
-      "label": "Compile main.cpp (g++)",
-      "type": "shell",
-      "command": "g++",
-      "args": [
-        "-std=c++20",
-        "-I${workspaceFolder}/include",
-        "${workspaceFolder}/src/main.cpp",
-        "-o",
-        "${workspaceFolder}/build/spiralcoind.exe"
-      ],
-      "problemMatcher": ["$gcc"],
-      "group": "build"
-    },
-    {
-      "label": "Build SpiralCoin (MinGW g++)",
-      "type": "shell",
-      "command": "C:/msys64/usr/bin/bash.exe",
-      "args": [
-        "-lc",
-        "/mingw64/bin/g++ -std=c++20 -I include src/*.cpp -o build/spiralcoind.exe -pthread -D HAVE_EVMONE=0 -lws2_32 -lcrypt32"
-      ],
-      "options": { "cwd": "${workspaceFolder}" },
-      "problemMatcher": ["$gcc"],
-      "group": { "kind": "build", "isDefault": true }
-    },
-    {
-      "label": "Build SpiralCoin (MSVC cl)",
-      "type": "shell",
-      "command": "cl",
-      "args": [
-        "/std:c++20",
-        "/EHsc",
-        "/I",
-        "include",
-        "src\\*.cpp",
-        "/Fe:build\\spiralcoind.exe",
-        "Ws2_32.lib",
-        "Crypt32.lib"
-      ],
-      "options": { "cwd": "${workspaceFolder}" },
-      "problemMatcher": ["$msCompile"]
-    },
-    {
-      "label": "CMake: Configure (MinGW)",
-      "type": "shell",
-      "command": "cmake",
-      "args": [
-        "-S", ".",
-        "-B", "build",
-        "-G", "MinGW Makefiles",
-        "-DCMAKE_C_COMPILER=gcc",
-        "-DCMAKE_CXX_COMPILER=g++"
-      ],
-      "options": { "cwd": "${workspaceFolder}" }
-    },
-    {
-      "label": "CMake: Build",
-      "type": "shell",
-      "command": "cmake",
-      "args": ["--build", "build"],
-      "options": { "cwd": "${workspaceFolder}" }
-    },
-    {
-      "type": "docker-build",
-      "label": "docker-build",
-      "platform": "node",
-      "dockerBuild": {
-        "dockerfile": "${workspaceFolder}/Dockerfile",
-        "context": "${workspaceFolder}",
-        "pull": true
-      }
-    },
-    {
-      "type": "docker-run",
-      "label": "docker-run: release",
-      "dependsOn": [
-        "docker-build"
-      ],
-      "platform": "node"
-    },
-    {
-      "type": "docker-run",
-      "label": "docker-run: debug",
-      "dependsOn": [
-        "docker-build"
-      ],
-      "dockerRun": {
-        "env": {
-          "DEBUG": "*",
-          "NODE_ENV": "development"
-        }
-      },
-      "node": {
-        "enableDebugging": true
-      }
-    }
-  ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "CMake: build SpiralCoin (MSVC)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-S",
+				"${workspaceFolder}",
+				"-B",
+				"${workspaceFolder}/build",
+				"-G",
+				"Ninja",
+				"-DCMAKE_C_COMPILER=cl",
+				"-DCMAKE_CXX_COMPILER=cl"
+			],
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": "build"
+		},
+		{
+			"label": "CMake: build SpiralCoin (MinGW)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-S",
+				"${workspaceFolder}",
+				"-B",
+				"${workspaceFolder}/build",
+				"-G",
+				"MinGW Makefiles",
+				"-DCMAKE_C_COMPILER=gcc",
+				"-DCMAKE_CXX_COMPILER=g++"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Compile main.cpp (g++)",
+			"type": "shell",
+			"command": "g++",
+			"args": [
+				"-std=c++20",
+				"-I${workspaceFolder}/include",
+				"${workspaceFolder}/src/main.cpp",
+				"-o",
+				"${workspaceFolder}/build/spiralcoind.exe"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Build SpiralCoin (MinGW g++)",
+			"type": "shell",
+			"command": "C:/msys64/usr/bin/bash.exe",
+			"args": [
+				"-lc",
+				"/mingw64/bin/g++ -std=c++20 -I include src/*.cpp -o build/spiralcoind.exe -pthread -D HAVE_EVMONE=0 -lws2_32 -lcrypt32"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "Build SpiralCoin (MSVC cl)",
+			"type": "shell",
+			"command": "cl",
+			"args": [
+				"/std:c++20",
+				"/EHsc",
+				"/I",
+				"include",
+				"src\\*.cpp",
+				"/Fe:build\\spiralcoind.exe",
+				"Ws2_32.lib",
+				"Crypt32.lib"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$msCompile"
+			]
+		},
+		{
+			"label": "CMake: Configure (MinGW)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-S",
+				".",
+				"-B",
+				"build",
+				"-G",
+				"MinGW Makefiles",
+				"-DCMAKE_C_COMPILER=gcc",
+				"-DCMAKE_CXX_COMPILER=g++"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "CMake: Build",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"build"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"type": "docker-build",
+			"label": "docker-build",
+			"platform": "node",
+			"dockerBuild": {
+				"dockerfile": "${workspaceFolder}/Dockerfile",
+				"context": "${workspaceFolder}",
+				"pull": true
+			}
+		},
+		{
+			"type": "docker-run",
+			"label": "docker-run: release",
+			"dependsOn": [
+				"docker-build"
+			],
+			"platform": "node"
+		},
+		{
+			"type": "docker-run",
+			"label": "docker-run: debug",
+			"dependsOn": [
+				"docker-build"
+			],
+			"dockerRun": {
+				"env": {
+					"DEBUG": "*",
+					"NODE_ENV": "development"
+				}
+			},
+			"node": {
+				"enableDebugging": true
+			}
+		},
+		{
+			"label": "build",
+			"type": "shell",
+			"command": "msbuild",
+			"args": [
+				"/property:GenerateFullPaths=true",
+				"/t:build",
+				"/consoleloggerparameters:NoSummary"
+			],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "cmake-configure (Ninja)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-S",
+				".",
+				"-B",
+				"build",
+				"-G",
+				"Ninja"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
 }

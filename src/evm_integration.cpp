@@ -10,5 +10,11 @@ void run_evm_logic(StateDBImpl& db) {
 }
 #else
 #include <iostream>
-void run_evm_logic(...) { std::cout << "[*] EVMONE not available. Skipping EVM logic." << std::endl; }
+// Forward declaration to avoid including EVM-specific headers when EVMONE is not available.
+class StateDBImpl;
+
+// Provide a stub with the same signature so callers don't need to be gated on HAVE_EVMONE.
+void run_evm_logic(StateDBImpl& /*db*/) {
+    std::cout << "[*] EVMONE not available. Skipping EVM logic." << std::endl;
+}
 #endif

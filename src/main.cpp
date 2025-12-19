@@ -27,9 +27,9 @@ const long long INITIAL_SUPPLY = 20000000000000LL; // 20 trillion SPRC
 struct Transaction { std::string from, to, txid; int amount; };
 struct Block { int height; std::string hash; std::vector<Transaction> txs; };
 
-class StateDBImpl {
+class NodeStateDB {
 public:
-    StateDBImpl() {
+    NodeStateDB() {
         std::error_code ec;
         std::filesystem::create_directories(DATA_DIR, ec);
         loadState();
@@ -180,7 +180,7 @@ private:
     }
 };
 
-StateDBImpl db;
+NodeStateDB db;
 
 void signalHandler(int signum) {
     std::cout << "\n[!] Caught signal " << signum << ", shutting down SpiralCoin...\n";
