@@ -141,7 +141,6 @@ curl http://localhost:5000/api/supply/vault | jq
 curl http://localhost:5000/api/supply/total | jq
 ```
 
-
 ## 🔒 Security Configuration
 
 ### Install Nginx
@@ -302,10 +301,10 @@ If Windows clients report "Could not establish trust relationship" when visiting
 
 1. Ensure Nginx uses the full certificate chain:
 
-  - `ssl_certificate` must point to `fullchain.pem` (not `cert.pem`).
-  - `ssl_certificate_key` should point to `privkey.pem`.
+- `ssl_certificate` must point to `fullchain.pem` (not `cert.pem`).
+- `ssl_certificate_key` should point to `privkey.pem`.
 
-2. Verify the served chain and OCSP stapling from the server:
+1. Verify the served chain and OCSP stapling from the server:
 
 ```bash
 openssl s_client -connect spiralcoin.net:443 -servername spiralcoin.net -showcerts -status </dev/null | sed -n '1,120p'
@@ -318,7 +317,7 @@ certbot renew --force-renewal
 nginx -t && systemctl reload nginx
 ```
 
-3. Confirm TLS protocols/ciphers and HSTS:
+1. Confirm TLS protocols/ciphers and HSTS:
 
 ```bash
 curl -Iv https://www.spiralcoin.net/
@@ -326,7 +325,7 @@ curl -Iv https://www.spiralcoin.net/
 
 Look for `SSL connection using TLSv1.2 or TLSv1.3`, and verify the certificate issuer is a trusted CA. If behind a CDN or additional proxy, ensure it forwards the full chain and OCSP stapling.
 
-4. Firewall/ACME challenge:
+1. Firewall/ACME challenge:
 
 Make sure port 80 is open during issuance/renewal for HTTP-01 challenges, and that cron/renew hooks are configured.
 
@@ -363,6 +362,7 @@ PowerShell -NoProfile -ExecutionPolicy Bypass -File scripts/prod_verify.ps1 -Dom
 ```
 
 Expected results:
+
 - HTTPS request OK (status 200/301)
 - TLS protocol TLSv1.2 or TLSv1.3, OCSP stapling present: yes, chain shows leaf + intermediate(s)
 - HSTS header present; CSP present and allows CDN scripts and SSE
@@ -384,6 +384,7 @@ PowerShell -NoProfile -ExecutionPolicy Bypass -File scripts/prod_apply_nginx.ps1
 ```
 
 Requirements:
+
 - Windows OpenSSH client available (ssh/scp), or Git for Windows installed
 - SSH access to the server with the provided user/port
 
@@ -399,6 +400,7 @@ PowerShell -NoProfile -ExecutionPolicy Bypass -File scripts/prod_remote_checks.p
 ```
 
 This runs:
+
 - `docker compose ps`
 - `curl http://localhost:5000/health`
 - `curl http://localhost:5000/api/market/quotes`
@@ -427,6 +429,7 @@ EOF
 systemctl start spiralcoin.service
 systemctl status spiralcoin.service
 ```
+
 ## 📊 Monitoring Setup
 
 ### Install Monitoring Tools
