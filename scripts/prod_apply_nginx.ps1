@@ -4,7 +4,9 @@ param(
   [string]$User = "root",
   [string]$Domain = "spiralcoin.net",
   [string]$WWW = "www.spiralcoin.net",
-  [switch]$RunCertbot
+  [switch]$RunCertbot,
+  [string]$KeyFile,
+  [switch]$UseDefaultServer
 )
 
 $ErrorActionPreference = 'Stop'
@@ -20,8 +22,29 @@ function Require-Command($name) {
 Require-Command ssh
 Require-Command scp
 
+function Build-SSHArgs {
+  Param([string]$HostName)
+  $args = @("-p", "$Port")
+  if ($KeyFile) { $args += @("-i", "$KeyFile") }
+  $args += @("-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null")
+  $args += @("$User@$HostName")
+  return $args
+}
+
+function Build-SCPArgs {
+  Param([string]$Source, [string]$Dest)
+  $args = @("-P", "$Port")
+  if ($KeyFile) { $args += @("-i", "$KeyFile") }
+  $args += @("-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null")
+  $args += @("$Source", "$Dest")
+  return $args
+}
+
 # Compose Nginx config content
-$nginx = @"
+function New-NginxConfig([bool]$IncludeTrustChain) {
+  $listen443 = $UseDefaultServer ? "listen 443 ssl http2 default_server;" : "listen 443 ssl http2;"
+  $trustLine = $IncludeTrustChain ? "    ssl_trusted_certificate /etc/letsencrypt/live/$Domain/chain.pem;" : ""
+  return @"
 server {
     listen 80;
     server_name $Domain $WWW;
@@ -29,7 +52,7 @@ server {
 }
 
 server {
-    listen 443 ssl http2;
+    $listen443
     server_name $Domain $WWW;
 
     ssl_certificate /etc/letsencrypt/live/$Domain/fullchain.pem;
@@ -43,8 +66,7 @@ server {
 
     ssl_stapling on;
     ssl_stapling_verify on;
-    # Trust chain for OCSP verification
-    ssl_trusted_certificate /etc/letsencrypt/live/$Domain/chain.pem;
+$trustLine
     resolver 1.1.1.1 1.0.0.1 valid=300s;
     resolver_timeout 5s;
 
@@ -133,11 +155,12 @@ server {
     }
 }
 "@
+}
 
 # Write to temp file
 $tmp = New-TemporaryFile
-Set-Content -Path $tmp -Value $nginx -Encoding UTF8
-Write-Host "Prepared Nginx config in $tmp"
+Set-Content -Path $tmp -Value (New-NginxConfig -IncludeTrustChain:$false) -Encoding UTF8
+Write-Host "Prepared initial Nginx config in $tmp (without ssl_trusted_certificate)"
 
 # Upload and enable on server
 $remotePath = "/etc/nginx/sites-available/$Domain"
@@ -150,7 +173,7 @@ $enableCmd = @(
 ) -join '; '
 
 Write-Host "Uploading config to $remotePath"
-scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P $Port $tmp "$User@$Host:$remotePath"
+& scp (Build-SCPArgs -Source $tmp -Dest "$User@$Host:$remotePath")
 
 Write-Host "Enabling and reloading Nginx"
 # Ensure directories exist and enable site, then reload
@@ -159,8 +182,8 @@ $preEnable = @(
   "mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled",
   "[ -f $remotePath ] && cp -f $remotePath $remotePath.bak || true"
 ) -join '; '
-ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Port "$User@$Host" "$preEnable"
-ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Port "$User@$Host" "$enableCmd"
+& ssh (Build-SSHArgs -HostName $Host) "bash -lc '$preEnable'"
+& ssh (Build-SSHArgs -HostName $Host) "bash -lc '$enableCmd'"
 
 if ($RunCertbot) {
   Write-Host "Running certbot for $Domain,$WWW" -ForegroundColor Yellow
@@ -171,7 +194,20 @@ if ($RunCertbot) {
     "nginx -t",
     "systemctl reload nginx"
   ) -join ' && '
-  ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Port "$User@$Host" "$certCmd"
+  & ssh (Build-SSHArgs -HostName $Host) "bash -lc '$certCmd'"
+
+  # After cert issuance, upload config with ssl_trusted_certificate and reload again
+  $tmp2 = New-TemporaryFile
+  Set-Content -Path $tmp2 -Value (New-NginxConfig -IncludeTrustChain:$true) -Encoding UTF8
+  Write-Host "Prepared Nginx config in $tmp2 (with ssl_trusted_certificate)"
+  & scp (Build-SCPArgs -Source $tmp2 -Dest "$User@$Host:$remotePath")
+  $reloadCmd = @(
+    "set -e",
+    "nginx -t",
+    "systemctl reload nginx"
+  ) -join '; '
+  & ssh (Build-SSHArgs -HostName $Host) "bash -lc '$reloadCmd'"
+  Remove-Item $tmp2 -ErrorAction SilentlyContinue
 }
 
 Remove-Item $tmp -ErrorAction SilentlyContinue
