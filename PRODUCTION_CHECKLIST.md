@@ -419,22 +419,14 @@ After=docker.service network.target
 
 [Service]
 Type=oneshot
-RemainAfterExit=yes
-WorkingDirectory=/root/spiralcoin
-ExecStart=/usr/bin/docker compose up -d
-ExecStop=/usr/bin/docker compose down
-TimeoutStartSec=300
-
-[Install]
+- [x] Implement rate limiting on public APIs
 WantedBy=multi-user.target
 EOF
 
-systemctl daemon-reload
-systemctl enable spiralcoin.service
+ - Optional: SSE load test reports successful connections/events for multiple clients
 systemctl start spiralcoin.service
 systemctl status spiralcoin.service
 ```
-
 ## 📊 Monitoring Setup
 
 ### Install Monitoring Tools

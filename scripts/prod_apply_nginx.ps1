@@ -1,5 +1,5 @@
 param(
-  [string]$Host = "174.138.37.6",
+  [string]$ServerHost = "174.138.37.6",
   [int]$Port = 8454,
   [string]$User = "root",
   [string]$Domain = "spiralcoin.net",
@@ -11,7 +11,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 Write-Host "=== SpiralCoin: Apply Nginx Config to Production ===" -ForegroundColor Cyan
-Write-Host "Target: $User@$Host:$Port for $Domain/$WWW"
+Write-Host "Target: ${User}@${ServerHost}:${Port} for ${Domain}/${WWW}"
 
 # Ensure ssh/scp available
 function Require-Command($name) {
@@ -42,8 +42,10 @@ function Build-SCPArgs {
 
 # Compose Nginx config content
 function New-NginxConfig([bool]$IncludeTrustChain) {
-  $listen443 = $UseDefaultServer ? "listen 443 ssl http2 default_server;" : "listen 443 ssl http2;"
-  $trustLine = $IncludeTrustChain ? "    ssl_trusted_certificate /etc/letsencrypt/live/$Domain/chain.pem;" : ""
+  $listen443 = "listen 443 ssl http2;"
+  if ($UseDefaultServer) { $listen443 = "listen 443 ssl http2 default_server;" }
+  $trustLine = ""
+  if ($IncludeTrustChain) { $trustLine = "    ssl_trusted_certificate /etc/letsencrypt/live/$Domain/chain.pem;" }
   return @"
 server {
     listen 80;
@@ -173,7 +175,7 @@ $enableCmd = @(
 ) -join '; '
 
 Write-Host "Uploading config to $remotePath"
-& scp (Build-SCPArgs -Source $tmp -Dest "$User@$Host:$remotePath")
+& scp (Build-SCPArgs -Source $tmp -Dest "${User}@${ServerHost}:${remotePath}")
 
 Write-Host "Enabling and reloading Nginx"
 # Ensure directories exist and enable site, then reload
@@ -182,8 +184,8 @@ $preEnable = @(
   "mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled",
   "[ -f $remotePath ] && cp -f $remotePath $remotePath.bak || true"
 ) -join '; '
-& ssh (Build-SSHArgs -HostName $Host) "bash -lc '$preEnable'"
-& ssh (Build-SSHArgs -HostName $Host) "bash -lc '$enableCmd'"
+& ssh (Build-SSHArgs -HostName $ServerHost) "bash -lc '$preEnable'"
+& ssh (Build-SSHArgs -HostName $ServerHost) "bash -lc '$enableCmd'"
 
 if ($RunCertbot) {
   Write-Host "Running certbot for $Domain,$WWW" -ForegroundColor Yellow
@@ -194,19 +196,19 @@ if ($RunCertbot) {
     "nginx -t",
     "systemctl reload nginx"
   ) -join ' && '
-  & ssh (Build-SSHArgs -HostName $Host) "bash -lc '$certCmd'"
+  & ssh (Build-SSHArgs -HostName $ServerHost) "bash -lc '$certCmd'"
 
   # After cert issuance, upload config with ssl_trusted_certificate and reload again
   $tmp2 = New-TemporaryFile
   Set-Content -Path $tmp2 -Value (New-NginxConfig -IncludeTrustChain:$true) -Encoding UTF8
   Write-Host "Prepared Nginx config in $tmp2 (with ssl_trusted_certificate)"
-  & scp (Build-SCPArgs -Source $tmp2 -Dest "$User@$Host:$remotePath")
+  & scp (Build-SCPArgs -Source $tmp2 -Dest "${User}@${ServerHost}:${remotePath}")
   $reloadCmd = @(
     "set -e",
     "nginx -t",
     "systemctl reload nginx"
   ) -join '; '
-  & ssh (Build-SSHArgs -HostName $Host) "bash -lc '$reloadCmd'"
+  & ssh (Build-SSHArgs -HostName $ServerHost) "bash -lc '$reloadCmd'"
   Remove-Item $tmp2 -ErrorAction SilentlyContinue
 }
 

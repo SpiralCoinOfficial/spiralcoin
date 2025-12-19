@@ -22,6 +22,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 // Ensure fetch is available on older Node.js versions
 const fetch = globalThis.fetch ?? undiciFetch;
+// Behind Nginx reverse proxy, trust the proxy headers for correct client IP
+if (String(process.env.TRUST_PROXY || '1') === '1') {
+  app.set('trust proxy', 1);
+}
 
 // Restrict CORS to known origins (dev localhost and production domains)
 const allowedOrigins = [
@@ -43,9 +47,36 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.use(helmet.hsts({ maxAge: 15552000 }));
 
-// Basic rate limiter
-const limiter = rateLimit({ windowMs: 60 * 1000, max: 120 });
-app.use(limiter);
+// Rate limiting: global defaults and tighter API limits, skipping SSE endpoints
+const RATE_WINDOW_MS = Number(process.env.RATE_LIMIT_WINDOW_MS || 60_000);
+const RATE_MAX_GLOBAL = Number(process.env.RATE_LIMIT_MAX || 120);
+const RATE_MAX_API = Number(process.env.RATE_LIMIT_API_MAX || 60);
+
+// Skip function to avoid throttling server-sent event streams and health checks
+const skipRate = (req) => {
+  const p = req.path || '';
+  return p.startsWith('/api/market/stream') || p === '/health';
+};
+
+// Apply a light global limiter for non-API routes
+const globalLimiter = rateLimit({
+  windowMs: RATE_WINDOW_MS,
+  max: RATE_MAX_GLOBAL,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: skipRate
+});
+app.use(globalLimiter);
+
+// Apply a stricter limiter for API routes (excluding SSE streams)
+const apiLimiter = rateLimit({
+  windowMs: RATE_WINDOW_MS,
+  max: RATE_MAX_API,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: skipRate
+});
+app.use('/api/', apiLimiter);
 
 // Global blockchain and pending transactions
 export let chain = [];

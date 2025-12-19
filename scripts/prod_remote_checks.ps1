@@ -1,12 +1,12 @@
 param(
-  [string]$Host = "174.138.37.6",
+  [string]$ServerHost = "174.138.37.6",
   [int]$Port = 8454,
   [string]$User = "root"
 )
 
 $ErrorActionPreference = 'Continue'
 Write-Host "=== SpiralCoin: Remote Service Checks ===" -ForegroundColor Cyan
-Write-Host "Target: $User@$Host:$Port"
+Write-Host "Target: ${User}@${ServerHost}:${Port}"
 
 function Require-Command($name) {
   if (-not (Get-Command $name -ErrorAction SilentlyContinue)) {
@@ -16,7 +16,7 @@ function Require-Command($name) {
 Require-Command ssh
 
 function Run-Remote([string]$cmd) {
-  ssh -p $Port "$User@$Host" $cmd
+  ssh -p $Port "${User}@${ServerHost}" $cmd
 }
 
 Write-Host "\n== Docker compose status ==" -ForegroundColor Yellow
