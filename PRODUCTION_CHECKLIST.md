@@ -369,6 +369,26 @@ Expected results:
 - Trading page returns 200
 - SSE quotes and candles deliver events
 
+## ⚙️ Apply/Update Nginx Config Remotely (Optional Helper)
+
+You can push the hardened Nginx config to the server via SSH from Windows using the helper script:
+
+```powershell
+# Push config and reload (edit parameters as needed)
+PowerShell -NoProfile -ExecutionPolicy Bypass -File scripts/prod_apply_nginx.ps1 `
+  -Host 174.138.37.6 -Port 8454 -User root -Domain spiralcoin.net -WWW www.spiralcoin.net
+
+# Optionally run certbot on the server as part of the process
+PowerShell -NoProfile -ExecutionPolicy Bypass -File scripts/prod_apply_nginx.ps1 `
+  -Host 174.138.37.6 -Port 8454 -User root -Domain spiralcoin.net -WWW www.spiralcoin.net -RunCertbot
+```
+
+Requirements:
+- Windows OpenSSH client available (ssh/scp), or Git for Windows installed
+- SSH access to the server with the provided user/port
+
+After applying, run the Production Verification Scripts above to confirm headers (HSTS/CSP), API routes, and SSE streams are working.
+
 ## 🔄 Auto-Start Configuration
 
 ### Create Systemd Service
