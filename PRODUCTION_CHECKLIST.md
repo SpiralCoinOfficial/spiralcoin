@@ -197,6 +197,10 @@ server {
   add_header Content-Security-Policy "default-src 'self' https: data blob; script-src 'self' https: 'unsafe-inline' 'unsafe-eval'; style-src 'self' https: 'unsafe-inline'; connect-src 'self' https: wss:; img-src 'self' https: data blob; font-src 'self' https: data; frame-ancestors 'self'; upgrade-insecure-requests" always;
 
     # Trading Platform
+    # Redirect site root to the interactive trading page
+    location = / {
+      return 302 /trading_platform.html;
+    }
     location / {
         proxy_pass http://localhost:3000;
         proxy_set_header Host $host;

@@ -807,7 +807,7 @@
                         const vsSel = document.getElementById('vs-select');
                         const intSel = document.getElementById('interval-select');
                         data.networks.forEach(n => { const opt = document.createElement('option'); opt.value = n.id; opt.textContent = n.name; netSel.appendChild(opt); });
-                        data.assets.forEach(a => { const opt = document.createElement('option'); opt.value = a.id || a.symbol; opt.textContent = `${a.symbol} • ${a.name}`; assetSel.appendChild(opt); });
+                        data.assets.forEach(a => { const opt = document.createElement('option'); opt.value = (a.symbol || a.id); opt.textContent = `${a.symbol} • ${a.name}`; assetSel.appendChild(opt); });
                         async function searchAssets(q) {
                             if (!q || q.length < 2) { assetOptions.innerHTML = ''; return; }
                             try {

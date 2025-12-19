@@ -142,7 +142,11 @@ async function resolveCoingeckoId(asset) {
 // Query params: asset (symbol or coingecko id), vs (currency), interval (1m/5m/1h/1d)
 marketRouter.get("/candles", async (req, res) => {
     try {
-        const asset = (req.query.asset || req.query.pair || "SPRC").toString();
+        let asset = (req.query.asset || req.query.pair || "SPRC").toString();
+        // Map known local identifiers to SPRC
+        if (asset.toLowerCase() === 'spiralcoin' || asset.toUpperCase() === 'SPC') {
+            asset = 'SPRC';
+        }
         const vs = (req.query.vs || "USD").toString().toLowerCase();
         const interval = (req.query.interval || "1h").toString();
 
