@@ -11,7 +11,8 @@
     "smoke": "node scripts/smoke_test.js",
     "qa:auth": "node scripts/qa_auth_test.js",
     "qa:routes": "node scripts/qa_routes_test.js",
-    "qa:auth:refresh": "node scripts/qa_auth_refresh_test.js"
+    "qa:auth:refresh": "node scripts/qa_auth_refresh_test.js",
+    "qa:all": "powershell -ExecutionPolicy Bypass -File scripts/local_qa.ps1"
   },
   "dependencies": {
     "express": "^4.19.2",
