@@ -223,6 +223,18 @@ server {
         proxy_set_header Host $host;
     }
 
+    # Daemon JSON-RPC (proxied, POST only)
+    location /rpc/ {
+      proxy_pass http://localhost:8545/;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      # Optional: limit methods to POST via simple check (not strict security)
+      if ($request_method != POST) { return 405; }
+      access_log off;
+    }
+
     # SSE streams (candles/quotes)
     location /api/market/stream/ {
       proxy_pass http://localhost:5000/api/market/stream/;
@@ -383,6 +395,12 @@ curl https://spiralcoin.net/health
 
 # 5. Open trading platform
 # https://spiralcoin.net
+
+# 6. Test SSE quotes stream (press Ctrl+C to stop)
+curl -N -H 'Accept: text/event-stream' https://spiralcoin.net/api/market/stream/quotes | head -n 20
+
+# 7. Test SSE candles stream for SPRC (press Ctrl+C to stop)
+curl -N -H 'Accept: text/event-stream' "https://spiralcoin.net/api/market/stream/candles?asset=SPRC&vs=USD&interval=1m" | head -n 20
 ```
 
 ## 📋 Remaining Tasks
