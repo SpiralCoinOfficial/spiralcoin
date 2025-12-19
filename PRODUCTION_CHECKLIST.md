@@ -293,6 +293,40 @@ apt-get install -y certbot python3-certbot-nginx
 certbot --nginx -d spiralcoin.net -d www.spiralcoin.net --non-interactive --agree-tos -m admin@spiralcoin.net
 ```
 
+### SSL/TLS troubleshooting (Windows trust)
+
+If Windows clients report "Could not establish trust relationship" when visiting `https://www.spiralcoin.net/`:
+
+1. Ensure Nginx uses the full certificate chain:
+
+  - `ssl_certificate` must point to `fullchain.pem` (not `cert.pem`).
+  - `ssl_certificate_key` should point to `privkey.pem`.
+
+2. Verify the served chain and OCSP stapling from the server:
+
+```bash
+openssl s_client -connect spiralcoin.net:443 -servername spiralcoin.net -showcerts -status </dev/null | sed -n '1,120p'
+```
+
+You should see the leaf cert, intermediate(s), and `OCSP Response Status: successful`. If intermediates are missing, re-run certbot and reload Nginx:
+
+```bash
+certbot renew --force-renewal
+nginx -t && systemctl reload nginx
+```
+
+3. Confirm TLS protocols/ciphers and HSTS:
+
+```bash
+curl -Iv https://www.spiralcoin.net/
+```
+
+Look for `SSL connection using TLSv1.2 or TLSv1.3`, and verify the certificate issuer is a trusted CA. If behind a CDN or additional proxy, ensure it forwards the full chain and OCSP stapling.
+
+4. Firewall/ACME challenge:
+
+Make sure port 80 is open during issuance/renewal for HTTP-01 challenges, and that cron/renew hooks are configured.
+
 ### Configure Firewall
 
 ```bash
@@ -302,6 +336,16 @@ ufw allow 443/tcp   # HTTPS
 ufw --force enable
 ufw status
 ```
+
+### CSP for charts & SSE
+
+The trading page loads Lightweight Charts from a CDN and uses SSE streams. Make sure your `Content-Security-Policy` allows:
+
+- `script-src 'self' https: 'unsafe-inline' 'unsafe-eval'` (to permit `https://unpkg.com` and `https://cdn.jsdelivr.net` as fallbacks)
+- `style-src 'self' https: 'unsafe-inline'` (for inline styles)
+- `connect-src 'self' https: wss:` (for API calls and WebSocket/SSE connections)
+
+If charts still do not render, check browser console for CSP violations and adjust the allowed origins accordingly.
 
 ## 🔄 Auto-Start Configuration
 

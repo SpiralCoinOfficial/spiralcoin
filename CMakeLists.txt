@@ -55,6 +55,15 @@ target_link_libraries(${EXECUTABLE_NAME}
     ${EVMC_LIBS}
 )
 
+# Header-only JSON dependency (fetch automatically if not available)
+include(FetchContent)
+FetchContent_Declare(
+    nlohmann_json
+    URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+)
+FetchContent_MakeAvailable(nlohmann_json)
+target_link_libraries(${EXECUTABLE_NAME} nlohmann_json::nlohmann_json)
+
 # Windows-specific libraries
 if (WIN32)
     target_link_libraries(${EXECUTABLE_NAME} ws2_32 crypt32)

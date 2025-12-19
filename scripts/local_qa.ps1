@@ -92,6 +92,7 @@ Run-NodeScript "scripts/smoke_test.js"
 Run-NodeScript "scripts/qa_routes_test.js"
 Run-NodeScript "scripts/qa_auth_test.js"
 Run-NodeScript "scripts/qa_auth_refresh_test.js"
+Run-NodeScript "scripts/qa_sse_streams.js"
 
 # 6) Stop backend
 Write-Host "\n== Stopping backend ==" -ForegroundColor Yellow
