@@ -194,7 +194,7 @@ server {
   add_header X-Frame-Options "SAMEORIGIN" always;
   add_header Referrer-Policy "no-referrer-when-downgrade" always;
   add_header X-XSS-Protection "1; mode=block" always;
-  add_header Content-Security-Policy "default-src 'self' https: data blob 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: wss:; img-src 'self' https: data blob; font-src 'self' https: data; frame-ancestors 'self'; upgrade-insecure-requests" always;
+  add_header Content-Security-Policy "default-src 'self' https: data blob; script-src 'self' https: 'unsafe-inline' 'unsafe-eval'; style-src 'self' https: 'unsafe-inline'; connect-src 'self' https: wss:; img-src 'self' https: data blob; font-src 'self' https: data; frame-ancestors 'self'; upgrade-insecure-requests" always;
 
     # Trading Platform
     location / {
@@ -203,6 +203,29 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Interactive trading page served by backend
+    location = /trading_platform.html {
+      proxy_pass http://localhost:5000/trading_platform.html;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    location = /Trading_platform.html {
+      proxy_pass http://localhost:5000/Trading_platform.html;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    location = /trading {
+      proxy_pass http://localhost:5000/trading;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     # Backend API

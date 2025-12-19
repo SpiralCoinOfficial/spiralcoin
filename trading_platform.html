@@ -210,6 +210,8 @@
             align-items: center;
             justify-content: center;
             color: var(--text-secondary);
+            min-height: 420px;
+            width: 100%;
         }
 
         .trading-panel {
@@ -698,6 +700,10 @@
             // Lightweight Charts integration
             const container = document.getElementById('chart-container');
             if (container) {
+                if (typeof LightweightCharts === 'undefined') {
+                    container.textContent = 'Chart library failed to load. Please check your network or Content-Security-Policy settings.';
+                    return;
+                }
                 const chart = LightweightCharts.createChart(container, {
                     layout: { backgroundColor: '#16213e', textColor: '#ffffff' },
                     grid: { vertLines: { color: '#2a2a4a' }, horzLines: { color: '#2a2a4a' } },
