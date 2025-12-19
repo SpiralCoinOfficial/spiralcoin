@@ -1,5 +1,5 @@
 // QA Routes Test: redirects and basic endpoints
-import { fetch as undiciFetch } from 'undici';
+import { getGlobalDispatcher, fetch as undiciFetch } from 'undici';
 const fetch = globalThis.fetch ?? undiciFetch;
 
 const ports = [5000, 5001, 5002, 5003, 5004, 5005];
@@ -46,5 +46,9 @@ async function findPort() {
   const r4 = await fetch(`${base}/api/market/pairs`);
   console.log('GET /api/market/pairs ->', r4.status);
 
-  setTimeout(() => process.exit(0), 50);
+  // Gracefully close undici dispatcher to avoid libuv assertion on Windows.
+  try {
+    await getGlobalDispatcher().close();
+  } catch {}
+  // Allow natural process exit without forcing process.exit().
 })();
