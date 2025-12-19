@@ -1,5 +1,5 @@
 import express from "express";
-import crypto from "crypto";
+import * as crypto from "node:crypto";
 import { chain, pendingTransactions } from "../server.js";
 
 export const miningRouter = express.Router();

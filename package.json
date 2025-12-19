@@ -2,14 +2,24 @@
   "name": "spiralcoin",
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=18.17.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "smoke": "node scripts/smoke_test.js",
+    "qa:auth": "node scripts/qa_auth_test.js",
+    "qa:routes": "node scripts/qa_routes_test.js",
+    "qa:auth:refresh": "node scripts/qa_auth_refresh_test.js"
   },
   "dependencies": {
     "express": "^4.19.2",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
-    "express-rate-limit": "^7.4.1"
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^7.1.0",
+    "undici": "^6.19.8"
   }
 }

@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SpiralCoin</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SpiralCoin</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div id="main">
-        <img src="spiral_logo.png" alt="SpiralCoin Logo"/>
+        <img src="spiral_logo.png" alt="SpiralCoin Logo" />
         <h1>SpiralCoin-SPRC</h1>
         <p>Current Price: <span id="price-display">$0.00</span></p>
         <button onclick="getPrice()">Get Price</button>
@@ -24,12 +26,20 @@
         </div>
     </div>
     <script>
-        const API_BASE = "https://www.spiralcoin.net/api";
+        const API_BASE =
+            (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+                ? `${location.protocol}//${location.hostname}:${location.port || 5000}/api`
+                : `https://www.spiralcoin.net/api`;
 
         async function getPrice() {
-            const res = await fetch(`${API_BASE}/market/price`);
-            const data = await res.json();
-            document.getElementById("price-display").innerText = `$${data.price.toFixed(2)}`;
+            try {
+                const res = await fetch(`${API_BASE}/market/quotes`, { cache: 'no-store' });
+                const data = await res.json();
+                const sprc = data?.SPRC?.usd;
+                document.getElementById("price-display").innerText = sprc ? `$${Number(sprc).toFixed(4)}` : '—';
+            } catch (e) {
+                document.getElementById("price-display").innerText = '—';
+            }
         }
 
         async function updatePrice() {
@@ -71,7 +81,7 @@
         }
 
         async function refreshStats() {
-            const res = await fetch(`${API_BASE}/stats`);
+            const res = await fetch(`${API_BASE}/stats`, { cache: 'no-store' });
             const data = await res.json();
             document.getElementById("stats-blocks").innerText = data.blocks;
             document.getElementById("stats-pending").innerText = data.pendingTransactions;
@@ -81,4 +91,5 @@
         getPrice(); refreshStats();
     </script>
 </body>
+
 </html>

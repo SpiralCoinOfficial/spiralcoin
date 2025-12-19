@@ -15,14 +15,21 @@
 ## 🚀 Current Step: Production Server Deployment
 
 ### Server Details
+
 - **IP**: 174.138.37.6
 - **Domain**: spiralcoin.net
 - **SSH Port**: 8454
 - **Access**: root@174.138.37.6
 
+### Runtime Requirements
+
+- Node.js >= 18.17 (LTS recommended). Required by undici >= 6 and helmet >= 7.
+- npm >= 9. Ensure the Node/npm on the host meet these versions before running the backend.
+
 ### Deployment Steps
 
 #### 1. Install Docker (if needed)
+
 ```bash
 ssh -p 8454 root@174.138.37.6
 curl -fsSL https://get.docker.com -o get-docker.sh
@@ -31,6 +38,7 @@ docker --version
 ```
 
 #### 2. Clone/Update Repository
+
 ```bash
 cd /root
 git clone https://github.com/SpiralCoinOfficial/spiralcoin.git || (cd spiralcoin && git pull)
@@ -38,6 +46,7 @@ cd spiralcoin
 ```
 
 #### 3. Create Production Environment File
+
 ```bash
 cat > .env << 'EOF'
 PORT=5000
@@ -45,15 +54,18 @@ NODE_ENV=production
 RPC_URL=http://daemon:8545
 EXT_FEED=https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd
 NODE_PORT=4000
+JWT_SECRET=SET_A_STRONG_RANDOM_SECRET
 EOF
 ```
 
 #### 4. Deploy Docker Stack
+
 ```bash
 docker compose up -d --build
 ```
 
 #### 5. Verify Services
+
 ```bash
 docker compose ps
 docker compose logs --tail=50 daemon
@@ -62,6 +74,7 @@ docker compose logs --tail=20 marketfeed
 ```
 
 #### 6. Test Endpoints
+
 ```bash
 # Test daemon RPC
 curl -X POST http://localhost:8545/ \
@@ -71,19 +84,60 @@ curl -X POST http://localhost:8545/ \
 # Test backend
 curl http://localhost:5000/health
 
+# Test quotes
+curl http://localhost:5000/api/market/quotes | jq
+
+# Test candles (ETH example)
+curl "http://localhost:5000/api/market/candles?asset=ETH&vs=USD&interval=1h" | jq
+
 # Test marketfeed
 curl http://localhost:4000/api/feed
+
+## 🔐 Auth API Quick Tests
+
+```bash
+# 1) Signup (use a unique email)
+EMAIL="qa_$RANDOM@example.com"
+curl -s -X POST http://localhost:5000/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d "{\"email\":\"$EMAIL\",\"password\":\"Test1234!qa\"}"
+
+# 2) Login (get access + refresh tokens)
+LOGIN=$(curl -s -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d "{\"email\":\"$EMAIL\",\"password\":\"Test1234!qa\"}")
+ACCESS=$(echo "$LOGIN" | jq -r '.token')
+REFRESH=$(echo "$LOGIN" | jq -r '.refreshToken')
+
+# 3) Account (with access token)
+curl -s http://localhost:5000/api/account -H "Authorization: Bearer $ACCESS" | jq
+
+# 4) Refresh (get a new access token)
+REF=$(curl -s -X POST http://localhost:5000/api/auth/refresh \
+  -H "Content-Type: application/json" \
+  -d "{\"refreshToken\":\"$REFRESH\"}")
+ACCESS2=$(echo "$REF" | jq -r '.token')
+curl -s http://localhost:5000/api/account -H "Authorization: Bearer $ACCESS2" | jq
+
+# 5) Logout (invalidate refresh token)
+curl -s -X POST http://localhost:5000/api/auth/logout \
+  -H "Content-Type: application/json" \
+  -d "{\"refreshToken\":\"$REFRESH\"}"
+```
+
 ```
 
 ## 🔒 Security Configuration
 
 ### Install Nginx
+
 ```bash
 apt-get update
 apt-get install -y nginx
 ```
 
 ### Configure Nginx Reverse Proxy
+
 ```bash
 cat > /etc/nginx/sites-available/spiralcoin.net << 'EOF'
 server {
@@ -139,12 +193,14 @@ systemctl reload nginx
 ```
 
 ### Install SSL Certificate
+
 ```bash
 apt-get install -y certbot python3-certbot-nginx
 certbot --nginx -d spiralcoin.net -d www.spiralcoin.net --non-interactive --agree-tos -m admin@spiralcoin.net
 ```
 
 ### Configure Firewall
+
 ```bash
 ufw allow 8454/tcp  # SSH
 ufw allow 80/tcp    # HTTP
@@ -156,6 +212,7 @@ ufw status
 ## 🔄 Auto-Start Configuration
 
 ### Create Systemd Service
+
 ```bash
 cat > /etc/systemd/system/spiralcoin.service << 'EOF'
 [Unit]
@@ -184,11 +241,13 @@ systemctl status spiralcoin.service
 ## 📊 Monitoring Setup
 
 ### Install Monitoring Tools
+
 ```bash
 apt-get install -y htop nethogs iotop
 ```
 
 ### Create Monitoring Script
+
 ```bash
 cat > /root/monitor-spiralcoin.sh << 'EOF'
 #!/bin/bash
@@ -217,6 +276,7 @@ chmod +x /root/monitor-spiralcoin.sh
 ## 💾 Backup Configuration
 
 ### Create Backup Script
+
 ```bash
 cat > /root/backup-spiralcoin.sh << 'EOF'
 #!/bin/bash
@@ -241,6 +301,7 @@ chmod +x /root/backup-spiralcoin.sh
 ```
 
 ### Schedule Daily Backups
+
 ```bash
 (crontab -l 2>/dev/null; echo "0 2 * * * /root/backup-spiralcoin.sh >> /var/log/spiralcoin-backup.log 2>&1") | crontab -
 ```
@@ -248,6 +309,7 @@ chmod +x /root/backup-spiralcoin.sh
 ## 🧪 Post-Deployment Testing
 
 ### Test All Endpoints
+
 ```bash
 # 1. Test daemon RPC
 curl -X POST https://spiralcoin.net/rpc/ \
@@ -271,6 +333,7 @@ curl https://spiralcoin.net/health
 ## 📋 Remaining Tasks
 
 ### Technical
+
 - [ ] Security audit of smart contracts
 - [ ] Load testing (stress test daemon with 1000+ concurrent connections)
 - [ ] Set up monitoring alerts (email/SMS for downtime)
@@ -280,6 +343,7 @@ curl https://spiralcoin.net/health
 - [ ] Add API authentication/JWT tokens
 
 ### Business & Marketing
+
 - [ ] Legal entity incorporation
 - [ ] Whitepaper finalization
 - [ ] Marketing website content
@@ -294,6 +358,7 @@ curl https://spiralcoin.net/health
 - [ ] Press release distribution
 
 ### Compliance
+
 - [ ] KYC/AML policy documentation
 - [ ] Terms of service
 - [ ] Privacy policy
@@ -317,6 +382,7 @@ curl https://spiralcoin.net/health
 ## 🚨 Emergency Contacts & Procedures
 
 ### Quick Restart
+
 ```bash
 ssh -p 8454 root@174.138.37.6
 cd /root/spiralcoin
@@ -324,11 +390,13 @@ docker compose restart
 ```
 
 ### View Logs
+
 ```bash
 docker compose logs -f --tail=100
 ```
 
 ### Restore from Backup
+
 ```bash
 cd /root/spiralcoin
 docker compose down

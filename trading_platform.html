@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,7 +39,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
             position: fixed;
             top: 0;
             left: 0;
@@ -78,7 +79,8 @@
             transition: all 0.3s ease;
         }
 
-        .nav-links a:hover, .nav-links a.active {
+        .nav-links a:hover,
+        .nav-links a.active {
             background: var(--primary);
             color: var(--secondary);
         }
@@ -122,14 +124,16 @@
             height: calc(100vh - 100px);
         }
 
-        .orderbook-panel, .trades-panel {
+        .orderbook-panel,
+        .trades-panel {
             background: var(--card-bg);
             border-radius: 10px;
             padding: 1rem;
             border: 1px solid var(--border);
         }
 
-        .orderbook-panel h3, .trades-panel h3 {
+        .orderbook-panel h3,
+        .trades-panel h3 {
             color: var(--primary);
             margin-bottom: 1rem;
             border-bottom: 1px solid var(--border);
@@ -434,7 +438,8 @@
                 grid-template-rows: auto 1fr auto;
             }
 
-            .orderbook-panel, .trades-panel {
+            .orderbook-panel,
+            .trades-panel {
                 display: none;
             }
 
@@ -444,10 +449,11 @@
         }
     </style>
 </head>
+
 <body>
     <header class="header">
         <div class="logo">
-            <img src="https://github.com/[YOUR_GITHUB_USERNAME].png?size=80" alt="SpiralCoin Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNmZmNjMDAiLz4KPHRleHQgeD0iMjAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMxYTE4MmUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxPR088L3RleHQ+Cjwvc3ZnPg=='">
+            <img src="https://spiralcoin.net/assets/SpiralCoin_logo.png" alt="SpiralCoin Logo">
             SpiralCoin Exchange
         </div>
         <nav class="nav-links">
@@ -455,17 +461,19 @@
             <a href="#markets">Markets</a>
             <a href="#portfolio">Portfolio</a>
             <a href="#history">History</a>
+            <a href="/login.html">Login</a>
+            <a href="/signup.html">Create Account</a>
         </nav>
         <div class="user-menu">
-            <button class="btn btn-secondary">Connect Wallet</button>
+            <button class="btn btn-secondary" id="connect-wallet">Connect Wallet</button>
             <div class="user-info">
-                <span>Balance: 1,250.00 SPRC</span>
+                <span id="wallet-address">Not connected</span>
             </div>
         </div>
     </header>
 
     <main class="main-content">
-        <div class="market-data">
+        <div class="market-data" id="markets">
             <div class="market-card">
                 <div class="market-pair">SPC/USDT</div>
                 <div class="market-price">$1.25</div>
@@ -488,7 +496,7 @@
             </div>
         </div>
 
-        <div class="trading-section">
+        <div class="trading-section" id="trade">
             <div class="orderbook-panel">
                 <h3>Order Book</h3>
                 <div class="orderbook">
@@ -527,23 +535,33 @@
 
             <div class="chart-panel">
                 <div class="chart-header">
-                    <div class="pair-selector">
-                        <select>
-                            <option>SPRC/USDT</option>
-                            <option>SPRC/BTC</option>
-                            <option>SPRC/ETH</option>
-                            <option>SPRC/USD</option>
+                    <div class="pair-selector" id="pair-controls"
+                        style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                        <select id="network-select"></select>
+                        <input id="asset-search" placeholder="Search asset (BTC, ethereum, ripple, ...)"
+                            list="asset-options"
+                            style="flex:1;min-width:220px;padding:0.4rem;background:var(--secondary);border:1px solid var(--border);color:var(--text);border-radius:4px;" />
+                        <datalist id="asset-options"></datalist>
+                        <select id="asset-select" title="Assets"></select>
+                        <select id="vs-select">
+                            <option value="USD">USD</option>
+                            <option value="USDT">USDT</option>
+                            <option value="BTC">BTC</option>
+                            <option value="ETH">ETH</option>
+                        </select>
+                        <select id="interval-select">
+                            <option value="1m">1m</option>
+                            <option value="5m">5m</option>
+                            <option value="1h" selected>1h</option>
+                            <option value="1d">1d</option>
                         </select>
                     </div>
                     <div class="price-display">
-                        <div class="current-price">$1.25</div>
-                        <div class="price-change">+2.45%</div>
+                        <div class="current-price" id="current-price">—</div>
+                        <div class="price-change" id="price-change">—</div>
                     </div>
                 </div>
-                <div class="chart-container">
-                    <div>Interactive Trading Chart</div>
-                    <small>Chart library integration needed</small>
-                </div>
+                <div class="chart-container" id="chart-container"></div>
                 <div class="trading-panel">
                     <div class="trading-tabs">
                         <button class="tab-btn active">Buy</button>
@@ -578,7 +596,8 @@
                             <button type="button" class="percentage-btn">75%</button>
                             <button type="button" class="percentage-btn">100%</button>
                         </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Place Buy Order</button>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Place Buy
+                            Order</button>
                     </form>
                     <div class="order-summary">
                         <div class="summary-row">
@@ -601,7 +620,7 @@
                 </div>
             </div>
 
-            <div class="trades-panel">
+            <div class="trades-panel" id="history">
                 <h3>Recent Trades</h3>
                 <div class="recent-trades">
                     <div class="trade-item">
@@ -633,7 +652,7 @@
             </div>
         </div>
 
-        <div class="balance-panel">
+        <div class="balance-panel" id="portfolio">
             <div class="balance-header">
                 <h3>Your Portfolio</h3>
                 <button class="btn btn-secondary">Deposit</button>
@@ -663,18 +682,130 @@
 
     <footer class="footer">
         <div class="footer-links">
-            <a href="#about">About</a>
-            <a href="#support">Support</a>
-            <a href="#api">API</a>
-            <a href="#fees">Fees</a>
-            <a href="#legal">Legal</a>
+            <a href="/about.html">About</a>
+            <a href="/support.html">Support</a>
+            <a href="/api.html">API</a>
+            <a href="/fees.html">Fees</a>
+            <a href="/legal.html">Legal</a>
         </div>
         <p>&copy; 2025 SpiralCoin Exchange. All rights reserved.</p>
     </footer>
 
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
     <script>
         // Basic interactive functionality
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lightweight Charts integration
+            const container = document.getElementById('chart-container');
+            if (container) {
+                const chart = LightweightCharts.createChart(container, {
+                    layout: { backgroundColor: '#16213e', textColor: '#ffffff' },
+                    grid: { vertLines: { color: '#2a2a4a' }, horzLines: { color: '#2a2a4a' } },
+                    rightPriceScale: { borderColor: '#333' },
+                    timeScale: { borderColor: '#333' },
+                    crosshair: { mode: 1 },
+                    width: container.clientWidth,
+                    height: Math.max(300, container.clientHeight || 420)
+                });
+                const series = chart.addCandlestickSeries({ upColor: '#00ff88', downColor: '#ff4444', borderDownColor: '#ff4444', borderUpColor: '#00ff88', wickDownColor: '#ff4444', wickUpColor: '#00ff88' });
+                let lastClose = null;
+
+                async function safeJsonFetch(url) {
+                    try {
+                        const res = await fetch(url, { cache: 'no-store' });
+                        const ct = res.headers.get('content-type') || '';
+                        if (!ct.includes('application/json')) return null;
+                        return await res.json();
+                    } catch { return null; }
+                }
+
+                async function loadCandles(assetSymbol, vs, interval) {
+                    try {
+                        const params = new URLSearchParams({ asset: assetSymbol || 'SPRC', vs: vs || 'USD', interval: interval || '1h' });
+                        const data = await safeJsonFetch(`/api/market/candles?${params.toString()}`);
+                        if (data && Array.isArray(data.candles)) {
+                            const formatted = data.candles.map(c => ({ time: c.time, open: c.open, high: c.high, low: c.low, close: c.close }));
+                            series.setData(formatted);
+                            if (formatted.length) {
+                                lastClose = formatted[formatted.length - 1].close;
+                                const priceEl = document.getElementById('current-price');
+                                if (priceEl) {
+                                    priceEl.textContent = (vs === 'USD') ? `$${Number(lastClose).toFixed(4)}` : `${Number(lastClose).toFixed(6)} ${vs}`;
+                                }
+                            }
+                        }
+                    } catch (e) { }
+                }
+
+                async function updateQuotes(selectedAsset) {
+                    try {
+                        const data = await safeJsonFetch('/api/market/quotes');
+                        const sym = (selectedAsset || 'SPRC').toUpperCase();
+                        const quote = data && data[sym] ? data[sym] : null;
+                        const changeEl = document.getElementById('price-change');
+                        if (quote && typeof quote.usd_24h_change === 'number') {
+                            const pct = Number(quote.usd_24h_change).toFixed(2);
+                            changeEl.textContent = `${pct}%`;
+                            changeEl.style.color = (pct >= 0) ? '#00ff88' : '#ff4444';
+                        } else {
+                            changeEl.textContent = '—';
+                            changeEl.style.color = '#b0b0b0';
+                        }
+                    } catch { }
+                }
+
+                // Populate selectors and bind refresh
+                async function initPairs() {
+                    try {
+                        const res = await fetch('/api/market/pairs', { cache: 'no-store' });
+                        const data = await res.json();
+                        const netSel = document.getElementById('network-select');
+                        const assetSel = document.getElementById('asset-select');
+                        const assetSearch = document.getElementById('asset-search');
+                        const assetOptions = document.getElementById('asset-options');
+                        const vsSel = document.getElementById('vs-select');
+                        const intSel = document.getElementById('interval-select');
+                        data.networks.forEach(n => { const opt = document.createElement('option'); opt.value = n.id; opt.textContent = n.name; netSel.appendChild(opt); });
+                        data.assets.forEach(a => { const opt = document.createElement('option'); opt.value = a.id || a.symbol; opt.textContent = `${a.symbol} • ${a.name}`; assetSel.appendChild(opt); });
+                        async function searchAssets(q) {
+                            if (!q || q.length < 2) { assetOptions.innerHTML = ''; return; }
+                            try {
+                                const r = await fetch(`/api/market/search?query=${encodeURIComponent(q)}`, { cache: 'no-store' });
+                                const d = await r.json();
+                                assetOptions.innerHTML = '';
+                                (d.coins || []).slice(0, 10).forEach(c => {
+                                    const opt = document.createElement('option');
+                                    opt.value = c.id; // coin id as value
+                                    opt.label = `${(c.symbol || '').toUpperCase()} • ${c.name}`;
+                                    assetOptions.appendChild(opt);
+                                });
+                            } catch { }
+                        }
+                        let tmr = null;
+                        assetSearch.addEventListener('input', () => {
+                            const q = assetSearch.value.trim();
+                            clearTimeout(tmr);
+                            tmr = setTimeout(() => searchAssets(q), 250);
+                        });
+                        assetSearch.addEventListener('change', () => {
+                            const val = assetSearch.value.trim();
+                            if (val) { assetSel.value = val; refresh(); }
+                        });
+                        function refresh() { const val = assetSel.value || 'SPRC'; loadCandles(val, vsSel.value, intSel.value); updateQuotes(val); }
+                        netSel.addEventListener('change', refresh);
+                        assetSel.addEventListener('change', refresh);
+                        vsSel.addEventListener('change', refresh);
+                        intSel.addEventListener('change', refresh);
+                        refresh();
+                        setInterval(refresh, 30000);
+                    } catch { }
+                }
+                initPairs();
+
+                window.addEventListener('resize', () => {
+                    chart.applyOptions({ width: container.clientWidth, height: Math.max(300, container.clientHeight || 420) });
+                });
+            }
             // Tab switching
             const tabBtns = document.querySelectorAll('.tab-btn');
             tabBtns.forEach(btn => {
@@ -709,12 +840,23 @@
                 });
             });
 
-            // Connect wallet placeholder
-            const connectBtn = document.querySelector('.btn-secondary');
-            connectBtn.addEventListener('click', () => {
-                alert('Wallet connection functionality would integrate with MetaMask, Trust Wallet, or SpiralCoin wallet');
-            });
+            // Connect wallet via MetaMask / EIP-1193
+            const connectBtn = document.getElementById('connect-wallet');
+            const walletAddrEl = document.getElementById('wallet-address');
+            async function connectWallet() {
+                if (!window.ethereum) { alert('No wallet detected. Please install MetaMask.'); return; }
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const addr = accounts && accounts[0] ? accounts[0] : 'Not connected';
+                    walletAddrEl.textContent = addr;
+                } catch (e) { alert('Wallet connection failed: ' + (e?.message || e)); }
+            }
+            connectBtn.addEventListener('click', connectWallet);
+            if (window.ethereum) {
+                window.ethereum.on('accountsChanged', (accounts) => { walletAddrEl.textContent = accounts && accounts[0] ? accounts[0] : 'Not connected'; });
+            }
         });
     </script>
 </body>
+
 </html>
