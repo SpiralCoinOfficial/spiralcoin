@@ -699,11 +699,30 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Lightweight Charts integration
             const container = document.getElementById('chart-container');
-            if (container) {
-                if (typeof LightweightCharts === 'undefined') {
-                    container.textContent = 'Chart library failed to load. Please check your network or Content-Security-Policy settings.';
-                    return;
-                }
+            // Helper to dynamically load a script as fallback
+            function injectScript(src) {
+                return new Promise((resolve, reject) => {
+                    const s = document.createElement('script');
+                    s.src = src;
+                    s.async = true;
+                    s.onload = () => resolve();
+                    s.onerror = () => reject(new Error('Failed to load ' + src));
+                    document.head.appendChild(s);
+                });
+            }
+            async function ensureCharts() {
+                if (typeof LightweightCharts !== 'undefined') return true;
+                // Try jsDelivr fallback if unpkg is blocked
+                try {
+                    container && (container.textContent = 'Loading chart library…');
+                    await injectScript('https://cdn.jsdelivr.net/npm/lightweight-charts/dist/lightweight-charts.standalone.production.js');
+                } catch { }
+                return typeof LightweightCharts !== 'undefined';
+            }
+            async function initChart() {
+                if (!container) return;
+                const ok = await ensureCharts();
+                if (!ok) { container.textContent = 'Chart library failed to load. Please check your network or Content-Security-Policy settings.'; return; }
                 const chart = LightweightCharts.createChart(container, {
                     layout: { backgroundColor: '#16213e', textColor: '#ffffff' },
                     grid: { vertLines: { color: '#2a2a4a' }, horzLines: { color: '#2a2a4a' } },
@@ -874,6 +893,7 @@
                     chart.applyOptions({ width: container.clientWidth, height: Math.max(300, container.clientHeight || 420) });
                 });
             }
+            initChart();
             // Tab switching
             const tabBtns = document.querySelectorAll('.tab-btn');
             tabBtns.forEach(btn => {
