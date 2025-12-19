@@ -14,6 +14,7 @@ import { blockchainRouter } from "./routes/blockchain.js";
 import { marketRouter } from "./routes/market.js";
 import { miningRouter } from "./routes/mining.js";
 import { statsRouter } from "./routes/stats.js";
+import { supplyRouter } from "./routes/supply.js";
 import { walletRouter } from "./routes/wallet.js";
 
 dotenv.config();
@@ -115,6 +116,7 @@ app.use("/api/blockchain", blockchainRouter);
 app.use("/api/mining", miningRouter);
 app.use("/api/stats", statsRouter);
 app.use("/api/wallet", walletRouter);
+app.use("/api/supply", supplyRouter);
 
 // ---- Simple auth (demo) with basic persistence and refresh tokens ----
 const users = new Map(); // email -> { salt, hash, created }

@@ -125,6 +125,22 @@ curl -s -X POST http://localhost:5000/api/auth/logout \
   -d "{\"refreshToken\":\"$REFRESH\"}"
 ```
 
+### Supply API Quick Tests
+
+```bash
+# Supply summary
+curl http://localhost:5000/api/supply | jq
+
+# Founder wallet and balance
+curl http://localhost:5000/api/supply/founder | jq
+
+# Supply vault wallet and balance
+curl http://localhost:5000/api/supply/vault | jq
+
+# Total supply
+curl http://localhost:5000/api/supply/total | jq
+```
+
 ## 🔒 Security Configuration
 
 ### Install Nginx
