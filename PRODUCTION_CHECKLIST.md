@@ -389,6 +389,23 @@ Requirements:
 
 After applying, run the Production Verification Scripts above to confirm headers (HSTS/CSP), API routes, and SSE streams are working.
 
+### Remote Service Checks (on the server)
+
+Use the helper to quickly confirm backend/API/SSE and Docker status on the host:
+
+```powershell
+PowerShell -NoProfile -ExecutionPolicy Bypass -File scripts/prod_remote_checks.ps1 `
+  -Host 174.138.37.6 -Port 8454 -User root
+```
+
+This runs:
+- `docker compose ps`
+- `curl http://localhost:5000/health`
+- `curl http://localhost:5000/api/market/quotes`
+- `curl http://localhost:5000/api/market/candles?asset=ETH&vs=USD&interval=1h`
+- SSE headers for quotes/candles
+- `nginx -t && systemctl reload nginx`
+
 ## 🔄 Auto-Start Configuration
 
 ### Create Systemd Service

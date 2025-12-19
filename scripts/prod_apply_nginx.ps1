@@ -43,6 +43,8 @@ server {
 
     ssl_stapling on;
     ssl_stapling_verify on;
+    # Trust chain for OCSP verification
+    ssl_trusted_certificate /etc/letsencrypt/live/$Domain/chain.pem;
     resolver 1.1.1.1 1.0.0.1 valid=300s;
     resolver_timeout 5s;
 
