@@ -150,10 +150,17 @@ $enableCmd = @(
 ) -join '; '
 
 Write-Host "Uploading config to $remotePath"
-scp -P $Port $tmp "$User@$Host:$remotePath"
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P $Port $tmp "$User@$Host:$remotePath"
 
 Write-Host "Enabling and reloading Nginx"
-ssh -p $Port "$User@$Host" "$enableCmd"
+# Ensure directories exist and enable site, then reload
+$preEnable = @(
+  "set -e",
+  "mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled",
+  "[ -f $remotePath ] && cp -f $remotePath $remotePath.bak || true"
+) -join '; '
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Port "$User@$Host" "$preEnable"
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Port "$User@$Host" "$enableCmd"
 
 if ($RunCertbot) {
   Write-Host "Running certbot for $Domain,$WWW" -ForegroundColor Yellow
@@ -164,7 +171,7 @@ if ($RunCertbot) {
     "nginx -t",
     "systemctl reload nginx"
   ) -join ' && '
-  ssh -p $Port "$User@$Host" "$certCmd"
+  ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Port "$User@$Host" "$certCmd"
 }
 
 Remove-Item $tmp -ErrorAction SilentlyContinue
