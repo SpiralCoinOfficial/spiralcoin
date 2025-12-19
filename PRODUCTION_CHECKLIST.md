@@ -125,8 +125,6 @@ curl -s -X POST http://localhost:5000/api/auth/logout \
   -d "{\"refreshToken\":\"$REFRESH\"}"
 ```
 
-```
-
 ## 🔒 Security Configuration
 
 ### Install Nginx
