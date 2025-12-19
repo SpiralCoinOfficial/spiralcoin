@@ -219,3 +219,96 @@ marketRouter.get("/search", async (req, res) => {
         res.status(502).json({ error: "Search failed", details: e?.message || String(e) });
     }
 });
+
+// --- Server-Sent Events (SSE) for live candles and quotes ---
+function sseHeaders(res) {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+    // Hint to proxies like Nginx to avoid buffering
+    res.setHeader("X-Accel-Buffering", "no");
+}
+
+function sseWrite(res, obj) {
+    try { res.write(`data: ${JSON.stringify(obj)}\n\n`); } catch {}
+}
+
+marketRouter.get('/stream/candles', async (req, res) => {
+    sseHeaders(res);
+    const asset = (req.query.asset || req.query.pair || 'SPRC').toString();
+    const vs = (req.query.vs || 'USD').toString().toLowerCase();
+    const interval = (req.query.interval || '1h').toString();
+    let timer = null;
+
+    async function pushLastCandle() {
+        try {
+            if (asset.toUpperCase() === 'SPRC' || asset.toUpperCase() === 'SPC') {
+                // Simulate minor drift for local candles
+                const now = Math.floor(Date.now() / 1000);
+                const last = candles[candles.length - 1];
+                const open = last ? last.close : currentPrice;
+                const drift = (Math.random() - 0.5) * 0.001; // ~0.1%
+                const close = Math.max(0.0001, open * (1 + drift));
+                const high = Math.max(open, close) * (1 + Math.random() * 0.0005);
+                const low = Math.min(open, close) * (1 - Math.random() * 0.0005);
+                const bar = { time: now, open: Number(open.toFixed(6)), high: Number(high.toFixed(6)), low: Number(low.toFixed(6)), close: Number(close.toFixed(6)) };
+                candles.push(bar);
+                if (candles.length > 1440) candles.shift();
+                currentPrice = bar.close;
+                sseWrite(res, { asset: 'SPRC', vs, interval, candle: bar });
+            } else {
+                const cgId = await resolveCoingeckoId(asset);
+                if (!cgId) return sseWrite(res, { error: 'asset_not_found' });
+                const daysMap = { '1m': 1, '5m': 1, '1h': 1, '1d': 7, '7d': 30 };
+                const days = daysMap[interval] || 1;
+                const url = `${CG_BASE}/coins/${cgId}/ohlc?vs_currency=${encodeURIComponent(vs)}&days=${days}`;
+                const ohlc = await fetchJson(url);
+                if (!Array.isArray(ohlc) || ohlc.length === 0) return;
+                const row = ohlc[ohlc.length - 1];
+                const bar = { time: Math.floor(row[0] / 1000), open: row[1], high: row[2], low: row[3], close: row[4] };
+                sseWrite(res, { asset: asset.toUpperCase(), vs, interval, candle: bar });
+            }
+        } catch (e) {
+            sseWrite(res, { error: 'sse_candles_error', details: e?.message || String(e) });
+        }
+    }
+
+    // Initial push, then periodic updates
+    await pushLastCandle();
+    timer = setInterval(pushLastCandle, 15000);
+
+    req.on('close', () => { try { if (timer) clearInterval(timer); } catch {} });
+});
+
+marketRouter.get('/stream/quotes', async (req, res) => {
+    sseHeaders(res);
+    const selfPort = req.socket?.localPort || 5000;
+    const sprcUrl = `http://127.0.0.1:${selfPort}/api/market/price`;
+    let timer = null;
+
+    async function pushQuotes() {
+        try {
+            const coingeckoUrl = `${CG_BASE}/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd&include_24hr_change=true`;
+            const [cgResp, sprcResp] = await Promise.all([
+                fetch(coingeckoUrl, { cache: 'no-store' }).catch(() => null),
+                fetch(sprcUrl, { cache: 'no-store' }).catch(() => null)
+            ]);
+            const cgJson = cgResp ? await cgResp.json().catch(() => ({})) : {};
+            const sprcJson = sprcResp ? await sprcResp.json().catch(() => ({})) : {};
+            const data = {
+                SPRC: { usd: typeof sprcJson.price === 'number' ? sprcJson.price : null, usd_24h_change: null },
+                BTC: { usd: cgJson?.bitcoin?.usd ?? null, usd_24h_change: cgJson?.bitcoin?.usd_24h_change ?? null },
+                ETH: { usd: cgJson?.ethereum?.usd ?? null, usd_24h_change: cgJson?.ethereum?.usd_24h_change ?? null },
+                USDT: { usd: cgJson?.tether?.usd ?? null, usd_24h_change: cgJson?.tether?.usd_24h_change ?? null },
+                ts: new Date().toISOString()
+            };
+            sseWrite(res, data);
+        } catch (e) {
+            sseWrite(res, { error: 'sse_quotes_error', details: e?.message || String(e) });
+        }
+    }
+
+    await pushQuotes();
+    timer = setInterval(pushQuotes, 15000);
+    req.on('close', () => { try { if (timer) clearInterval(timer); } catch {} });
+});

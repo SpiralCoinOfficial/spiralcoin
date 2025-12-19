@@ -193,6 +193,15 @@ server {
         proxy_set_header Host $host;
     }
 
+    # SSE streams (candles/quotes)
+    location /api/market/stream/ {
+      proxy_pass http://localhost:5000/api/market/stream/;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      # Disable response buffering for SSE
+      proxy_buffering off;
+    }
+
     # Health check
     location /health {
         proxy_pass http://localhost:5000/health;

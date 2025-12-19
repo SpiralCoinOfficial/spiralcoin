@@ -818,9 +818,48 @@
                         vsSel.addEventListener('change', refresh);
                         intSel.addEventListener('change', refresh);
                         refresh(true);
-                        // Poll for incremental candle updates and quotes
-                        setInterval(() => loadCandles(state.asset, state.vs, state.interval, false), 20000);
-                        setInterval(() => updateQuotes(state.asset), 15000);
+                        // SSE for live updates (fallback to polling when not available)
+                        let sseCandles = null;
+                        let sseQuotes = null;
+                        function startStreams() {
+                            try {
+                                if (sseCandles) { sseCandles.close(); sseCandles = null; }
+                                if (sseQuotes) { sseQuotes.close(); sseQuotes = null; }
+                                const params = new URLSearchParams({ asset: state.asset, vs: state.vs, interval: state.interval });
+                                sseCandles = new EventSource(`/api/market/stream/candles?${params.toString()}`);
+                                sseCandles.onmessage = (e) => {
+                                    try {
+                                        const msg = JSON.parse(e.data);
+                                        if (msg && msg.candle) {
+                                            series.update({ time: msg.candle.time, open: msg.candle.open, high: msg.candle.high, low: msg.candle.low, close: msg.candle.close });
+                                            lastClose = msg.candle.close;
+                                            const priceEl = document.getElementById('current-price');
+                                            if (priceEl) priceEl.textContent = (state.vs === 'USD') ? `$${Number(lastClose).toFixed(4)}` : `${Number(lastClose).toFixed(6)} ${state.vs}`;
+                                        }
+                                    } catch { }
+                                };
+                                sseQuotes = new EventSource('/api/market/stream/quotes');
+                                sseQuotes.onmessage = (e) => {
+                                    try {
+                                        const msg = JSON.parse(e.data);
+                                        const sym = (state.asset || 'SPRC').toUpperCase();
+                                        const quote = msg && msg[sym] ? msg[sym] : null;
+                                        const changeEl = document.getElementById('price-change');
+                                        if (quote && typeof quote.usd_24h_change === 'number') {
+                                            const pct = Number(quote.usd_24h_change).toFixed(2);
+                                            changeEl.textContent = `${pct}%`;
+                                            changeEl.style.color = (pct >= 0) ? '#00ff88' : '#ff4444';
+                                        }
+                                    } catch { }
+                                };
+                            } catch { }
+                        }
+                        startStreams();
+                        // Fallback polling remains active in case SSE is unavailable
+                        setInterval(() => loadCandles(state.asset, state.vs, state.interval, false), 30000);
+                        setInterval(() => updateQuotes(state.asset), 30000);
+                        intSel.addEventListener('change', () => { startStreams(); });
+                        assetSel.addEventListener('change', () => { startStreams(); });
                     } catch { }
                 }
                 initPairs();
