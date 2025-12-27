@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SpiralCoin Exchange Listing Info</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/SpiralCoin_logo.png">
+    <style>
+        :root {
+            --bg: #0f0f23;
+            --card: #1a1a2e;
+            --text: #fff;
+            --muted: #b0b0c0;
+            --gold: #ffcc00;
+        }
+
+        body {
+            margin: 0;
+            font-family: Segoe UI, system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text)
+        }
+
+        .wrap {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 16px
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid rgba(255, 204, 0, .2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px
+        }
+
+        h1 {
+            margin: 0 0 8px 0;
+            color: var(--gold)
+        }
+
+        h2 {
+            margin: 16px 0 8px 0;
+            color: var(--gold)
+        }
+
+        .kv {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 8px;
+            align-items: baseline
+        }
+
+        .kv div {
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, .08)
+        }
+
+        .kv div span:first-child {
+            color: var(--muted)
+        }
+
+        pre {
+            background: #11172a;
+            border-radius: 8px;
+            padding: 12px;
+            overflow: auto
+        }
+
+        a {
+            color: var(--gold)
+        }
+
+        .row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 12px
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-decoration: none
+        }
+    </style>
+    <script>
+        async function loadInfo() {
+            const $ = (id) => document.getElementById(id);
+            try {
+                const res = await fetch('/api/exchange/info');
+                const info = await res.json();
+                $('name').textContent = info.name || 'SpiralCoin';
+                $('symbol').textContent = info.symbol || 'SPRC';
+                $('rpcUrl').textContent = info.rpcUrl || '';
+                $('chainId').textContent = info.chainId || '0x0';
+                $('blockNumber').textContent = info.blockNumber ?? 0;
+                $('peerCount').textContent = info.peerCount ?? 0;
+                $('endpoints').textContent = JSON.stringify(info.endpoints || {}, null, 2);
+                $('raw').textContent = JSON.stringify(info, null, 2);
+            } catch (e) {
+                $('raw').textContent = 'Failed to load /api/exchange/info: ' + e.message;
+            }
+        }
+        window.addEventListener('DOMContentLoaded', loadInfo);
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="card">
+            <h1>SpiralCoin Exchange Listing Info</h1>
+            <div class="kv">
+                <div><span>Name</span></div>
+                <div id="name">—</div>
+                <div><span>Symbol</span></div>
+                <div id="symbol">—</div>
+                <div><span>RPC URL</span></div>
+                <div id="rpcUrl">—</div>
+                <div><span>Chain ID</span></div>
+                <div id="chainId">—</div>
+                <div><span>Block Number</span></div>
+                <div id="blockNumber">—</div>
+                <div><span>Peer Count</span></div>
+                <div id="peerCount">—</div>
+            </div>
+            <h2>Endpoints</h2>
+            <pre id="endpoints">{}</pre>
+            <div class="row">
+                <a class="btn" href="/api/status" target="_blank" rel="noopener">View /api/status</a>
+                <a class="btn" href="/api/market/price" target="_blank" rel="noopener">View /api/market/price</a>
+                <a class="btn" href="/trading_platform.html">Open Trading Platform</a>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Raw Payload</h2>
+            <pre id="raw">Loading…</pre>
+        </div>
+    </div>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SpiralCoin Exchange Integration</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            background: #0b1020;
+            color: #e6f0ff;
+            margin: 0;
+        }
+
+        header {
+            padding: 16px 24px;
+            background: #111735;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        main {
+            padding: 24px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .card {
+            background: #151c3f;
+            border: 1px solid #24306a;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .label {
+            color: #9fb4ff;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        .value {
+            font-size: 22px;
+            font-weight: 600;
+            color: #eaf2ff;
+        }
+
+        code {
+            background: #0e1330;
+            border: 1px solid #24306a;
+            border-radius: 6px;
+            padding: 2px 6px;
+        }
+
+        a {
+            color: #9ec2ff;
+        }
+
+        ul {
+            margin-top: 8px;
+        }
+    </style>
+    <script>
+        async function load() {
+            const info = await fetch('/api/exchange/info').then(r => r.json()).catch(() => ({}));
+            document.getElementById('name').textContent = info.name || 'SpiralCoin';
+            document.getElementById('symbol').textContent = info.symbol || 'SPIRAL';
+            document.getElementById('rpcUrl').textContent = info.rpcUrl || 'http://127.0.0.1:8545';
+            document.getElementById('chainId').textContent = info.chainId || '0x0';
+            document.getElementById('blockNumber').textContent = info.blockNumber ?? 0;
+            document.getElementById('peerCount').textContent = info.peerCount ?? 0;
+            const endpoints = info.endpoints || {};
+            document.getElementById('endpoints').innerHTML = `
+        <li><code>${endpoints.health || '/health'}</code></li>
+        <li><code>${endpoints.status || '/api/status'}</code></li>
+        <li><code>${endpoints.rpcProxy || '/api/rpc'}</code></li>
+        <li><code>${endpoints.marketPrice || '/api/market/price'}</code></li>
+        <li><code>${endpoints.wallet || '/api/wallet'}</code></li>
+      `;
+            if (info.error) { document.getElementById('error').textContent = 'Status error: ' + info.error; }
+        }
+        window.addEventListener('DOMContentLoaded', load);
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>SpiralCoin Exchange Integration</h1>
+    </header>
+    <main>
+        <div class="card">
+            <div class="label">Asset</div>
+            <div><span class="value" id="name">SpiralCoin</span> (<span class="value" id="symbol">SPIRAL</span>)</div>
+        </div>
+        <div class="card">
+            <div class="label">Network</div>
+            <div>RPC: <code id="rpcUrl">http://127.0.0.1:8545</code></div>
+            <div>Chain ID: <code id="chainId">0x0</code></div>
+            <div>Latest Block: <code id="blockNumber">0</code></div>
+            <div>Peers: <code id="peerCount">0</code></div>
+            <div id="error" style="margin-top:6px; color:#f8c34a"></div>
+        </div>
+        <div class="card">
+            <div class="label">API Endpoints</div>
+            <ul id="endpoints"></ul>
+            <div style="margin-top:10px">See <a href="/status.html">Status Dashboard</a> for live health.</div>
+        </div>
+        <div class="card">
+            <div class="label">Actions</div>
+            <ul>
+                <li><a href="/">Landing Page</a></li>
+                <li><a href="/trading_platform.html">Trading Page</a></li>
+            </ul>
+        </div>
+    </main>
+</body>
+
+</html>
