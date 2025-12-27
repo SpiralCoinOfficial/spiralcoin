@@ -14,6 +14,7 @@ RUN npm install --production --silent
 # Copy source
 COPY server.js ./
 COPY routes/ ./routes/
+COPY trading_platform.html ./trading_platform.html
 COPY public/ ./public/
 
 # Expose port
