@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "id": "u_mjapkht2oy2h6",
+      "username": "demo_user",
+      "hash": "$2a$10$cTuhUOocxLqXE6BQmJz7YOot81iJvWtWA6QBJ.5XH7rZNIrLfdnI2",
+      "settings": {
+        "theme": "dark"
+      }
+    }
+  ]
+}
