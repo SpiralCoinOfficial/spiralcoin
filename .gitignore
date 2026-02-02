@@ -9,8 +9,10 @@ node_modules/
 .env
 data/
 build/
+build-mingw/
+build-ninja/
 *.log
+compile_output.txt
 include/nlohmann/
 src/cpp-httplib/
 .devcontainer/
-build/
