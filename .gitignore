@@ -10,3 +10,7 @@ node_modules/
 data/
 build/
 *.log
+include/nlohmann/
+src/cpp-httplib/
+.devcontainer/
+build/
