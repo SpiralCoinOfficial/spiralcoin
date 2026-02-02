@@ -25,7 +25,9 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
-const RPC_URL = process.env.RPC_URL || "http://127.0.0.1:8545";
+const RPC_URL = process.env.RPC_URL || "http://daemon:8545";
+const BASE_URL = process.env.BASE_URL || "https://www.spiralcoin.net";
+const API_URL = process.env.API_URL || "https://www.spiralcoin.net/api";
 const NAME = process.env.NAME || "SpiralCoin";
 const SYMBOL = process.env.SYMBOL || "SPRC";
 
@@ -97,7 +99,7 @@ app.get('/api/info', async (req, res) => {
         let chainId = "0x0";
         let blockNumber = chain.length;
         try {
-            const s = await (await fetch(`http://127.0.0.1:${PORT}/api/status`)).json();
+            const s = await (await fetch(`http://localhost:${PORT}/api/status`)).json();
             chainId = s.chainId || chainId;
             blockNumber = (typeof s.blockNumber !== 'undefined') ? s.blockNumber : blockNumber;
         } catch {}
@@ -287,10 +289,10 @@ app.get('/api/exchange/info', async (req, res) => {
     try {
         const [infoResp, statusResp] = await Promise.all([
             (async () => {
-                try { return await (await fetch(`http://127.0.0.1:${PORT}/api/info`)).json(); } catch { return {}; }
+                try { return await (await fetch(`http://localhost:${PORT}/api/info`)).json(); } catch { return {}; }
             })(),
             (async () => {
-                try { return await (await fetch(`http://127.0.0.1:${PORT}/api/status`)).json(); } catch { return {}; }
+                try { return await (await fetch(`http://localhost:${PORT}/api/status`)).json(); } catch { return {}; }
             })()
         ]);
         const publicRpc = `${req.protocol}://${req.get('host')}/api/rpc`;

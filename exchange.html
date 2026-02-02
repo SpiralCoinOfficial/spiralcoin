@@ -217,7 +217,7 @@
             const info = await fetch('/api/exchange/info').then(r => r.json()).catch(() => ({}));
             document.getElementById('name').textContent = info.name || 'SpiralCoin';
             document.getElementById('symbol').textContent = info.symbol || 'SPIRAL';
-            document.getElementById('rpcUrl').textContent = info.rpcUrl || 'http://127.0.0.1:8545';
+            document.getElementById('rpcUrl').textContent = info.rpcUrl || 'https://www.spiralcoin.net/api/rpc';
             document.getElementById('chainId').textContent = info.chainId || '0x0';
             document.getElementById('blockNumber').textContent = info.blockNumber ?? 0;
             document.getElementById('peerCount').textContent = info.peerCount ?? 0;
@@ -246,7 +246,7 @@
         </div>
         <div class="card">
             <div class="label">Network</div>
-            <div>RPC: <code id="rpcUrl">http://127.0.0.1:8545</code></div>
+            <div>RPC: <code id="rpcUrl">https://www.spiralcoin.net/api/rpc</code></div>
             <div>Chain ID: <code id="chainId">0x0</code></div>
             <div>Latest Block: <code id="blockNumber">0</code></div>
             <div>Peers: <code id="peerCount">0</code></div>
