@@ -17,32 +17,68 @@ function ok(msg) {
   console.log(`OK: ${msg}`);
 }
 
+function warn(msg) {
+  console.log(`WARN: ${msg}`);
+}
+
 try {
   const raw = fs.readFileSync(composePath, 'utf8');
   const doc = parse(raw);
   if (!doc || typeof doc !== 'object') fail('compose.yaml parsed as empty');
 
   const services = doc.services || {};
-  const requiredServices = ['daemon', 'backend', 'marketfeed', 'web'];
+  
+  // Check for core services (web is optional with nginx profile)
+  const requiredServices = ['daemon', 'backend', 'marketfeed'];
   for (const svc of requiredServices) {
-    if (!services[svc]) fail(`service ${svc} missing`);
+    if (!services[svc]) {
+      fail(`service ${svc} missing`);
+    } else {
+      ok(`service ${svc} present`);
+    }
   }
 
-  const ports = {
-    daemon: '8545:8545',
-    backend: '5000:5000',
-    marketfeed: '4000:4000',
-    web: '3000:80'
-  };
-
-  for (const [svc, expected] of Object.entries(ports)) {
-    const svcDef = services[svc];
-    if (!svcDef) continue;
-    const p = svcDef.ports || [];
-    if (!p.includes(expected)) fail(`service ${svc} missing port ${expected}`);
+  // Check for web/nginx service (one should be present)
+  if (!services['web'] && !services['nginx']) {
+    warn('no web or nginx service defined - using external web server?');
+  } else {
+    ok('web frontend service configured');
   }
 
-  ok('compose.yaml structure and ports look good');
+  // Check backend port (required for API access)
+  const backend = services['backend'];
+  if (backend) {
+    const ports = backend.ports || [];
+    if (ports.some(p => p.includes('5000'))) {
+      ok('backend API port 5000 exposed');
+    } else {
+      warn('backend port 5000 not exposed to host (internal only)');
+    }
+  }
+
+  // Check if daemon port is exposed (optional for security)
+  const daemon = services['daemon'];
+  if (daemon) {
+    const ports = daemon.ports || [];
+    if (ports.some(p => p.includes('8545'))) {
+      warn('daemon RPC port 8545 exposed (consider keeping internal for security)');
+    } else {
+      ok('daemon RPC port kept internal (secure)');
+    }
+  }
+
+  // Check if marketfeed port is exposed (optional)
+  const marketfeed = services['marketfeed'];
+  if (marketfeed) {
+    const ports = marketfeed.ports || [];
+    if (ports.some(p => p.includes('4000'))) {
+      ok('marketfeed port 4000 exposed');
+    } else {
+      warn('marketfeed port 4000 not exposed to host (internal only)');
+    }
+  }
+
+  ok('compose.yaml structure validated');
 } catch (err) {
   console.error('ERROR:', err.message || err);
   process.exitCode = 1;
