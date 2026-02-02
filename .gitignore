@@ -16,3 +16,7 @@ compile_output.txt
 include/nlohmann/
 src/cpp-httplib/
 .devcontainer/
+
+# SSL certificates - Keep private keys secure
+ssl/privkey.pem
+ssl/*.key
