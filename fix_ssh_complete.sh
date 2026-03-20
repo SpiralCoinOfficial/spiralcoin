@@ -94,7 +94,12 @@ sshd -t && echo "✓ SSH config is valid" || { echo "✗ SSH config invalid!"; e
 
 # ============ STEP 2: SET PASSWORD ============
 echo "[2/3] Setting root password..."
-echo "root:0478cb10c91480bb5d5e838b0" | chpasswd
+if [[ -z "${ROOT_PASSWORD:-}" ]]; then
+    echo "✗ ROOT_PASSWORD environment variable is required"
+    echo "  Example: ROOT_PASSWORD='your-strong-password' sudo -E ./fix_ssh_complete.sh"
+    exit 1
+fi
+echo "root:${ROOT_PASSWORD}" | chpasswd
 echo "✓ Root password set"
 
 # ============ STEP 3: RESTART SSH ============
@@ -118,10 +123,9 @@ echo "  Ports: 22, 2222"
 echo "  Root Login: ENABLED"
 echo "  Password Auth: ENABLED"
 echo "  User: root"
-echo "  Password: 0478cb10c91480bb5d5e838b0"
 echo ""
 echo "You can now SSH with:"
-echo "  ssh root@174.138.37.6"
+echo "  ssh root@${SERVER_HOST:-174.138.37.6}"
 echo ""
 echo "Next step: Deploy SpiralCoin stack"
 echo "=========================================="

@@ -61,7 +61,7 @@
 Server: 174.138.37.6
 Port: 22 (standard SSH port)
 User: root
-Password: HarLand2025a!
+Password: [set securely via ROOT_PASSWORD / secret manager]
 ```
 
 ## Service Port Configuration (Verified)

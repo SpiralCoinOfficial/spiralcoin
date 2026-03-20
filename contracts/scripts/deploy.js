@@ -3,8 +3,7 @@ const hre = require('hardhat');
 const { ethers } = hre;
 
 function scaleSupply(amountStr, decimals) {
-  const amount = ethers.parseUnits(String(amountStr), decimals);
-  return amount;
+  return ethers.parseUnits(String(amountStr), decimals);
 }
 
 async function main() {
