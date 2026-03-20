@@ -42,7 +42,7 @@ Option A: Use DigitalOcean Droplet Console
    1. Go to: https://cloud.digitalocean.com/droplets
    2. Click your spiralcoin droplet
    3. Click "Console" button (or "Access" → "Launch Droplet Console")
-   4. Login with: root / HarLand2025!
+   4. Login with: root / current server password from your secret manager
    5. Check SSH status:
       systemctl status ssh
    6. If stopped, restart:

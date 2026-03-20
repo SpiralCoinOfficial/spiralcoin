@@ -1,11 +1,11 @@
-# Quick Deployment with Password
-# Run these commands manually with password: HarLand2025!
+# Quick Deployment with Secret-Managed Password
+# Run these commands manually using the current password from your secret manager
 
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "SpiralCoin Quick Deployment" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Password: HarLand2025!" -ForegroundColor Yellow
+Write-Host "Password: use the current server password from your secret manager or SPIRALCOIN_SSH_PASSWORD" -ForegroundColor Yellow
 Write-Host ""
 
 Write-Host "Step 1: Restart Services" -ForegroundColor Green
@@ -31,7 +31,7 @@ Write-Host ""
 # Note: PowerShell ssh doesn't support password in command line for security
 # User will need to enter password interactively
 
-$response = Read-Host "Press Enter to start deployment (you'll be prompted for password 3 times)"
+Read-Host "Press Enter to start deployment (you'll be prompted for password 3 times)" | Out-Null
 
 Write-Host ""
 Write-Host "[1/3] Restarting services..." -ForegroundColor Yellow

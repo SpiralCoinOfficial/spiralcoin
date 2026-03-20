@@ -41,7 +41,7 @@
 4. Wait for console to load (may take 30 seconds)
 5. Login:
    - Username: `root`
-   - Password: `HarLand2025!`
+   - Password: current server password from your secret manager
 
 6. Once logged in, diagnose SSH:
    ```bash

@@ -4,7 +4,7 @@
 param(
     [string]$ServerIP = "174.138.37.6",
     [string]$Username = "root",
-    [string]$Password = "HarLand2025!"
+    [string]$Password = $env:SPIRALCOIN_SSH_PASSWORD
 )
 
 Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Cyan
@@ -96,7 +96,12 @@ Write-Host ""
 Write-Host "Run this command:" -ForegroundColor Cyan
 Write-Host "  ssh $Username@$ServerIP" -ForegroundColor White
 Write-Host ""
-Write-Host "When prompted for password, enter: $Password" -ForegroundColor Yellow
+if ($Password) {
+    Write-Host "When prompted for password, use the current secret from SPIRALCOIN_SSH_PASSWORD / your secret manager" -ForegroundColor Yellow
+}
+else {
+    Write-Host "When prompted for password, use the current server password from your secret manager" -ForegroundColor Yellow
+}
 Write-Host ""
 Write-Host "Then run these commands ONE AT A TIME in the SSH session:" -ForegroundColor Cyan
 Write-Host ""

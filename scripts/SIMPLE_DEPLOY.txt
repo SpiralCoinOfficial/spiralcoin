@@ -10,7 +10,7 @@ Press Enter after each one. Use password when prompted.
 
 Server: 174.138.37.6
 Username: root
-Password: HarLand2025!
+Password: use the current server password from your secret manager or SPIRALCOIN_SSH_PASSWORD
 
 IMPORTANT: Run Command 1 first to connect to SSH.
            Commands 2-3 run INSIDE the SSH session (not in PowerShell)

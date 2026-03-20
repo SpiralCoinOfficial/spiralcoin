@@ -29,7 +29,7 @@ This will:
 ssh root@174.138.37.6
 ```
 
-When prompted, enter password: `HarLand2025!`
+When prompted, enter the current server password from your secret manager.
 
 #### Step 3: Run Commands in SSH Session
 
@@ -83,7 +83,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/SpiralCoinOfficial/spiralcoi
 ```powershell
 # Wait 2 minutes, then try again
 ssh root@174.138.37.6
-# Password: HarLand2025!
+# Password: use the current server password from your secret manager
 ```
 
 ### Error: "&&" is not a valid statement separator
@@ -136,7 +136,7 @@ Download from: https://www.putty.org/
 3. Click **Open**
 4. Login:
    - **Username**: `root`
-   - **Password**: `HarLand2025!`
+   - **Password**: current server password from your secret manager
 
 ### Step 3: Run Commands
 
@@ -214,7 +214,7 @@ Expected output:
 **Connect**:
 ```powershell
 ssh root@174.138.37.6
-# Password: HarLand2025!
+# Password: use the current server password from your secret manager
 ```
 
 **Restart**:
