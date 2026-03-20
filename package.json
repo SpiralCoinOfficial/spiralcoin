@@ -6,7 +6,10 @@
     "start": "node server.js",
     "test": "node scripts/validate-compose.js",
     "audit:env": "node scripts/audit-env.js",
-    "health:prod": "bash scripts/prod_health_check.sh"
+    "health:prod": "bash scripts/prod_health_check.sh",
+    "health:cron:install": "bash scripts/install-health-cron.sh",
+    "health:cron:remove": "bash scripts/remove-health-cron.sh",
+    "health:cron:show": "crontab -l 2>/dev/null | grep -n 'spiralcoin-health-watchdog' || true"
   },
   "dependencies": {
     "express": "^4.22.1",
