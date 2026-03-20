@@ -158,10 +158,9 @@ PY
   done
 
   if [[ -f "$SSH_HELPER_PUBKEY_PATH" ]]; then
-    add_warn "To authorize this host key on remote: cat ${SSH_HELPER_PUBKEY_PATH} >> /root/.ssh/authorized_keys"
-  fi
-  if [[ $FAIL_COUNT -gt 0 ]]; then
-    add_warn "If password auth is available, set SPIRALCOIN_SSH_PASSWORD and run: npm run exchange:ssh:bootstrap"
+    add_warn "SSH key to install (via DigitalOcean Console): $(cat "${SSH_HELPER_PUBKEY_PATH}")"
+    add_warn "Fix: DigitalOcean Console → Droplet → Access → Launch Console → run: echo '<key>' >> /root/.ssh/authorized_keys"
+    add_warn "NOTE: Security hardening disabled password SSH auth — only console/key install will work"
   fi
 else
   add_fail "Missing EXCHANGE_PUBLISH.targets.json"

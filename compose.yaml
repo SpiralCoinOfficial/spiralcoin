@@ -33,6 +33,11 @@ services:
       - PORT=5000
       - RPC_URL=http://daemon:8545
       - JWT_SECRET=${JWT_SECRET:?JWT_SECRET must be set}
+        - NAME=${NAME:-SpiralCoin}
+        - SYMBOL=${SYMBOL:-SPRC}
+        - PRIMARY_WALLET=${PRIMARY_WALLET:-}
+        - SUPPLY_VAULT=${SUPPLY_VAULT:-}
+        - SUPPLY_MIN=${SUPPLY_MIN:-22000000000000}
     volumes:
       - ./backend_data:/app/data
     depends_on:
