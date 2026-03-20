@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "node scripts/validate-compose.js",
-    "audit:env": "node scripts/audit-env.js"
+    "audit:env": "node scripts/audit-env.js",
+    "health:prod": "bash scripts/prod_health_check.sh"
   },
   "dependencies": {
     "express": "^4.22.1",
