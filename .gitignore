@@ -14,3 +14,4 @@ include/nlohmann/
 src/cpp-httplib/
 .devcontainer/
 build/
+.cleanup_quarantine/

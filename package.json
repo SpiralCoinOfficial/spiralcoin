@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "node scripts/validate-compose.js"
+    "test": "node scripts/validate-compose.js",
+    "audit:env": "node scripts/audit-env.js"
   },
   "dependencies": {
     "express": "^4.22.1",
