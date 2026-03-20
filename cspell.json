@@ -108,7 +108,14 @@
         "CISO",
         "matthewiandreyer",
         "xrecipient",
-        "XVCJ"
+        "XVCJ",
+        "Whistleblower",
+        "whistleblower",
+        "getblock",
+        "getblocktemplate",
+        "submitblock",
+        "getmempoolinfo",
+        "getbestblockhash"
     ],
     "ignorePaths": [
         "node_modules/**",
