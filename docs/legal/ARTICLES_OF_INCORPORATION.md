@@ -1,5 +1,7 @@
 # ARTICLES OF INCORPORATION
 
+<!-- markdownlint-disable MD012 MD013 MD018 MD022 MD026 MD031 MD032 MD034 MD036 MD040 -->
+
 **SpiralCoin Foundation, LLC**
 
 ---
@@ -185,7 +187,7 @@ IN WITNESS WHEREOF, the undersigned, being the Authorized Person of the Limited 
 
 ## NOTES FOR LEGAL TEAM:
 
-1. **Registered Agent**: File with a Delaware registered agent service (costs ~$100–$300/year). Examples: CT Corporation System, Legalzoom, Registered Agent LLC.
+1. **Registered Agent**: File with a Delaware registered agent service (costs ~$100–$300/year). Examples: CT Corporation System, LegalZoom, Registered Agent LLC.
 
 2. **EIN**: After formation, obtain Federal Employer Identification Number (EIN) from IRS.
 

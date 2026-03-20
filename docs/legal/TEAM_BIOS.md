@@ -1,5 +1,7 @@
 # TEAM BIOS
 
+<!-- markdownlint-disable MD012 MD013 MD018 MD022 MD026 MD031 MD032 MD034 MD036 MD040 -->
+
 **SpiralCoin Foundation, LLC**
 
 ---

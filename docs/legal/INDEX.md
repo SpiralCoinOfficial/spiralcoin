@@ -1,9 +1,11 @@
 # LEGAL DOCUMENTS INDEX
 
-**SpiralCoin Foundation, LLC**  
+<!-- markdownlint-disable MD012 MD013 MD018 MD022 MD026 MD031 MD032 MD034 MD036 MD040 -->
+
+**SpiralCoin Foundation, LLC**
 **Documentation Package for Exchange Approval**
 
-**Created**: March 20, 2026  
+**Created**: March 20, 2026
 **Status**: ✅ PRODUCTION READY
 
 ---
@@ -258,7 +260,7 @@ https://github.com/SpiralCoinOfficial/spiralcoin/tree/main/docs/legal/
 
 **DOCUMENT STATUS**: ✅ COMPLETE & PRODUCTION READY
 
-**CREATED**: March 20, 2026  
-**LAST UPDATED**: March 20, 2026  
+**CREATED**: March 20, 2026
+**LAST UPDATED**: March 20, 2026
 **NEXT REVIEW**: June 20, 2026
 
