@@ -13,12 +13,19 @@ name: "Frogbot Scan and Fix"
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
+
+concurrency:
+  group: frogbot-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
   pull-requests: write
   security-events: write
 jobs:
   create-fix-pull-requests:
+    if: ${{ secrets.JF_URL != '' && (secrets.JF_ACCESS_TOKEN != '' || (secrets.JF_USER != '' && secrets.JF_PASSWORD != '')) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
