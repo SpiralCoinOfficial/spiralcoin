@@ -5,14 +5,62 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="${ROOT_DIR}/build"
 mkdir -p "$BUILD_DIR"
 
-BASE_URL="${BASE_URL:-http://localhost:5000}"
-NAME="${NAME:-SpiralCoin}"
-SYMBOL="${SYMBOL:-SPRC}"
-PRIMARY_WALLET="${PRIMARY_WALLET:-0x928072b3A3A42e7dFD577a91167DfAa08f0E653E}"
-SUPPLY_VAULT="${SUPPLY_VAULT:-0xSPRC1111111111111111111111111111SupplyVault}"
-SUPPLY_MIN="${SUPPLY_MIN:-22000000000000}"
-ETH_CONTRACT_ADDRESS="${ETH_CONTRACT_ADDRESS:-}"
-BSC_CONTRACT_ADDRESS="${BSC_CONTRACT_ADDRESS:-}"
+read_env_value() {
+    local key="$1"
+    local file="$2"
+    python3 - "$key" "$file" <<'PY'
+import sys
+from pathlib import Path
+
+key = sys.argv[1]
+path = Path(sys.argv[2])
+
+if not path.exists():
+        raise SystemExit(0)
+
+for raw in path.read_text(encoding='utf-8').splitlines():
+        line = raw.strip()
+        if not line or line.startswith('#') or '=' not in line:
+                continue
+        k, v = line.split('=', 1)
+        if k.strip() != key:
+                continue
+        value = v.strip().strip('"').strip("'")
+        print(value)
+        break
+PY
+}
+
+resolve_value() {
+    local key="$1"
+    local default_value="$2"
+    local value="${!key:-}"
+
+    if [[ -z "$value" && -f "${ROOT_DIR}/.env" ]]; then
+        value="$(read_env_value "$key" "${ROOT_DIR}/.env")"
+    fi
+
+    if [[ -z "$value" && -f "${ROOT_DIR}/.env.example" ]]; then
+        value="$(read_env_value "$key" "${ROOT_DIR}/.env.example")"
+    fi
+
+    if [[ -z "$value" ]]; then
+        value="$default_value"
+    fi
+
+    printf '%s' "$value"
+}
+
+BASE_URL="$(resolve_value BASE_URL http://localhost:5000)"
+NAME="$(resolve_value NAME SpiralCoin)"
+SYMBOL="$(resolve_value SYMBOL SPRC)"
+PRIMARY_WALLET="$(resolve_value PRIMARY_WALLET 0x928072b3A3A42e7dFD577a91167DfAa08f0E653E)"
+SUPPLY_VAULT="$(resolve_value SUPPLY_VAULT 0xSPRC1111111111111111111111111111SupplyVault)"
+SUPPLY_MIN="$(resolve_value SUPPLY_MIN 22000000000000)"
+ETH_CONTRACT_ADDRESS="$(resolve_value ETH_CONTRACT_ADDRESS '')"
+BSC_CONTRACT_ADDRESS="$(resolve_value BSC_CONTRACT_ADDRESS '')"
+
+export BASE_URL NAME SYMBOL PRIMARY_WALLET SUPPLY_VAULT SUPPLY_MIN ETH_CONTRACT_ADDRESS BSC_CONTRACT_ADDRESS
 
 MANIFEST_PATH="${BUILD_DIR}/exchange_manifest.json"
 ZIP_PATH="${BUILD_DIR}/SpiralCoin-Exchange-Pack.zip"

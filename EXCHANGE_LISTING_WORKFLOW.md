@@ -4,7 +4,7 @@
 
 This document describes the complete end-to-end workflow for preparing and publishing SpiralCoin for exchange listing.
 
-**Current Status:** Repository-side automation is complete (commit 45238b0). Only two external inputs are required to achieve listing readiness.
+**Current Status:** Repository-side automation is complete (commit 46c3139). Only two external inputs are required to achieve listing readiness.
 
 ## Workflow Steps
 
@@ -45,7 +45,10 @@ npm run exchange:ready:gate
    ```bash
    SUPPLY_VAULT=0x<your_real_vault_address>
    ```
-2. Or update `.env.example` if deploying in production environment
+2. Rebuild the exchange pack (the pack builder now reads `.env` automatically):
+   ```bash
+   npm run exchange:pack:ready
+   ```
 3. Re-run the gate to verify:
    ```bash
    npm run exchange:ready:gate
@@ -56,18 +59,28 @@ npm run exchange:ready:gate
 **Problem:** Cannot authenticate to remote publish target (`root@174.138.37.6`).
 
 **Resolution:**
-1. Ensure SSH key for `root@174.138.37.6` is loaded in your SSH agent:
+1. Export the current Codespace public key (already done by the gate/bootstrap scripts):
    ```bash
-   ssh-add ~/.ssh/id_rsa  # or your key path
+   cat build/ssh-authorized-key.pub
    ```
-2. (Optional) Test connectivity:
+2. Open the DigitalOcean web console for the droplet and append that key to `/root/.ssh/authorized_keys`:
    ```bash
-   ssh -o StrictHostKeyChecking=no root@174.138.37.6 echo "SSH OK"
+   mkdir -p /root/.ssh && chmod 700 /root/.ssh
+   cat >> /root/.ssh/authorized_keys <<'EOF'
+   ssh-ed25519 <your-exported-public-key>
+   EOF
+   chmod 600 /root/.ssh/authorized_keys
    ```
-3. Re-run the gate to verify:
+3. Verify connectivity from the workspace:
+   ```bash
+   ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes root@174.138.37.6 echo "SSH OK"
+   ```
+4. Re-run the gate to verify:
    ```bash
    npm run exchange:ready:gate
    ```
+
+> Note: password SSH auth has been disabled by server hardening, so web-console key installation is the reliable path.
 
 ---
 
@@ -177,17 +190,21 @@ To add more targets, add entries to the `targets` array. Each target requires:
 Key variables for exchange listing:
 
 ```bash
-# Smart contract addresses (ERC-20 / blockchain mainnet)
-CONTRACT_ADDRESS=0x<spiralcoin_token>
+NODE_ENV=production
+PORT=5000
+RPC_URL=http://127.0.0.1:8545
+JWT_SECRET=<strong-random-secret>
+NAME=SpiralCoin
+SYMBOL=SPRC
+BASE_URL=https://api.spiralcoin.net
+PRIMARY_WALLET=0x<primary_wallet>
 SUPPLY_VAULT=0x<supply_vault>  # Must be REAL address (not placeholder)
-
-# API configuration
-API_PORT=5000
-PUBLIC_API_URL=https://api.spiralcoin.io
-
-# Exchange listing info
-EXCHANGE_NAME=SpiralCoin
-NETWORK=ethereum  # mainnet network
+SUPPLY_MIN=22000000000000
+NODE_HOST=0.0.0.0
+NODE_PORT=4000
+EXT_FEED=https://api.example.com/feed
+ETH_CONTRACT_ADDRESS=0x<ethereum_token_address>
+BSC_CONTRACT_ADDRESS=0x<bsc_token_address>
 ```
 
 ---
@@ -291,6 +308,6 @@ npm run health:prod
 ---
 
 **Last Updated:** March 20, 2026
-**Latest Commit:** 45238b0 (Remote publish workflow added)
+**Latest Commit:** 46c3139 (Compose/contracts fixes + validated workflow)
 **Repo Status:** All automation complete; awaiting external inputs
 
