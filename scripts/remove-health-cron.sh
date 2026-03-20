@@ -32,6 +32,11 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [[ "$DRY_RUN" -eq 0 ]] && ! command -v crontab >/dev/null 2>&1; then
+  echo "ERROR: 'crontab' command not found. Install cron (e.g., 'cron' package) before using this script without --dry-run." >&2
+  exit 1
+fi
+
 TMP_FILE="$(mktemp)"
 trap 'rm -f "$TMP_FILE"' EXIT
 
