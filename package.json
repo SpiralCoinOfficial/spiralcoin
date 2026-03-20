@@ -13,7 +13,8 @@
     "health:cron:selftest": "bash scripts/health-cron-selftest.sh",
     "exchange:pack:build": "bash scripts/make-exchange-pack.sh",
     "exchange:pack:validate": "bash scripts/validate-exchange-pack.sh",
-    "exchange:pack:ready": "npm run exchange:pack:build && npm run exchange:pack:validate"
+    "exchange:pack:ready": "npm run exchange:pack:build && npm run exchange:pack:validate",
+    "exchange:ready:gate": "bash scripts/exchange-readiness-gate.sh"
   },
   "dependencies": {
     "express": "^4.22.1",

@@ -5,15 +5,16 @@ Scope: Exchange listing preparation, pack build/validation, deployment checks, a
 
 ## Summary
 
-- ✅ **Local exchange pack pipeline is now cross-platform and working on Linux**
+- ✅ **Local exchange pack pipeline is cross-platform and working on Linux**
 - ✅ **Exchange pack built successfully** at `build/SpiralCoin-Exchange-Pack.zip`
 - ✅ **Pack structure validation passed**
 - ✅ **Deployment validation passed** (`validate-deployment.js`: 39 passed, 0 failed)
 - ✅ **E2E validation passed** (`e2e-test.js`: 44/44)
 - ✅ **Compose validation passed** (`npm test`)
 - ✅ **Runtime services healthy** (`backend`, `daemon`, `marketfeed`, `nginx`)
-- ⚠️ **Remote publish still blocked by SSH authentication** (host key issue fixed; key credentials still missing)
-- ⚠️ **Supply vault value appears placeholder-like** in exchange manifest unless a real `SUPPLY_VAULT` is set
+- ✅ **Automated final gate added** (`npm run exchange:ready:gate`)
+- ⚠️ **Remote publish blocked by SSH authentication** (`root@174.138.37.6` key access required)
+- ⚠️ **Supply vault value is placeholder-like** unless a real `SUPPLY_VAULT` is set
 
 ## What was added in this pass
 
@@ -44,6 +45,15 @@ Scope: Exchange listing preparation, pack build/validation, deployment checks, a
 - `exchange:pack:build`
 - `exchange:pack:validate`
 - `exchange:pack:ready` (build + validate)
+- `exchange:ready:gate` (hard pass/fail listing gate)
+
+### 4) Final gate script
+
+- Added `scripts/exchange-readiness-gate.sh`
+- Produces machine and human outputs:
+  - `build/exchange-readiness-gate.txt`
+  - `build/exchange-readiness-gate.json`
+- Fails if hard blockers remain (currently: SSH auth + placeholder-like `SUPPLY_VAULT`).
 
 ## Commands executed and outcomes
 
@@ -63,8 +73,17 @@ Scope: Exchange listing preparation, pack build/validation, deployment checks, a
    - Required action: load/provide valid private key for `root@174.138.37.6` (or switch to approved deploy user).
 
 2. **Real supply vault value for final submission packet**
-   - Current status: manifest warns about placeholder-style `SUPPLY_VAULT` value.
+   - Current status: gate fails on placeholder-like `SUPPLY_VAULT` value (`0xSPRC1111111111111111111111111111SupplyVault`).
    - Required action: set a production `SUPPLY_VAULT` address before final exchange submission export.
+
+## Latest gate run
+
+- Command: `npm run exchange:ready:gate`
+- Result: `READY_FOR_EXCHANGE_LISTING=NO`
+- Passed checks: 5
+- Failed checks: 2
+  - `SUPPLY_VAULT` placeholder-like value
+  - SSH auth to `root@174.138.37.6`
 
 ## Final readiness status
 
