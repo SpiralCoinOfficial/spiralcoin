@@ -17,5 +17,10 @@
   "cmake.generator": "Unix Makefiles",
   "cmake.preferredGenerators": [
     "Unix Makefiles"
-  ]
+  ],
+  "powershell.powerShellAdditionalExePaths": {
+    "PowerShell 7": "/usr/bin/pwsh",
+    "Windows PowerShell": "/usr/bin/pwsh"
+  },
+  "powershell.powerShellDefaultVersion": "PowerShell 7"
 }
