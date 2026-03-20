@@ -8,6 +8,14 @@ services:
     # Keep RPC internal to the compose network; no host port mapping
     volumes:
       - ./data:/app/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - timeout 2 bash -lc 'cat < /dev/null > /dev/tcp/127.0.0.1/8545'
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
     restart: unless-stopped
     networks:
       - spiralcoin-network
@@ -28,7 +36,16 @@ services:
     volumes:
       - ./backend_data:/app/data
     depends_on:
-      - daemon
+      daemon:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - node -e "require('http').get('http://127.0.0.1:5000/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
     restart: unless-stopped
     networks:
       - spiralcoin-network
@@ -45,7 +62,16 @@ services:
       - RPC_URL=http://daemon:8545
       - EXT_FEED=https://api.example.com/feed
     depends_on:
-      - daemon
+      daemon:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - node -e "require('http').get('http://127.0.0.1:4000/api/feed',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
     restart: unless-stopped
     networks:
       - spiralcoin-network
@@ -65,7 +91,16 @@ services:
       - ./public:/usr/share/nginx/html:ro
       - ./ssl:/etc/nginx/ssl:ro
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - "wget -q --no-check-certificate --header='Host: spiralcoin.net' -O- https://127.0.0.1/health >/dev/null 2>&1 || exit 1"
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
     restart: unless-stopped
     networks:
       - spiralcoin-network
