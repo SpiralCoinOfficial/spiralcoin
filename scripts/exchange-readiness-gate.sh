@@ -6,6 +6,7 @@ BUILD_DIR="${ROOT_DIR}/build"
 TARGETS_FILE="${ROOT_DIR}/EXCHANGE_PUBLISH.targets.json"
 REPORT_PATH="${BUILD_DIR}/exchange-readiness-gate.txt"
 JSON_REPORT_PATH="${BUILD_DIR}/exchange-readiness-gate.json"
+SSH_HELPER_PUBKEY_PATH="${BUILD_DIR}/ssh-authorized-key.pub"
 
 mkdir -p "$BUILD_DIR"
 
@@ -29,6 +30,17 @@ add_fail() {
 add_warn() {
   WARN_COUNT=$((WARN_COUNT + 1))
   WARN_MSGS+=("$1")
+}
+
+trim_value() {
+  local s="$1"
+  s="${s#\"}"
+  s="${s%\"}"
+  s="${s#\'}"
+  s="${s%\'}"
+  # trim leading/trailing whitespace
+  s="$(printf '%s' "$s" | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//')"
+  printf '%s' "$s"
 }
 
 run_check() {
@@ -73,24 +85,49 @@ else
 fi
 
 # 2) Supply vault hard requirement for submission quality
-SUPPLY_VAULT=""
+# Resolution order: env var -> .env -> .env.example
+SUPPLY_VAULT="${SUPPLY_VAULT:-}"
 if [[ -f "${ROOT_DIR}/.env" ]]; then
-  SUPPLY_VAULT="$(grep -E '^SUPPLY_VAULT=' "${ROOT_DIR}/.env" | tail -n1 | cut -d'=' -f2- || true)"
+  if [[ -z "$SUPPLY_VAULT" ]]; then
+    SUPPLY_VAULT="$(grep -E '^SUPPLY_VAULT=' "${ROOT_DIR}/.env" | tail -n1 | cut -d'=' -f2- || true)"
+  fi
 fi
 if [[ -z "$SUPPLY_VAULT" ]]; then
   SUPPLY_VAULT="$(grep -E '^SUPPLY_VAULT=' "${ROOT_DIR}/.env.example" | tail -n1 | cut -d'=' -f2- || true)"
 fi
+SUPPLY_VAULT="$(trim_value "$SUPPLY_VAULT")"
 
 if [[ -z "$SUPPLY_VAULT" ]]; then
   add_fail "SUPPLY_VAULT value is missing"
 elif [[ "$SUPPLY_VAULT" == *"SupplyVault"* || "$SUPPLY_VAULT" == 0xSPRC* ]]; then
   add_fail "SUPPLY_VAULT appears placeholder-like: ${SUPPLY_VAULT}"
+elif [[ ! "$SUPPLY_VAULT" =~ ^0x[0-9a-fA-F]{40}$ ]]; then
+  add_fail "SUPPLY_VAULT is not a valid EVM address: ${SUPPLY_VAULT}"
 else
-  add_pass "SUPPLY_VAULT appears non-placeholder"
+  add_pass "SUPPLY_VAULT is non-placeholder and format-valid"
 fi
 
 # 3) Remote publish authentication requirement
 if [[ -f "$TARGETS_FILE" ]]; then
+  SSH_KEY_PATH="${SPIRALCOIN_SSH_KEY_PATH:-}"
+  if [[ -z "$SSH_KEY_PATH" && -f "${HOME}/.ssh/id_ed25519" ]]; then
+    SSH_KEY_PATH="${HOME}/.ssh/id_ed25519"
+  fi
+
+  SSH_OPTS=(-o BatchMode=yes -o StrictHostKeyChecking=no)
+  if [[ -n "$SSH_KEY_PATH" ]]; then
+    if [[ -f "$SSH_KEY_PATH" ]]; then
+      SSH_OPTS=(-i "$SSH_KEY_PATH" -o IdentitiesOnly=yes "${SSH_OPTS[@]}")
+      if [[ -f "${SSH_KEY_PATH}.pub" ]]; then
+        cp "${SSH_KEY_PATH}.pub" "$SSH_HELPER_PUBKEY_PATH"
+        add_warn "SSH helper public key exported: ${SSH_HELPER_PUBKEY_PATH}"
+      fi
+    else
+      add_fail "Configured SPIRALCOIN_SSH_KEY_PATH not found: ${SSH_KEY_PATH}"
+      SSH_KEY_PATH=""
+    fi
+  fi
+
   mapfile -t TARGETS < <(python3 - "$TARGETS_FILE" <<'PY'
 import json
 import sys
@@ -109,12 +146,23 @@ PY
   fi
 
   for remote in "${TARGETS[@]}"; do
-    if ssh -o BatchMode=yes -o StrictHostKeyChecking=no "$remote" 'echo ok' >/tmp/exchange_ssh_check.out 2>&1; then
+    if ssh "${SSH_OPTS[@]}" "$remote" 'echo ok' >/tmp/exchange_ssh_check.out 2>&1; then
       add_pass "SSH auth to ${remote}"
     else
-      add_fail "SSH auth to ${remote}"
+      if [[ -n "$SSH_KEY_PATH" ]]; then
+        add_fail "SSH auth to ${remote} (using key ${SSH_KEY_PATH})"
+      else
+        add_fail "SSH auth to ${remote}"
+      fi
     fi
   done
+
+  if [[ -f "$SSH_HELPER_PUBKEY_PATH" ]]; then
+    add_warn "To authorize this host key on remote: cat ${SSH_HELPER_PUBKEY_PATH} >> /root/.ssh/authorized_keys"
+  fi
+  if [[ $FAIL_COUNT -gt 0 ]]; then
+    add_warn "If password auth is available, set SPIRALCOIN_SSH_PASSWORD and run: npm run exchange:ssh:bootstrap"
+  fi
 else
   add_fail "Missing EXCHANGE_PUBLISH.targets.json"
 fi

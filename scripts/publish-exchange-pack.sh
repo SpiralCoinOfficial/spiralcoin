@@ -19,6 +19,7 @@ error() { echo -e "${RED}❌${NC} $*"; }
 
 VERBOSE=0
 DRY_RUN=0
+SSH_KEY_PATH="${SPIRALCOIN_SSH_KEY_PATH:-}"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -50,6 +51,19 @@ info "Checking prerequisites..."
 command -v jq &>/dev/null || { error "jq required"; exit 1; }
 command -v scp &>/dev/null || { error "scp required"; exit 1; }
 command -v ssh &>/dev/null || { error "ssh required"; exit 1; }
+
+if [[ -z "$SSH_KEY_PATH" && -f "${HOME}/.ssh/id_ed25519" ]]; then
+    SSH_KEY_PATH="${HOME}/.ssh/id_ed25519"
+fi
+
+SSH_ARGS=(-o StrictHostKeyChecking=no)
+SCP_ARGS=(-o StrictHostKeyChecking=no)
+if [[ -n "$SSH_KEY_PATH" ]]; then
+    [[ -f "$SSH_KEY_PATH" ]] || { error "SPIRALCOIN_SSH_KEY_PATH not found: $SSH_KEY_PATH"; exit 1; }
+    SSH_ARGS=(-i "$SSH_KEY_PATH" -o IdentitiesOnly=yes "${SSH_ARGS[@]}")
+    SCP_ARGS=(-i "$SSH_KEY_PATH" -o IdentitiesOnly=yes "${SCP_ARGS[@]}")
+    info "Using SSH key: $SSH_KEY_PATH"
+fi
 success "Prerequisites OK"
 
 # Load targets
@@ -67,31 +81,31 @@ info "Targets: $TARGET_COUNT"
 # Publish function
 publish_target() {
     local NAME="$1" REMOTE="$2" REMOTE_DIR="$3" ZIP_NAME="$4"
-    
+
     echo ""
     info "Publishing to: $NAME"
     info "Remote: $REMOTE @ $REMOTE_DIR"
-    
+
     if [[ $DRY_RUN -eq 1 ]]; then
         warn "[DRY-RUN] Would test SSH → $REMOTE"
         warn "[DRY-RUN] Would create dir → $REMOTE_DIR"
         warn "[DRY-RUN] Would upload → $FULL_ZIP_PATH"
         return 0
     fi
-    
+
     # Actual publishing
     info "Testing SSH..."
-    ssh -o ConnectTimeout=10 -o BatchMode=yes "$REMOTE" "echo OK" &>/dev/null || { error "SSH failed"; return 1; }
+    ssh "${SSH_ARGS[@]}" -o ConnectTimeout=10 -o BatchMode=yes "$REMOTE" "echo OK" &>/dev/null || { error "SSH failed"; return 1; }
     success "SSH OK"
-    
+
     info "Creating remote directory..."
-    ssh "$REMOTE" "mkdir -p '$REMOTE_DIR'" || { error "mkdir failed"; return 1; }
+    ssh "${SSH_ARGS[@]}" "$REMOTE" "mkdir -p '$REMOTE_DIR'" || { error "mkdir failed"; return 1; }
     success "Directory ready"
-    
+
     info "Uploading ZIP..."
-    scp "$FULL_ZIP_PATH" "$REMOTE:$REMOTE_DIR/$ZIP_NAME" || { error "scp failed"; return 1; }
+    scp "${SCP_ARGS[@]}" "$FULL_ZIP_PATH" "$REMOTE:$REMOTE_DIR/$ZIP_NAME" || { error "scp failed"; return 1; }
     success "Upload complete"
-    
+
     return 0
 }
 
@@ -104,7 +118,7 @@ jq -c '.targets[]' "$REPO_ROOT/EXCHANGE_PUBLISH.targets.json" | while read -r TA
     REMOTE=$(echo "$TARGET_JSON" | jq -r '.remote')
     REMOTE_DIR=$(echo "$TARGET_JSON" | jq -r '.remoteDir')
     ZIP_NAME=$(echo "$TARGET_JSON" | jq -r '.zipName')
-    
+
     if publish_target "$NAME" "$REMOTE" "$REMOTE_DIR" "$ZIP_NAME"; then
         PASS=$((PASS + 1))
         success "Target '$NAME' completed"
