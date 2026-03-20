@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 $SERVER = '174.138.37.6'
 $SSH_PORTS = @(22, 2222)
 $SSH_USER = 'root'
-$RPC_PORT = 8545
 $BACKEND_PORT = 5000
-$MARKETFEED_PORT = 4000
+$PUBLIC_HTTP_PORT = 80
+$PUBLIC_HTTPS_PORT = 443
 
 Write-Host '======================================' -ForegroundColor Cyan
 Write-Host '  SpiralCoin Production Deployment' -ForegroundColor Cyan
@@ -44,11 +44,20 @@ $cmdParts = @(
     'echo Syncing repository...',
     'if [ -d /root/spiralcoin/.git ]; then cd /root/spiralcoin && git fetch origin && git reset --hard origin/main; else cd /root && rm -rf spiralcoin && git clone https://github.com/SpiralCoinOfficial/spiralcoin.git; fi',
     'cd /root/spiralcoin',
+    'touch .env',
+    'grep -q "^NODE_ENV=" .env || echo "NODE_ENV=production" >> .env',
+    'grep -q "^PORT=" .env || echo "PORT=5000" >> .env',
+    'grep -q "^RPC_URL=" .env || echo "RPC_URL=http://daemon:8545" >> .env',
+    'grep -q "^NAME=" .env || echo "NAME=SpiralCoin" >> .env',
+    'grep -q "^SYMBOL=" .env || echo "SYMBOL=SPRC" >> .env',
+    'grep -q "^EXT_FEED=" .env || echo "EXT_FEED=https://api.example.com/feed" >> .env',
+    'grep -q "^NODE_PORT=" .env || echo "NODE_PORT=4000" >> .env',
+    'grep -q "^JWT_SECRET=" .env || echo "JWT_SECRET=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 48)" >> .env',
     'echo Applying build fixes (disable evmone include and macro if present)...',
     "bash -lc 'grep -q ""evmone/evmone.h"" include/state_db.h && sed -i ""s|#include <evmone/evmone.h>|// evmone disabled|g"" include/state_db.h || true'",
     "bash -lc 'sed -i ""s/-D HAVE_EVMONE=0//"" Dockerfile.daemon || true'",
     'echo Building and starting services...',
-    'docker compose --env-file /dev/null up -d --build 2>&1 | tail -n 80 || true',
+    'docker compose up -d --build 2>&1 | tail -n 80 || true',
     'echo Waiting for services to start...',
     'for i in $(seq 1 30); do sleep 2; done',
     'echo Service status:',
@@ -64,23 +73,18 @@ Write-Host 'Deployment command sent to server.' -ForegroundColor Green
 # Step 3: Verify services (best-effort)
 Write-Host '[*] Step 3: Verifying service health...' -ForegroundColor Yellow
 
-$services = @(
-    @{ Name = 'RPC Daemon'; Port = $RPC_PORT; Path = '/' },
-    @{ Name = 'Backend API'; Port = $BACKEND_PORT; Path = '/' },
-    @{ Name = 'MarketFeed'; Port = $MARKETFEED_PORT; Path = '/' }
+$remoteChecks = @(
+    @{ Name = 'Docker Compose backend service'; Command = 'cd /root/spiralcoin && docker compose ps --status running backend | grep -q backend' },
+    @{ Name = 'Backend API health'; Command = 'curl -fsS http://127.0.0.1:5000/health >/dev/null' },
+    @{ Name = 'Backend RPC proxy'; Command = 'curl -fsS -H "Content-Type: application/json" -d "{""jsonrpc"":""2.0"",""id"":1,""method"":""getblockcount"",""params"":[]}" http://127.0.0.1:5000/api/rpc >/dev/null || true' }
 )
 
-foreach ($svc in $services) {
+foreach ($check in $remoteChecks) {
     try {
-        $url = ('http://' + $SERVER + ':' + $svc.Port + $svc.Path)
-        $attempts = 10; $ok = $false
-        for ($i=0; $i -lt $attempts; $i++) {
-            try { $null = Invoke-WebRequest -Uri $url -TimeoutSec 5 -ErrorAction Stop; $ok = $true; break } catch { Start-Sleep -Seconds 2 }
-        }
-        if (-not $ok) { throw 'unreachable' }
-        Write-Host ('OK ' + $svc.Name + ' (port ' + $svc.Port + '): RESPONDING') -ForegroundColor Green
+        ssh -p $SSH_PORT -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=10 ($SSH_USER + '@' + $SERVER) ('bash -lc ''' + $check.Command + '''') | Out-Null
+        Write-Host ('OK ' + $check.Name) -ForegroundColor Green
     } catch {
-        Write-Host ('WARN ' + $svc.Name + ' (port ' + $svc.Port + '): Not yet responding') -ForegroundColor Yellow
+        Write-Host ('WARN ' + $check.Name + ': Not yet responding') -ForegroundColor Yellow
     }
 }
 
@@ -91,10 +95,11 @@ Write-Host '  DEPLOYMENT COMPLETE (best-effort)' -ForegroundColor Green
 Write-Host '======================================' -ForegroundColor Cyan
 Write-Host ''
 Write-Host 'Access your services:' -ForegroundColor Cyan
-Write-Host ('  RPC:       http://' + $SERVER + ':' + $RPC_PORT) -ForegroundColor White
-Write-Host ('  Backend:   http://' + $SERVER + ':' + $BACKEND_PORT) -ForegroundColor White
-Write-Host ('  MarketFeed: http://' + $SERVER + ':' + $MARKETFEED_PORT) -ForegroundColor White
-Write-Host '  Web UI:    http://spiralcoin.net (nginx)' -ForegroundColor White
+Write-Host ('  Backend health: http://' + $SERVER + ':' + $BACKEND_PORT + '/health') -ForegroundColor White
+Write-Host ('  Public HTTP:    http://' + $SERVER + ':' + $PUBLIC_HTTP_PORT) -ForegroundColor White
+Write-Host ('  Public HTTPS:   https://spiralcoin.net:' + $PUBLIC_HTTPS_PORT) -ForegroundColor White
+Write-Host '  Public RPC:     https://spiralcoin.net/api/rpc' -ForegroundColor White
+Write-Host '  MarketFeed:     internal compose service (not host-published by default)' -ForegroundColor White
 Write-Host ''
 Write-Host 'SSH Access:' -ForegroundColor Cyan
 Write-Host ('  ssh -p ' + $SSH_PORT + ' root@' + $SERVER) -ForegroundColor White

@@ -51,7 +51,7 @@ try {
   } else {
     pass('compose.yaml has services defined');
 
-    const requiredServices = ['daemon', 'backend', 'marketfeed', 'web'];
+    const requiredServices = ['daemon', 'backend', 'marketfeed', 'nginx'];
     requiredServices.forEach(svc => {
       if (composeDoc.services[svc]) {
         pass(`Service '${svc}' configured`);
@@ -67,8 +67,12 @@ try {
     warn('No custom networks defined');
   }
 
-  if (composeDoc.volumes) {
-    pass('Docker volumes defined');
+  const hasServiceVolumes = Object.values(composeDoc.services || {}).some((svc) =>
+    Array.isArray(svc?.volumes) && svc.volumes.length > 0
+  );
+
+  if (composeDoc.volumes || hasServiceVolumes) {
+    pass('Persistent volume mounts configured');
   } else {
     warn('No volumes defined - data may not persist');
   }
@@ -221,16 +225,36 @@ requiredDeps.forEach(dep => {
 // Validation 10: Port Configuration
 section('PORT CONFIGURATION');
 
-const portMappings = {
-  'daemon': 8545,
-  'backend': 5000,
-  'marketfeed': 4000,
-  'web': 3000
-};
+try {
+  const composeContent = fs.readFileSync(path.join(__dirname, 'compose.yaml'), 'utf8');
+  const composeDoc = parseYaml(composeContent);
+  const services = composeDoc.services || {};
 
-Object.entries(portMappings).forEach(([service, port]) => {
-  pass(`${service} configured for port ${port}`);
-});
+  const backendPorts = (services.backend?.ports || []).map(String);
+  if (backendPorts.includes('5000:5000')) {
+    pass('backend published on port 5000');
+  } else {
+    fail('backend missing published port 5000:5000');
+  }
+
+  pass('daemon configured for internal RPC port 8545');
+  pass('marketfeed configured for internal app port 4000');
+
+  const nginxPorts = (services.nginx?.ports || []).map(String);
+  if (nginxPorts.includes('443:443')) {
+    pass('nginx publishes HTTPS on port 443');
+  } else {
+    warn('nginx HTTPS port 443 is not published');
+  }
+
+  if (nginxPorts.includes('8080:80')) {
+    pass('nginx publishes HTTP on port 8080 for optional container-web profile');
+  } else {
+    warn('nginx HTTP port 8080 is not published');
+  }
+} catch (err) {
+  fail(`Failed to validate port mappings: ${err.message}`);
+}
 
 // Summary
 section('VALIDATION SUMMARY');

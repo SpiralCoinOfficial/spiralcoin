@@ -98,8 +98,9 @@ wss.on('connection', (ws, req) => {
 });
 
 const NODE_PORT = process.env.NODE_PORT || 4000;
-server.listen(NODE_PORT, '127.0.0.1', () => {
-  console.log(`[marketfeed] listening on http://127.0.0.1:${NODE_PORT}`);
+const NODE_HOST = process.env.NODE_HOST || '0.0.0.0';
+server.listen(NODE_PORT, NODE_HOST, () => {
+  console.log(`[marketfeed] listening on http://${NODE_HOST}:${NODE_PORT}`);
 });
 
 // start the poll loop

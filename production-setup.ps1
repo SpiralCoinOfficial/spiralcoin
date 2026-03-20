@@ -16,10 +16,9 @@ Write-Host "╚═════════════════════�
 Write-Host "Step 1: Checking service responsiveness..." -ForegroundColor Yellow
 
 $services = @(
-    @{ Name = "Web UI"; URL = "http://$ServerIP`:3000"; Port = 3000 },
-    @{ Name = "Backend API"; URL = "http://$ServerIP`:5000/health"; Port = 5000 },
-    @{ Name = "RPC Daemon"; URL = "http://$ServerIP`:8545"; Port = 8545 },
-    @{ Name = "MarketFeed"; URL = "http://$ServerIP`:4000"; Port = 4000 }
+    @{ Name = "Public HTTP"; URL = "http://$ServerIP"; Port = 80 },
+    @{ Name = "Public HTTPS"; URL = "https://$Domain"; Port = 443 },
+    @{ Name = "Backend API"; URL = "http://$ServerIP`:5000/health"; Port = 5000 }
 )
 
 Write-Host ""
@@ -69,13 +68,31 @@ upstream backend {
 
 server {
     listen 80;
-    server_name spiralcoin.net www.spiralcoin.net;
-    return 301 https://$server_name$request_uri;
+    server_name www.spiralcoin.net;
+    return 301 https://spiralcoin.net$request_uri;
+}
+
+server {
+    listen 80;
+    server_name spiralcoin.net;
+    return 301 https://spiralcoin.net$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name spiralcoin.net www.spiralcoin.net;
+    server_name www.spiralcoin.net;
+
+    ssl_certificate /etc/letsencrypt/live/spiralcoin.net/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/spiralcoin.net/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    return 301 https://spiralcoin.net$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name spiralcoin.net;
 
     ssl_certificate /etc/letsencrypt/live/spiralcoin.net/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/spiralcoin.net/privkey.pem;
@@ -96,6 +113,19 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location = /health {
+        proxy_pass http://backend/health;
+        access_log off;
+    }
+
+    location = /exchange {
+        proxy_pass http://backend/exchange;
+    }
+
+    location = /listing {
+        proxy_pass http://backend/listing;
     }
 
     location / {
@@ -194,7 +224,7 @@ While ($testCount -lt $maxTests) {
 
     # Test HTTP services
     try {
-        $response = Invoke-WebRequest -Uri "http://$ServerIP`:3000" -TimeoutSec 2 -ErrorAction SilentlyContinue
+        $response = Invoke-WebRequest -Uri "http://$ServerIP/health" -TimeoutSec 2 -ErrorAction SilentlyContinue
         Write-Host " ✅ Services responding!" -ForegroundColor Green
         break
     }
@@ -221,7 +251,7 @@ Write-Host ""
 Write-Host "Access Points:" -ForegroundColor Cyan
 Write-Host "  Web UI:     https://spiralcoin.net (after DNS propagates)" -ForegroundColor White
 Write-Host "  Backend:    https://spiralcoin.net/api/health" -ForegroundColor White
-Write-Host "  RPC:        http://174.138.37.6:8545" -ForegroundColor White
+Write-Host "  RPC Proxy:  https://spiralcoin.net/api/rpc" -ForegroundColor White
 Write-Host ""
 
 Write-Host "Management Commands:" -ForegroundColor Cyan
