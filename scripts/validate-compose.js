@@ -23,22 +23,21 @@ try {
   if (!doc || typeof doc !== 'object') fail('compose.yaml parsed as empty');
 
   const services = doc.services || {};
-  const requiredServices = ['daemon', 'backend', 'marketfeed', 'web'];
+  const requiredServices = ['daemon', 'backend', 'marketfeed', 'nginx'];
   for (const svc of requiredServices) {
     if (!services[svc]) fail(`service ${svc} missing`);
   }
 
+  // Only check ports that are actually host-mapped in compose.yaml
   const ports = {
-    daemon: '8545:8545',
     backend: '5000:5000',
-    marketfeed: '4000:4000',
-    web: '3000:80'
+    nginx: '443:443'
   };
 
   for (const [svc, expected] of Object.entries(ports)) {
     const svcDef = services[svc];
     if (!svcDef) continue;
-    const p = svcDef.ports || [];
+    const p = (svcDef.ports || []).map(String);
     if (!p.includes(expected)) fail(`service ${svc} missing port ${expected}`);
   }
 
