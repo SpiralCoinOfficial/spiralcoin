@@ -16,3 +16,5 @@ src/cpp-httplib/
 build/
 .cleanup_quarantine/
 ssl/
+contracts/artifacts/
+contracts/cache/

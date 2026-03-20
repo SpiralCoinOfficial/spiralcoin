@@ -33,11 +33,15 @@ services:
       - PORT=5000
       - RPC_URL=http://daemon:8545
       - JWT_SECRET=${JWT_SECRET:?JWT_SECRET must be set}
-        - NAME=${NAME:-SpiralCoin}
-        - SYMBOL=${SYMBOL:-SPRC}
-        - PRIMARY_WALLET=${PRIMARY_WALLET:-}
-        - SUPPLY_VAULT=${SUPPLY_VAULT:-}
-        - SUPPLY_MIN=${SUPPLY_MIN:-22000000000000}
+      - NAME=${NAME:-SpiralCoin}
+      - SYMBOL=${SYMBOL:-SPRC}
+      - PRIMARY_WALLET=${PRIMARY_WALLET:-}
+      - SUPPLY_VAULT=${SUPPLY_VAULT:-}
+      - SUPPLY_MIN=${SUPPLY_MIN:-22000000000000}
+      - BINANCE_API_KEY=${BINANCE_API_KEY:-}
+      - BINANCE_API_SECRET=${BINANCE_API_SECRET:-}
+      - COINBASE_API_KEY=${COINBASE_API_KEY:-}
+      - COINBASE_API_SECRET=${COINBASE_API_SECRET:-}
     volumes:
       - ./backend_data:/app/data
     depends_on:
@@ -63,9 +67,10 @@ services:
     container_name: spiralcoin-marketfeed
     environment:
       - NODE_ENV=production
-      - NODE_PORT=4000
+      - NODE_PORT=${NODE_PORT:-4000}
+      - NODE_HOST=${NODE_HOST:-0.0.0.0}
       - RPC_URL=http://daemon:8545
-      - EXT_FEED=https://api.example.com/feed
+      - EXT_FEED=${EXT_FEED:-https://api.example.com/feed}
     depends_on:
       daemon:
         condition: service_healthy

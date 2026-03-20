@@ -4,7 +4,6 @@
   "private": true,
   "description": "Solidity contracts for SpiralCoin (ERC20/BEP20) with Hardhat tooling.",
   "scripts": {
-    "prepare": "node -v > .node-version || true",
     "clean": "hardhat clean",
     "compile": "hardhat compile",
     "test": "hardhat test",
