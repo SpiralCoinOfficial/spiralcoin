@@ -9,7 +9,8 @@
     "health:prod": "bash scripts/prod_health_check.sh",
     "health:cron:install": "bash scripts/install-health-cron.sh",
     "health:cron:remove": "bash scripts/remove-health-cron.sh",
-    "health:cron:show": "if command -v crontab >/dev/null 2>&1; then crontab -l 2>/dev/null | grep -n 'spiralcoin-health-watchdog' || true; else echo 'crontab not found (install cron to use scheduler)'; fi"
+    "health:cron:show": "if command -v crontab >/dev/null 2>&1; then crontab -l 2>/dev/null | grep -n 'spiralcoin-health-watchdog' || true; else echo 'crontab not found (install cron to use scheduler)'; fi",
+    "health:cron:selftest": "bash scripts/health-cron-selftest.sh"
   },
   "dependencies": {
     "express": "^4.22.1",
