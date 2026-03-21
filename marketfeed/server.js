@@ -12,8 +12,10 @@ const { URL } = require('url');
 
 // Default to backend RPC proxy on host if no explicit RPC_URL provided.
 // This makes the systemd-hosted marketfeed work even when the daemon runs in Docker.
-const RPC_URL = process.env.RPC_URL || 'http://127.0.0.1:5000/api/rpc';
-const EXT_FEED = process.env.EXT_FEED || 'https://api.example.com/feed';
+const BACKEND_HOST = process.env.BACKEND_HOST || 'localhost';
+const BACKEND_PORT = process.env.BACKEND_PORT || 5000;
+const RPC_URL = process.env.RPC_URL || `http://${BACKEND_HOST}:${BACKEND_PORT}/api/rpc`;
+const EXT_FEED = process.env.EXT_FEED; // Must be explicitly set; no default placeholder
 const POLL_INTERVAL_MS = 3000;
 
 function normalizeRpcUrl(rawUrl) {

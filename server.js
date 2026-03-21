@@ -25,7 +25,8 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
-const RPC_URL = process.env.RPC_URL || "http://127.0.0.1:8545";
+const BACKEND_HOST = process.env.BACKEND_HOST || "localhost";
+const RPC_URL = process.env.RPC_URL || `http://${process.env.RPC_HOST || "daemon"}:8545`;
 const NAME = process.env.NAME || "SpiralCoin";
 const SYMBOL = process.env.SYMBOL || "SPRC";
 
@@ -97,7 +98,8 @@ app.get('/api/info', async (req, res) => {
         let chainId = "0x0";
         let blockNumber = chain.length;
         try {
-            const s = await (await fetch(`http://127.0.0.1:${PORT}/api/status`)).json();
+            const statusUrl = `${req.protocol}://${req.get('host')}/api/status`;
+            const s = await (await fetch(statusUrl)).json();
             chainId = s.chainId || chainId;
             blockNumber = (typeof s.blockNumber !== 'undefined') ? s.blockNumber : blockNumber;
         } catch {}
@@ -285,12 +287,13 @@ app.get("/api/status", async (_req, res) => {
 // Exchange-friendly aggregate info combining /api/info and /api/status
 app.get('/api/exchange/info', async (req, res) => {
     try {
+        const baseUrl = `${req.protocol}://${req.get('host')}`;
         const [infoResp, statusResp] = await Promise.all([
             (async () => {
-                try { return await (await fetch(`http://127.0.0.1:${PORT}/api/info`)).json(); } catch { return {}; }
+                try { return await (await fetch(`${baseUrl}/api/info`)).json(); } catch { return {}; }
             })(),
             (async () => {
-                try { return await (await fetch(`http://127.0.0.1:${PORT}/api/status`)).json(); } catch { return {}; }
+                try { return await (await fetch(`${baseUrl}/api/status`)).json(); } catch { return {}; }
             })()
         ]);
         const publicRpc = `${req.protocol}://${req.get('host')}/api/rpc`;
