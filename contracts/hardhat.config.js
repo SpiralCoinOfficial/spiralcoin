@@ -1,11 +1,11 @@
-require('dotenv').config();
-require('@nomicfoundation/hardhat-toolbox');
+import 'dotenv/config';
+import '@nomicfoundation/hardhat-toolbox';
 
 const rawPrivateKey = (process.env.PRIVATE_KEY || '').trim().replace(/^0x/, '');
 const PRIVATE_KEY = /^[0-9a-fA-F]{64}$/.test(rawPrivateKey) ? `0x${rawPrivateKey}` : undefined;
 
 /** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
+export default {
   solidity: {
     version: '0.8.24',
     settings: {

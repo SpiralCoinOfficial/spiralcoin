@@ -1,5 +1,6 @@
-require('dotenv').config();
-const hre = require('hardhat');
+import 'dotenv/config';
+import hre from 'hardhat';
+import fs from 'fs';
 const { ethers } = hre;
 
 function scaleSupply(amountStr, decimals) {
@@ -30,7 +31,6 @@ async function main() {
   console.log(`[Deploy] Deployed SPRC at: ${addr}`);
 
   // Output a small JSON artifact for the exchange pack or docs
-  const fs = require('fs');
   const outDir = `${process.cwd()}/build`;
   try { fs.mkdirSync(outDir, { recursive: true }); } catch {}
   const out = {
