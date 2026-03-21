@@ -1,6 +1,6 @@
 import 'dotenv/config';
-import hre from 'hardhat';
 import fs from 'fs';
+import hre from 'hardhat';
 const { ethers } = hre;
 
 function scaleSupply(amountStr, decimals) {
