@@ -34,9 +34,20 @@ jobs:
           # Skip linters that are noisy or handled elsewhere in CI.
           # Markdown is linted by markdownlint-cli2 in build.yml.
           VALIDATE_MARKDOWN: false
-          # YAML_PRETTIER is style-only (not correctness) and disagrees with
-          # GitHub's own workflow indentation conventions.
+          # Prettier-style validators are style-only (not correctness) and
+          # disagree with project conventions (e.g. GitHub workflow indentation).
           VALIDATE_YAML_PRETTIER: false
+          VALIDATE_JSONC_PRETTIER: false
+          VALIDATE_JSON_PRETTIER: false
+          # Biome enforces a JS style not adopted by this repo.
+          VALIDATE_JAVASCRIPT_BIOME: false
+          VALIDATE_TYPESCRIPT_BIOME: false
+          # Container/IaC/SAST scanning is already handled by dedicated workflows
+          # (Container Scan, Bearer, CodeQL Advanced, SBOM).
+          VALIDATE_CHECKOV: false
+          VALIDATE_TRIVY: false
+          # Zizmor "unpinned-uses" is an org-wide policy decision; not enforced here yet.
+          VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
           # No Ruby or Jscpd config in repo.
           VALIDATE_RUBY: false
           VALIDATE_JSCPD: false
