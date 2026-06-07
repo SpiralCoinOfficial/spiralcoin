@@ -35,8 +35,13 @@ fi
 # Disable PubkeyAuthentication requirement (allow password)
 sed -i 's/^#PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
 
-# Set root password
-echo "root:0478cb10c91480bb5d5e838b0" | chpasswd
+# Set root password from environment variable
+if [[ -z "${ROOT_PASSWORD:-}" ]]; then
+    echo "ERROR: ROOT_PASSWORD environment variable is required."
+    echo "Example: ROOT_PASSWORD='your-strong-password' sudo -E ./enable_root_ssh.sh"
+    exit 1
+fi
+echo "root:${ROOT_PASSWORD}" | chpasswd
 
 # Ensure SSH service is enabled
 systemctl enable ssh
@@ -50,6 +55,5 @@ echo "  Port: 22 (standard)"
 echo "  Authentication: Password enabled"
 echo "  Root login: Enabled"
 echo "  User: root"
-echo "  Password: 0478cb10c91480bb5d5e838b0"
 echo ""
-echo "Connection: ssh -p 22 root@174.138.37.6"
+echo "Connection: ssh -p 22 root@${SERVER_HOST:-174.138.37.6}"

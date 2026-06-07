@@ -1,15 +1,31 @@
 # Helper to add SSH key and run remote commands using password auth
-# Usage: ./ssh_auth_helper.ps1 -Server 174.138.37.6 -Password "HarLand2025a" -Command "whoami"
+# Usage:
+#   $pw = Read-Host "SSH password" -AsSecureString
+#   ./ssh_auth_helper.ps1 -Server 174.138.37.6 -Password $pw -Command "whoami"
 
 param(
     [string]$Server = "174.138.37.6",
     [string]$User = "root",
-    [string]$Password,
+    [securestring]$Password,
     [string]$Command,
     [string]$KeyPath = "$env:USERPROFILE\.ssh\spiralcoin_ed25519"
 )
 
 $ErrorActionPreference = 'Stop'
+
+function Convert-SecureStringToPlainText {
+    param([securestring]$SecureValue)
+    if (-not $SecureValue) { return $null }
+    $bstr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureValue)
+    try {
+        return [Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr)
+    }
+    finally {
+        if ($bstr -ne [IntPtr]::Zero) {
+            [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
+        }
+    }
+}
 
 # Try using the SSH key first (if already added)
 Write-Host "[$Server] Attempting SSH with key..." -ForegroundColor Cyan
@@ -29,7 +45,11 @@ catch {
 $sshpass = Get-Command sshpass -ErrorAction SilentlyContinue
 if ($sshpass) {
     Write-Host "[$Server] Using sshpass with password..." -ForegroundColor Cyan
-    $env:SSHPASS = $Password
+    $plainPassword = Convert-SecureStringToPlainText $Password
+    if (-not $plainPassword) {
+        throw "Password auth requested but no password was supplied."
+    }
+    $env:SSHPASS = $plainPassword
     sshpass -e ssh -o StrictHostKeyChecking=accept-new "$User@$Server" $Command
     return
 }

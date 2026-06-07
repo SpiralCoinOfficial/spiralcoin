@@ -14,6 +14,27 @@ let currentPrice = 0.05;
 // Each candle: { time: number (unix in seconds), open: number, high: number, low: number, close: number }
 let candles = [];
 
+// Basic sanitization helpers to prevent unsafe identifiers from reaching external URLs
+function sanitizeAssetIdentifier(value) {
+    if (!value) return null;
+    const v = value.toString().trim().toLowerCase();
+    // Allow only lowercase letters, digits and hyphen, with a reasonable length limit
+    if (!/^[a-z0-9\-]{1,64}$/.test(v)) {
+        return null;
+    }
+    return v;
+}
+
+function sanitizeVsCurrency(value) {
+    if (!value) return null;
+    const v = value.toString().trim().toLowerCase();
+    // Allow only lowercase letters for fiat/crypto tickers
+    if (!/^[a-z]{2,10}$/.test(v)) {
+        return null;
+    }
+    return v;
+}
+
 // Persistence paths for SPRC candles
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -119,9 +140,13 @@ async function fetchJson(url) {
 
 async function resolveCoingeckoId(asset) {
     if (!asset) return null;
-    const a = asset.toString().trim();
-    // If looks like a CG id (has hyphen), try direct
-    if (a.includes("-")) return a.toLowerCase();
+    const raw = asset.toString().trim();
+    const a = raw;
+    // If looks like a CG id (has hyphen), try direct but sanitize
+    if (a.includes("-")) {
+        const safeId = sanitizeAssetIdentifier(a);
+        return safeId;
+    }
     // Search by symbol/name
     try {
         const data = await fetchJson(`${CG_BASE}/search?query=${encodeURIComponent(a)}`);
@@ -131,7 +156,10 @@ async function resolveCoingeckoId(asset) {
         const pick = (exact.length ? exact : coins).sort(
             (x, y) => (x.market_cap_rank || 1e9) - (y.market_cap_rank || 1e9)
         )[0];
-        return pick?.id || null;
+        const id = pick?.id || null;
+        if (!id) return null;
+        const safeId = sanitizeAssetIdentifier(id);
+        return safeId;
     } catch {
         return null;
     }
@@ -146,20 +174,31 @@ marketRouter.get("/candles", async (req, res) => {
         if (asset.toLowerCase() === 'spiralcoin' || asset.toUpperCase() === 'SPC') {
             asset = 'SPRC';
         }
-        const vs = (req.query.vs || "USD").toString().toLowerCase();
+        const vsRaw = (req.query.vs || "USD").toString().toLowerCase();
         const interval = (req.query.interval || "1h").toString();
 
         // If asking for SPRC, return local in-memory candles
         if (asset.toUpperCase() === "SPRC" || asset.toUpperCase() === "SPC") {
-            return res.json({ asset: "SPRC", vs, interval, candles });
+            const safeVsLocal = sanitizeVsCurrency(vsRaw) || "usd";
+            return res.json({ asset: "SPRC", vs: safeVsLocal, interval, candles });
         }
 
         if (asset.toLowerCase().startsWith("0x")) {
             return res.status(400).json({ error: "Token addresses are not supported in this demo." });
         }
 
+        const safeAssetInput = asset ? asset.toString().trim() : "";
+        if (!safeAssetInput) {
+            return res.status(400).json({ error: "Asset is required." });
+        }
+
+        const safeVs = sanitizeVsCurrency(vsRaw);
+        if (!safeVs) {
+            return res.status(400).json({ error: "Invalid vs currency." });
+        }
+
         // Resolve symbol or id to a CoinGecko id (broad asset support)
-        const cgId = await resolveCoingeckoId(asset);
+        const cgId = await resolveCoingeckoId(safeAssetInput);
         if (!cgId) {
             return res
                 .status(400)
@@ -169,7 +208,7 @@ marketRouter.get("/candles", async (req, res) => {
         // Map interval to days for CoinGecko OHLC
         const daysMap = { "1m": 1, "5m": 1, "1h": 1, "1d": 7, "7d": 30 };
         const days = daysMap[interval] || 1;
-        const url = `${CG_BASE}/coins/${cgId}/ohlc?vs_currency=${encodeURIComponent(vs)}&days=${days}`;
+        const url = `${CG_BASE}/coins/${cgId}/ohlc?vs_currency=${encodeURIComponent(safeVs)}&days=${days}`;
         const ohlc = await fetchJson(url);
         if (!Array.isArray(ohlc)) {
             return res.status(502).json({ error: "Failed to retrieve OHLC data" });
@@ -182,7 +221,7 @@ marketRouter.get("/candles", async (req, res) => {
             low: row[3],
             close: row[4]
         }));
-        return res.json({ asset: asset.toUpperCase(), vs, interval, candles: out });
+        return res.json({ asset: asset.toUpperCase(), vs: safeVs, interval, candles: out });
     } catch (err) {
         return res.status(502).json({ error: "Failed to load external candles", details: err?.message || String(err) });
     }

@@ -4,15 +4,29 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "node scripts/validate-compose.js"
+    "test": "node scripts/validate-compose.js",
+    "audit:env": "node scripts/audit-env.js",
+    "health:prod": "bash scripts/prod_health_check.sh",
+    "health:cron:install": "bash scripts/install-health-cron.sh",
+    "health:cron:remove": "bash scripts/remove-health-cron.sh",
+    "health:cron:show": "if command -v crontab >/dev/null 2>&1; then crontab -l 2>/dev/null | grep -n 'spiralcoin-health-watchdog' || true; else echo 'crontab not found (install cron to use scheduler)'; fi",
+    "health:cron:selftest": "bash scripts/health-cron-selftest.sh",
+    "exchange:pack:build": "bash scripts/make-exchange-pack.sh",
+    "exchange:pack:validate": "bash scripts/validate-exchange-pack.sh",
+    "exchange:pack:ready": "npm run exchange:pack:build && npm run exchange:pack:validate",
+    "exchange:ready:gate": "bash scripts/exchange-readiness-gate.sh",
+    "exchange:ssh:bootstrap": "bash scripts/bootstrap-remote-ssh-key.sh",
+    "exchange:publish": "bash scripts/publish-exchange-pack.sh",
+    "exchange:publish:dry-run": "bash scripts/publish-exchange-pack.sh --dry-run",
+    "exchange:publish:verbose": "bash scripts/publish-exchange-pack.sh --verbose"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "body-parser": "^1.20.2",
+    "express": "^4.22.2",
+    "body-parser": "^1.20.5",
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express-rate-limit": "^7.4.1",
-    "yaml": "^2.4.2",
+    "yaml": "^2.8.3",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2"
   }

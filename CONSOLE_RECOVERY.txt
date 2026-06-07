@@ -6,7 +6,7 @@ DigitalOcean Console URL:
 https://cloud.digitalocean.com/droplets
 
 Login: root
-Password: HarLand2025!
+Password: use the current server password from your secret manager
 
 ───────────────────────────────────────────────────────────────
 PASTE THIS COMMAND INTO THE CONSOLE:
@@ -87,7 +87,7 @@ SUCCESS CHECKLIST
 ───────────────────────────────────────────────────────────────
 
  [ ] Droplet Console accessible
- [ ] Logged into console (root / HarLand2025!)
+ [ ] Logged into console (root / current server password from secret manager)
  [ ] Recovery command completed successfully
  [ ] All 4 containers show "Up"
  [ ] SSH works from local machine

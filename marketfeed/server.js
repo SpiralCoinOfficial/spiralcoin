@@ -8,11 +8,14 @@ const express = require('express');
 const axios = require('axios');
 const WebSocket = require('ws');
 const http = require('http');
+const { URL } = require('url');
 
 // Default to backend RPC proxy on host if no explicit RPC_URL provided.
 // This makes the systemd-hosted marketfeed work even when the daemon runs in Docker.
-const RPC_URL = process.env.RPC_URL || 'http://127.0.0.1:5000/api/rpc';
-const EXT_FEED = process.env.EXT_FEED || 'https://api.example.com/feed';
+const BACKEND_HOST = process.env.BACKEND_HOST || 'localhost';
+const BACKEND_PORT = process.env.BACKEND_PORT || 5000;
+const RPC_URL = process.env.RPC_URL || `http://${BACKEND_HOST}:${BACKEND_PORT}/api/rpc`;
+const EXT_FEED = process.env.EXT_FEED; // Must be explicitly set; no default placeholder
 const POLL_INTERVAL_MS = 3000;
 
 // Sanitize RPC URL to avoid SSRF via misconfigured environment variables.
@@ -36,7 +39,20 @@ function sanitizeRpcUrl(rawUrl) {
   }
 }
 
-const SAFE_RPC_URL = sanitizeRpcUrl(RPC_URL);
+function normalizeRpcUrl(rawUrl) {
+  try {
+    const u = new URL(rawUrl);
+    if (!u.pathname || u.pathname === '/') {
+      u.pathname = '/rpc';
+    }
+    return u.toString();
+  } catch {
+    return rawUrl;
+  }
+}
+
+// Apply SSRF sanitization first, then normalize the path for the RPC endpoint.
+const EFFECTIVE_RPC_URL = normalizeRpcUrl(sanitizeRpcUrl(RPC_URL));
 
 const app = express();
 app.use(express.json());
@@ -51,8 +67,8 @@ let latest = {
 // Helper: poll local RPC for getdqve and getwalletinfo
 async function pollRPC() {
   try {
-    const dqveReq = await axios.post(RPC_URL, { id:1, method: "getdqve", params: [] }, { timeout: 3000 });
-    const walletReq = await axios.post(RPC_URL, { id:1, method: "getwalletinfo", params: [] }, { timeout: 3000 });
+    const dqveReq = await axios.post(EFFECTIVE_RPC_URL, { id: 1, method: "getdqve", params: [] }, { timeout: 3000 });
+    const walletReq = await axios.post(EFFECTIVE_RPC_URL, { id: 1, method: "getwalletinfo", params: [] }, { timeout: 3000 });
     latest.rpc_raw = { dqve: dqveReq.data, wallet: walletReq.data };
     latest.dqve = dqveReq.data.result || dqveReq.data;
   } catch (err) {
@@ -88,7 +104,7 @@ app.get('/api/feed', (req, res) => {
 app.get('/api/dqve', async (req, res) => {
   // forward to RPC if possible
   try {
-    const r = await axios.post(SAFE_RPC_URL, { id:1, method: "getdqve", params: [] }, { timeout: 3000 });
+    const r = await axios.post(EFFECTIVE_RPC_URL, { id: 1, method: "getdqve", params: [] }, { timeout: 3000 });
     return res.json(r.data);
   } catch (err) {
     return res.status(500).json({ error: "rpc_error", message: err.message, cached: latest.dqve });
@@ -116,13 +132,15 @@ wss.on('connection', (ws, req) => {
     try {
       const p = JSON.parse(m.toString());
       if (p && p.type === 'ping') ws.send(JSON.stringify({ type: 'pong', ts: new Date().toISOString() }));
-    } catch(e){}
+    } catch (e) { }
   });
 });
 
 const NODE_PORT = process.env.NODE_PORT || 4000;
-server.listen(NODE_PORT, '127.0.0.1', () => {
-  console.log(`[marketfeed] listening on http://127.0.0.1:${NODE_PORT}`);
+const NODE_HOST = process.env.NODE_HOST || '0.0.0.0';
+server.listen(NODE_PORT, NODE_HOST, () => {
+  console.log(`[marketfeed] listening on http://${NODE_HOST}:${NODE_PORT}`);
+  console.log(`[marketfeed] rpc endpoint: ${EFFECTIVE_RPC_URL}`);
 });
 
 // start the poll loop

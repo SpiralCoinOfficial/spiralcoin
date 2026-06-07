@@ -1,10 +1,10 @@
 {
+  "type": "module",
   "name": "spiralcoin-contracts",
   "version": "0.1.0",
   "private": true,
   "description": "Solidity contracts for SpiralCoin (ERC20/BEP20) with Hardhat tooling.",
   "scripts": {
-    "prepare": "node -v > .node-version || true",
     "clean": "hardhat clean",
     "compile": "hardhat compile",
     "test": "hardhat test",
@@ -12,9 +12,9 @@
     "deploy:bsc": "hardhat run --network bsc scripts/deploy.js"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^7.0.0",
     "dotenv": "^16.4.5",
-    "hardhat": "^2.22.15"
+    "hardhat": "^3.2.0"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.2",

@@ -1,5 +1,8 @@
 name: Container Scan
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: ["**"]
@@ -13,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Run Trivy FS scan (report-only)
-        uses: aquasecurity/trivy-action@0.20.0
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           scan-type: 'fs'
           ignore-unfixed: true
@@ -27,7 +30,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Run Trivy config scan (report-only)
-        uses: aquasecurity/trivy-action@0.20.0
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           scan-type: 'config'
           ignore-unfixed: true

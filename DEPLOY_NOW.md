@@ -2,7 +2,7 @@
 
 **Server**: 174.138.37.6
 **Username**: root
-**Password**: HarLand2025!
+**Password**: retrieve the current value from your secret manager or `SPIRALCOIN_SSH_PASSWORD`
 
 ---
 
@@ -23,7 +23,7 @@ All automation scripts are created and committed to GitHub:
 ### Command 1: Restart Services
 ```bash
 ssh root@174.138.37.6
-# Password: HarLand2025!
+# Password: enter the current server password (do not store it in the repository)
 
 cd /root/spiralcoin
 docker compose restart
@@ -184,7 +184,7 @@ docker system prune -a
 
 1. Open terminal/PowerShell
 2. Copy-paste Command 1 (restart services)
-3. Enter password when prompted: **HarLand2025!**
+3. Enter the current server password when prompted
 4. Copy-paste Command 2 (deploy automation)
 5. Copy-paste Command 3 (verify)
 6. Done! ✅

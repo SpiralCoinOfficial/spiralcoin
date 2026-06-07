@@ -10,3 +10,18 @@ node_modules/
 data/
 build/
 *.log
+include/nlohmann/
+src/cpp-httplib/
+.devcontainer/
+build/
+.cleanup_quarantine/
+ssl/
+contracts/artifacts/
+contracts/cache/
+# DB stack secrets
+db/.env
+db/data/
+# SQLite local files
+*.sqlite
+*.sqlite3
+data/sqlite/

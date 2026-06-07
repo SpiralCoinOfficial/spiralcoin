@@ -173,7 +173,7 @@ if ($allPassed) {
     Write-Host ""
     Write-Host "Quick Fix - Run these commands:" -ForegroundColor Cyan
     Write-Host "  ssh $Username@$ServerIP" -ForegroundColor White
-    Write-Host "  Password: HarLand2025!" -ForegroundColor Yellow
+    Write-Host "  Use your configured SSH key or server password prompt" -ForegroundColor Yellow
     Write-Host "  cd /root/spiralcoin && docker compose restart" -ForegroundColor White
     Write-Host ""
     Write-Host "Or see DEPLOY_NOW.md for complete instructions" -ForegroundColor Cyan

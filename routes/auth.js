@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import express from "express";
 import fs from "fs";
 import jwt from "jsonwebtoken";
@@ -13,7 +14,21 @@ const ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(ROOT, "data");
 const USERS_FILE = path.join(DATA_DIR, "users.json");
 const USER_WALLETS_FILE = path.join(DATA_DIR, "user_wallets.json");
-const JWT_SECRET = process.env.JWT_SECRET || "change-me-dev-secret";
+
+function resolveJwtSecret() {
+  const configured = (process.env.JWT_SECRET || "").trim();
+  if (configured) return configured;
+
+  if ((process.env.NODE_ENV || "").toLowerCase() === "production") {
+    throw new Error("JWT_SECRET is required when NODE_ENV=production");
+  }
+
+  const ephemeral = crypto.randomBytes(32).toString("hex");
+  console.warn("[auth] JWT_SECRET is not set; using an ephemeral development secret.");
+  return ephemeral;
+}
+
+const JWT_SECRET = resolveJwtSecret();
 
 function ensureDataFiles() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
