@@ -35,7 +35,7 @@ function sanitizeRpcUrl(rawUrl) {
       return DEFAULT_RPC_URL;
     }
     return parsed.toString();
-  } catch (_e) {
+  } catch {
     return DEFAULT_RPC_URL;
   }
 }
@@ -136,7 +136,9 @@ wss.on('connection', (ws, req) => {
     try {
       const p = JSON.parse(m.toString());
       if (p && p.type === 'ping') ws.send(JSON.stringify({ type: 'pong', ts: new Date().toISOString() }));
-    } catch (e) { }
+    } catch {
+      // ignore malformed client messages
+    }
   });
 });
 

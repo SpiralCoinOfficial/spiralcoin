@@ -26,7 +26,6 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
-const BACKEND_HOST = process.env.BACKEND_HOST || "localhost";
 const RPC_URL = process.env.RPC_URL || `http://${process.env.RPC_HOST || "daemon"}:8545`;
 const NAME = process.env.NAME || "SpiralCoin";
 const SYMBOL = process.env.SYMBOL || "SPRC";
@@ -67,7 +66,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => {
     try {
         res.sendFile(path.join(__dirname, "public/index.html"));
-    } catch (err) {
+    } catch {
         res.status(200).json({ status: 'SpiralCoin API Running' });
     }
 });
@@ -106,7 +105,9 @@ app.get('/api/info', async (req, res) => {
         try {
             const s = await getStatusData();
             chainId = s.chainId || chainId;
-        } catch { }
+        } catch {
+            // fallback chainId already set
+        }
         const publicRpc = `${req.protocol}://${req.get('host')}/api/rpc`;
         res.json({
             name: NAME,
@@ -265,7 +266,7 @@ async function getStatusData() {
         blockNumber = hexToInt(blockResp?.result);
         gasPriceWei = hexToInt(gasResp?.result);
         peerCount = hexToInt(peerResp?.result);
-    } catch (_) {
+    } catch {
         // Fallbacks for non-EVM RPC
         const countResp = await rpcCall("getblockcount").catch(() => null);
         if (countResp && typeof countResp.result !== "undefined") {
@@ -322,6 +323,7 @@ app.get(['/exchange', '/listing'], (req, res) => {
 });
 
 // Global error handler
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
     console.error("Unhandled error:", err);
     res.status(500).json({ success: false, error: err.message });

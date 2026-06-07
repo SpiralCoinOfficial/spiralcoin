@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import express from "express";
 import fs from "fs";
 import path from "path";
@@ -46,7 +47,7 @@ tradeRouter.post("/order", (req, res) => {
     const mkt = SUPPORTED.find(m => m.symbol === symbol);
     if (!mkt) return res.status(400).json({ error: "Unsupported market" });
     const order = {
-      id: "ord_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      id: "ord_" + crypto.randomUUID().replace(/-/g, ""),
       ts: Date.now(), symbol, side: String(side).toUpperCase(),
       quantity: Number(quantity), type: type || (price ? "LIMIT" : "MARKET"), price: price ? Number(price) : null,
       status: "FILLED"

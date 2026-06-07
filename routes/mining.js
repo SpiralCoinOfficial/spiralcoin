@@ -10,7 +10,7 @@ miningRouter.post("/", (req, res) => {
         index: chain.length,
         timestamp: Date.now(),
         transactions: [...pendingTransactions],
-        nonce: Math.floor(Math.random() * 1000000),
+        nonce: crypto.randomInt(0, 1_000_000),
         previousHash: previousBlock.hash
     };
     block.hash = crypto.createHash("sha256").update(JSON.stringify(block)).digest("hex");

@@ -55,7 +55,7 @@ authRouter.post("/register", (req, res) => {
     if (users.users.find(u => u.username.toLowerCase() === String(username).toLowerCase())) {
       return res.status(409).json({ error: "Username already exists" });
     }
-    const id = "u_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+    const id = "u_" + crypto.randomUUID().replace(/-/g, "");
     const hash = bcrypt.hashSync(password, 10);
     users.users.push({ id, username, hash, settings: { theme: "dark" } });
     writeJson(USERS_FILE, users);
@@ -95,7 +95,7 @@ export function authMiddleware(req, res, next) {
     const payload = jwt.verify(m[1], JWT_SECRET);
     req.user = { id: payload.sub, username: payload.username };
     next();
-  } catch (e) {
+  } catch {
     return res.status(401).json({ error: "Invalid token" });
   }
 }
