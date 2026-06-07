@@ -18,6 +18,10 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.2",
-    "ethers": "^6.12.1"
+    "ethers": "^6.12.1",
+    "ws": "^8.21.0"
+  },
+  "overrides": {
+    "ws": "^8.21.0"
   }
 }
