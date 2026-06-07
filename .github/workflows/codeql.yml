@@ -43,8 +43,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
+        # Use build-mode: none so CodeQL scans C/C++ sources without
+        # invoking autobuild (autobuild fails on this repo's CMake layout).
         - language: c-cpp
-          build-mode: autobuild
+          build-mode: none
         - language: javascript-typescript
           build-mode: none
         # CodeQL supports the following values keywords for 'language': 'actions', 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'rust', 'swift'

@@ -1,0 +1,27 @@
+// markdownlint-cli2 configuration
+// Auto-discovered by `markdownlint-cli2` (no flag needed).
+{
+    "globs": [
+        "**/*.md"
+    ],
+    "ignores": [
+        "node_modules/**",
+        ".git/**",
+        "vendor/**",
+        "dist/**",
+        "build/**",
+        "out/**",
+        "target/**",
+        "venv/**",
+        "**/CHANGELOG.md"
+    ],
+    "config": {
+        "default": true,
+        "MD013": false,
+        "MD033": false,
+        "MD034": false,
+        "MD036": false,
+        "MD041": false,
+        "MD024": { "siblings_only": true }
+    }
+}
