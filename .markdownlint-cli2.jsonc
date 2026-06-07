@@ -5,14 +5,14 @@
         "**/*.md"
     ],
     "ignores": [
-        "node_modules/**",
-        ".git/**",
-        "vendor/**",
-        "dist/**",
-        "build/**",
-        "out/**",
-        "target/**",
-        "venv/**",
+        "**/node_modules/**",
+        "**/.git/**",
+        "**/vendor/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/out/**",
+        "**/target/**",
+        "**/venv/**",
         "**/CHANGELOG.md"
     ],
     "config": {

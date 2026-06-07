@@ -34,6 +34,9 @@ jobs:
           # Skip linters that are noisy or handled elsewhere in CI.
           # Markdown is linted by markdownlint-cli2 in build.yml.
           VALIDATE_MARKDOWN: false
+          # YAML_PRETTIER is style-only (not correctness) and disagrees with
+          # GitHub's own workflow indentation conventions.
+          VALIDATE_YAML_PRETTIER: false
           # No Ruby or Jscpd config in repo.
           VALIDATE_RUBY: false
           VALIDATE_JSCPD: false
