@@ -12,11 +12,14 @@ jobs:
   trivy-fs:
     name: Trivy FS Scan
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Run Trivy FS scan (report-only)
-        uses: aquasecurity/trivy-action@0.35.0
+        # aquasecurity/trivy-action v0.35.0 (pinned to commit SHA for supply-chain safety)
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1
         with:
           scan-type: 'fs'
           ignore-unfixed: true
@@ -26,11 +29,14 @@ jobs:
   trivy-config:
     name: Trivy Config Scan
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Run Trivy config scan (report-only)
-        uses: aquasecurity/trivy-action@0.35.0
+        # aquasecurity/trivy-action v0.35.0 (pinned to commit SHA for supply-chain safety)
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1
         with:
           scan-type: 'config'
           ignore-unfixed: true

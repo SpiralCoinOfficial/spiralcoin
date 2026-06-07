@@ -4,6 +4,7 @@ import crypto from "crypto";
 import dotenv from "dotenv";
 import express from "express";
 import rateLimit from "express-rate-limit";
+import helmet from "helmet";
 import http from "http";
 import https from "https";
 import path from "path";
@@ -29,6 +30,11 @@ const BACKEND_HOST = process.env.BACKEND_HOST || "localhost";
 const RPC_URL = process.env.RPC_URL || `http://${process.env.RPC_HOST || "daemon"}:8545`;
 const NAME = process.env.NAME || "SpiralCoin";
 const SYMBOL = process.env.SYMBOL || "SPRC";
+
+// Security headers (CSP, HSTS-when-https, X-Frame-Options, no X-Powered-By, etc.)
+app.use(helmet());
+// Reinforce: don't advertise the server stack.
+app.disable("x-powered-by");
 
 app.use(cors());
 app.use(bodyParser.json());

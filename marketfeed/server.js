@@ -5,6 +5,7 @@
   - exposes /api/feed and websocket broadcast
 */
 const express = require('express');
+const helmet = require('helmet');
 const axios = require('axios');
 const WebSocket = require('ws');
 const http = require('http');
@@ -55,6 +56,9 @@ function normalizeRpcUrl(rawUrl) {
 const EFFECTIVE_RPC_URL = normalizeRpcUrl(sanitizeRpcUrl(RPC_URL));
 
 const app = express();
+// Security headers + drop X-Powered-By fingerprinting.
+app.use(helmet());
+app.disable('x-powered-by');
 app.use(express.json());
 
 let latest = {

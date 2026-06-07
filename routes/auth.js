@@ -88,7 +88,9 @@ authRouter.post("/login", (req, res) => {
 export function authMiddleware(req, res, next) {
   try {
     const h = req.headers["authorization"] || "";
-    const m = /^Bearer\s+(.+)$/i.exec(h);
+    // Use \S+ (non-whitespace) instead of .+ to avoid polynomial backtracking
+    // on inputs like "bearer " + many spaces; JWTs never contain whitespace.
+    const m = /^Bearer\s+(\S+)\s*$/i.exec(h);
     if (!m) return res.status(401).json({ error: "Missing token" });
     const payload = jwt.verify(m[1], JWT_SECRET);
     req.user = { id: payload.sub, username: payload.username };

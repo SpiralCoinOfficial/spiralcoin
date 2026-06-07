@@ -8,10 +8,16 @@ name: CI
     branches:
       - '**'
 
+# Default to least-privilege; individual jobs may widen as needed.
+permissions:
+  contents: read
+
 jobs:
   markdownlint:
     name: Markdown Lint
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -26,13 +32,17 @@ jobs:
   docker-build:
     name: Docker Build (Dockerfile.dev)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        # docker/setup-buildx-action v3.7.1 (pinned to commit SHA for supply-chain safety)
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f
       - name: Build image
-        uses: docker/build-push-action@v6
+        # docker/build-push-action v6.10.0 (pinned to commit SHA for supply-chain safety)
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8
         with:
           context: .
           file: Dockerfile.dev
