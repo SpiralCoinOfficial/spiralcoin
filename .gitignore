@@ -18,3 +18,10 @@ build/
 ssl/
 contracts/artifacts/
 contracts/cache/
+# DB stack secrets
+db/.env
+db/data/
+# SQLite local files
+*.sqlite
+*.sqlite3
+data/sqlite/
