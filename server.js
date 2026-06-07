@@ -88,21 +88,19 @@ app.get('/dashboard', (req, res) => {
 });
 
 app.get('/health', (_req, res) => {
-  res.status(200).json({ status: 'healthy', ts: new Date().toISOString() });
+    res.status(200).json({ status: 'healthy', ts: new Date().toISOString() });
 });
 
 // Basic project info for exchanges and integrations
 app.get('/api/info', async (req, res) => {
     try {
-        // Derive current status for inclusion
+        // Get status via in-process helper (avoid SSRF risk of self-fetching
+        // through Host-header-derived URLs).
         let chainId = "0x0";
-        let blockNumber = chain.length;
         try {
-            const statusUrl = `${req.protocol}://${req.get('host')}/api/status`;
-            const s = await (await fetch(statusUrl)).json();
+            const s = await getStatusData();
             chainId = s.chainId || chainId;
-            blockNumber = (typeof s.blockNumber !== 'undefined') ? s.blockNumber : blockNumber;
-        } catch {}
+        } catch { }
         const publicRpc = `${req.protocol}://${req.get('host')}/api/rpc`;
         res.json({
             name: NAME,
@@ -239,40 +237,45 @@ app.get('/api/wallet/verify-supply', async (req, res) => {
     }
 });
 
-// Chain status using RPC
+// Chain status using RPC. Exposed both as an HTTP route and as a helper so
+// internal endpoints can consume the same data without self-fetching over HTTP
+// (which would be an SSRF vector via attacker-controlled Host headers).
+async function getStatusData() {
+    let chainId = "0x0";
+    let blockNumber = 0;
+    let gasPriceWei = 0;
+    let peerCount = 0;
+
+    const hexToInt = (h) => (h ? parseInt(h, 16) : 0);
+
+    try {
+        const [chainIdResp, blockResp, gasResp, peerResp] = await Promise.all([
+            rpcCall("eth_chainId"),
+            rpcCall("eth_blockNumber"),
+            rpcCall("eth_gasPrice"),
+            rpcCall("net_peerCount").catch(() => ({ result: "0x0" }))
+        ]);
+        chainId = chainIdResp?.result || "0x0";
+        blockNumber = hexToInt(blockResp?.result);
+        gasPriceWei = hexToInt(gasResp?.result);
+        peerCount = hexToInt(peerResp?.result);
+    } catch (_) {
+        // Fallbacks for non-EVM RPC
+        const countResp = await rpcCall("getblockcount").catch(() => null);
+        if (countResp && typeof countResp.result !== "undefined") {
+            blockNumber = Number(countResp.result) || 0;
+        } else {
+            blockNumber = chain.length;
+        }
+        // peerCount fallback remains 0
+    }
+
+    return { rpcUrl: '/api/rpc', chainId, blockNumber, gasPriceWei, peerCount };
+}
+
 app.get("/api/status", async (_req, res) => {
     try {
-        // Try Ethereum-style methods first; if unavailable, fall back to SpiralCoin RPCs
-        let chainId = "0x0";
-        let blockNumber = 0;
-        let gasPriceWei = 0;
-        let peerCount = 0;
-
-        const hexToInt = (h) => (h ? parseInt(h, 16) : 0);
-
-        try {
-            const [chainIdResp, blockResp, gasResp, peerResp] = await Promise.all([
-                rpcCall("eth_chainId"),
-                rpcCall("eth_blockNumber"),
-                rpcCall("eth_gasPrice"),
-                rpcCall("net_peerCount").catch(() => ({ result: "0x0" }))
-            ]);
-            chainId = chainIdResp?.result || "0x0";
-            blockNumber = hexToInt(blockResp?.result);
-            gasPriceWei = hexToInt(gasResp?.result);
-            peerCount = hexToInt(peerResp?.result);
-        } catch (_) {
-            // Fallbacks for non-EVM RPC
-            const countResp = await rpcCall("getblockcount").catch(() => null);
-            if (countResp && typeof countResp.result !== "undefined") {
-                blockNumber = Number(countResp.result) || 0;
-            } else {
-                blockNumber = chain.length;
-            }
-            // peerCount fallback remains 0
-        }
-
-        res.json({ rpcUrl: '/api/rpc', chainId, blockNumber, gasPriceWei, peerCount });
+        res.json(await getStatusData());
     } catch (err) {
         console.error("/api/status error:", err);
         res.status(200).json({
@@ -287,24 +290,17 @@ app.get("/api/status", async (_req, res) => {
 // Exchange-friendly aggregate info combining /api/info and /api/status
 app.get('/api/exchange/info', async (req, res) => {
     try {
-        const baseUrl = `${req.protocol}://${req.get('host')}`;
-        const [infoResp, statusResp] = await Promise.all([
-            (async () => {
-                try { return await (await fetch(`${baseUrl}/api/info`)).json(); } catch { return {}; }
-            })(),
-            (async () => {
-                try { return await (await fetch(`${baseUrl}/api/status`)).json(); } catch { return {}; }
-            })()
-        ]);
+        // Build aggregate from in-process helpers (no self-fetch over HTTP).
+        const statusResp = await getStatusData().catch(() => ({}));
         const publicRpc = `${req.protocol}://${req.get('host')}/api/rpc`;
         res.json({
-            name: infoResp.name || NAME,
-            symbol: infoResp.symbol || SYMBOL,
+            name: NAME,
+            symbol: SYMBOL,
             rpcUrl: publicRpc,
             chainId: statusResp.chainId || '0x0',
             blockNumber: statusResp.blockNumber ?? statusResp.chainLengthFallback ?? 0,
             peerCount: statusResp.peerCount ?? 0,
-            endpoints: infoResp.endpoints || {
+            endpoints: {
                 health: '/health', status: '/api/status', rpcProxy: '/api/rpc', marketPrice: '/api/market/price', wallet: '/api/wallet'
             },
             error: statusResp.error
