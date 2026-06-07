@@ -21,12 +21,12 @@
     "exchange:publish:verbose": "bash scripts/publish-exchange-pack.sh --verbose"
   },
   "dependencies": {
-    "express": "^4.22.1",
-    "body-parser": "^1.20.4",
+    "express": "^4.22.2",
+    "body-parser": "^1.20.5",
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express-rate-limit": "^7.4.1",
-    "yaml": "^2.4.2",
+    "yaml": "^2.8.3",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2"
   }
