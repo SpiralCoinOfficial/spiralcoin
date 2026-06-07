@@ -35,11 +35,19 @@ jobs:
           # Markdown is linted by markdownlint-cli2 in build.yml.
           VALIDATE_MARKDOWN: false
           # Prettier-style validators are style-only (not correctness) and
-          # disagree with project conventions (e.g. GitHub workflow indentation).
+          # disagree with project conventions (e.g. GitHub workflow indentation,
+          # mixed 2/4-space JS indentation across legacy + new code).
           VALIDATE_YAML_PRETTIER: false
           VALIDATE_JSONC_PRETTIER: false
           VALIDATE_JSON_PRETTIER: false
           VALIDATE_MARKDOWN_PRETTIER: false
+          VALIDATE_JAVASCRIPT_PRETTIER: false
+          VALIDATE_TYPESCRIPT_PRETTIER: false
+          VALIDATE_JSX_PRETTIER: false
+          VALIDATE_CSS_PRETTIER: false
+          VALIDATE_HTML_PRETTIER: false
+          VALIDATE_GRAPHQL_PRETTIER: false
+          VALIDATE_VUE_PRETTIER: false
           # Natural-language linters flag prose style/word choice; not enforced.
           VALIDATE_NATURAL_LANGUAGE: false
           # Biome enforces a JS style not adopted by this repo.
