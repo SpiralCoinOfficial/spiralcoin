@@ -13,18 +13,17 @@ const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/spiralcoin
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Connect to MongoDB
 mongoose.connect(MONGO_URI)
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.error('MongoDB connection error:', err));
 
+// API Routes (Must be defined BEFORE express.static)
 app.get('/api/status', (req, res) => {
   res.json({ status: 'online', project: 'SPIRALCOIN (SPLC)' });
 });
 
-// User profile / allocation route
 app.post('/api/user', async (req, res) => {
   try {
     const { username, walletAddress } = req.body;
@@ -38,6 +37,9 @@ app.post('/api/user', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// Static Frontend Files
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => {
   console.log(`SpiralCoin backend running on port ${PORT}`);
