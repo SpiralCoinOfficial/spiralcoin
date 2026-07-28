@@ -1,59 +1,44 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const helmet = require('helmet');
+const path = require('path');
+const User = require('./models/User');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/spiralcoin';
 
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-let walletBalance = 1000;
-let splcData = { price: 1.25, marketCap: 1250000 };
+// Connect to MongoDB
+mongoose.connect(MONGO_URI)
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
-app.get('/api/wallet', (req, res) => {
-    res.json({ balance: walletBalance });
+app.get('/api/status', (req, res) => {
+  res.json({ status: 'online', project: 'SPIRALCOIN (SPLC)' });
 });
 
-app.get('/api/market', (req, res) => {
-    res.json({
-        SPLC: { price: splcData.price, marketCap: splcData.marketCap },
-        BTC: { price: 65000, marketCap: 1280000000 },
-        ETH: { price: 3500, marketCap: 420000000 }
-    });
-});
-
-app.post('/api/buy', (req, res) => {
-    const { amount } = req.body;
-    const parsedAmount = parseFloat(amount) || 0;
-    walletBalance += parsedAmount;
-    res.json({ success: true, message: `Successfully bought ${parsedAmount} SPLC!` });
-});
-
-app.post('/api/sell', (req, res) => {
-    const { amount } = req.body;
-    const parsedAmount = parseFloat(amount) || 0;
-    if (walletBalance >= parsedAmount) {
-        walletBalance -= parsedAmount;
-        res.json({ success: true, message: `Successfully sold ${parsedAmount} SPLC!` });
-    } else {
-        res.status(400).json({ success: false, message: 'Insufficient SPLC balance!' });
+// User profile / allocation route
+app.post('/api/user', async (req, res) => {
+  try {
+    const { username, walletAddress } = req.body;
+    let user = await User.findOne({ walletAddress });
+    if (!user) {
+      user = new User({ username, walletAddress, splcBalance: 1000 });
+      await user.save();
     }
-});
-
-app.post('/api/mine', (req, res) => {
-    walletBalance += 10;
-    res.json({ success: true, message: 'Mined 10 SPLC successfully!' });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.listen(PORT, () => {
-    console.log(`SpiralCoin server running at http://localhost:${PORT}`);
+  console.log(`SpiralCoin backend running on port ${PORT}`);
 });

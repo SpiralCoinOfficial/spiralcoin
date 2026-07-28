@@ -2,30 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SpiralCoin (SPLC) Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPIRALCOIN (SPLC) Platform</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>SpiralCoin (SPLC)</h1>
-    <div>
-        <h3>Wallet Balance: <span id="walletBalance">0</span> SPLC</h3>
+    <div class="container">
+        <header>
+            <h1>SPIRALCOIN <span class="ticker">SPLC</span></h1>
+            <p class="subtitle">Sovereign Digital Asset & Trading Ecosystem</p>
+        </header>
+
+        <main>
+            <section class="card">
+                <h2>User Portfolio / Registration</h2>
+                <form id="userForm">
+                    <input type="text" id="username" placeholder="Username" required>
+                    <input type="text" id="walletAddress" placeholder="Wallet Address (0x...)" required>
+                    <button type="submit">Load / Register Account</button>
+                </form>
+                <div id="output" class="output-box"></div>
+            </section>
+        </main>
     </div>
-    <div>
-        <h3>Market Data</h3>
-        <p>SPLC Price: $<span id="splcPrice">0</span> | Market Cap: $<span id="splcMarketCap">0</span></p>
-        <p>BTC Price: $<span id="btcPrice">0</span> | Market Cap: $<span id="btcMarketCap">0</span></p>
-        <p>ETH Price: $<span id="ethPrice">0</span> | Market Cap: $<span id="ethMarketCap">0</span></p>
-    </div>
-    <div>
-        <input type="number" id="buyAmount" placeholder="Amount to buy">
-        <button id="buyButton">Buy SPLC</button>
-    </div>
-    <div>
-        <input type="number" id="sellAmount" placeholder="Amount to sell">
-        <button id="sellButton">Sell SPLC</button>
-    </div>
-    <div>
-        <button id="mineButton">Mine SPLC</button>
-    </div>
-    <script src="script.js"></script>
+
+    <script src="js/app.js"></script>
 </body>
 </html>
