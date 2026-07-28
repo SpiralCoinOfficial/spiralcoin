@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPIRALCOIN (SPLC) Platform</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -13,7 +14,12 @@
             <p class="subtitle">Sovereign Digital Asset & Trading Ecosystem</p>
         </header>
 
-        <main>
+        <main class="grid-layout">
+            <section class="card">
+                <h2>Market Intelligence</h2>
+                <canvas id="priceChart"></canvas>
+            </section>
+
             <section class="card">
                 <h2>User Portfolio / Registration</h2>
                 <form id="userForm">
@@ -26,6 +32,8 @@
         </main>
     </div>
 
+    <script src="js/wallet.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/chart.js"></script>
 </body>
 </html>
