@@ -1,3 +1,23 @@
+# Dependencies & Logs
 node_modules/
-.env
-npm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Archives & Backups
+*.zip
+*.tar.gz
+*.rar
+*.7z
+backup/
+*.bak
+
+# Documents & Personal Files
+*.pdf
+*.csv
+*.docx
+*.xlsx
+*.sql
+*.key
+*.pem

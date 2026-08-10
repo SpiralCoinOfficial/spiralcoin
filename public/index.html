@@ -3,37 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPIRALCOIN (SPLC) Platform</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>SpiralCoin (SPLC) | Institutional-Grade Crypto Intelligence</title>
+    <style>
+        :root {
+            --bg-dark: #0b0c10;
+            --bg-card: #12141c;
+            --gold-primary: #d4af37;
+            --gold-light: #f3e5ab;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --border-color: rgba(212, 175, 55, 0.2);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: rgba(11, 12, 16, 0.95); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo-area h1 { font-size: 1.25rem; font-weight: 700; background: linear-gradient(135deg, var(--gold-light), var(--gold-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold-primary); }
+        .nav-actions { display: flex; gap: 1rem; align-items: center; }
+        .btn-gold { background: linear-gradient(135deg, var(--gold-primary), #aa820a); color: #000; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 600; border: none; cursor: pointer; text-decoration: none; font-size: 0.85rem; }
+        .main-content { max-width: 1400px; margin: 0 auto; padding: 2rem; flex: 1; width: 100%; }
+        .entity-banner { font-size: 0.8rem; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; font-weight: 600; }
+        .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2rem; margin-bottom: 3rem; align-items: center; }
+        @media (max-width: 968px) { .hero-grid { grid-template-columns: 1fr; } .nav-links { display: none; } }
+        .hero-text h2 { font-size: 3rem; line-height: 1.1; margin-bottom: 1.5rem; font-weight: 800; }
+        .hero-text h2 span { background: linear-gradient(135deg, var(--gold-light), var(--gold-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-text p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; }
+        .trading-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .wallet-display { background: rgba(212, 175, 55, 0.05); border: 1px solid var(--border-color); padding: 1.2rem; border-radius: 8px; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .wallet-display h3 { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; }
+        .wallet-display .balance-val { font-size: 1.8rem; font-weight: 700; color: var(--gold-light); }
+        .trading-controls { display: flex; flex-direction: column; gap: 1rem; }
+        .input-group { display: flex; gap: 0.5rem; }
+        .input-group input { flex: 1; background: #0b0c10; border: 1px solid var(--border-color); padding: 0.8rem; border-radius: 6px; color: white; font-size: 1rem; }
+        .btn-action { padding: 0.8rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; }
+        .btn-buy { background: #10b981; color: white; }
+        .btn-sell { background: #ef4444; color: white; }
+        .btn-mine { background: linear-gradient(135deg, var(--gold-primary), #aa820a); color: #000; width: 100%; margin-top: 0.5rem; }
+        .markets-section h3 { font-size: 1.5rem; margin-bottom: 1.5rem; font-weight: 700; }
+        .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .market-tile { background: var(--bg-card); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 10px; }
+        .market-tile .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .market-tile .symbol { font-weight: 700; font-size: 1.1rem; }
+        .market-tile .price { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .market-tile .mcap { font-size: 0.85rem; color: var(--text-muted); }
+        footer { border-top: 1px solid var(--border-color); padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.85rem; background: var(--bg-card); margin-top: auto; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>SPIRALCOIN <span class="ticker">SPLC</span></h1>
-            <p class="subtitle">Sovereign Digital Asset & Trading Ecosystem</p>
-        </header>
-
-        <main class="grid-layout">
-            <section class="card">
-                <h2>Market Intelligence</h2>
-                <canvas id="priceChart"></canvas>
-            </section>
-
-            <section class="card">
-                <h2>User Portfolio / Registration</h2>
-                <form id="userForm">
-                    <input type="text" id="username" placeholder="Username" required>
-                    <input type="text" id="walletAddress" placeholder="Wallet Address (0x...)" required>
-                    <button type="submit">Load / Register Account</button>
-                </form>
-                <div id="output" class="output-box"></div>
-            </section>
-        </main>
-    </div>
-
-    <script src="js/wallet.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/chart.js"></script>
+    <header>
+        <div class="nav-container">
+            <div class="logo-area"><h1>SpiralCoin (SPLC)</h1></div>
+            <ul class="nav-links">
+                <li><a href="#" class="active">Dashboard</a></li>
+                <li><a href="#">Markets</a></li>
+                <li><a href="#">Trade</a></li>
+                <li><a href="#">Community</a></li>
+                <li><a href="#">SPLC</a></li>
+                <li><a href="#">Sponsors</a></li>
+                <li><a href="#">Pricing</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" style="color: white; text-decoration: none; font-size: 0.85rem;">Log In</a>
+                <a href="#" class="btn-gold">Start Free</a>
+            </div>
+        </div>
+    </header>
+    <main class="main-content">
+        <div class="entity-banner">SPIRALCOIN L.L.C. [DBA] SpiralCoin (SPLC)</div>
+        <div class="hero-grid">
+            <div class="hero-text">
+                <h2>Institutional-Grade <span>Crypto Market Intelligence</span> For Every Investor</h2>
+                <p>Real-time feeds, secure decentralized liquidity pools, and advanced multi-chain tracking unified in one high-performance platform backed by precision engineering.</p>
+            </div>
+            <div class="trading-card">
+                <div class="wallet-display">
+                    <div>
+                        <h3>Wallet Balance</h3>
+                        <div class="balance-val"><span id="walletBalance">1000</span> SPLC</div>
+                    </div>
+                </div>
+                <div class="trading-controls">
+                    <div class="input-group">
+                        <input type="number" id="buyAmount" placeholder="Amount to buy">
+                        <button class="btn-action btn-buy" id="buyButton">Buy SPLC</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="sellAmount" placeholder="Amount to sell">
+                        <button class="btn-action btn-sell" id="sellButton">Sell SPLC</button>
+                    </div>
+                    <button class="btn-action btn-mine" id="mineButton">⛏️ Mine SPLC Block</button>
+                </div>
+            </div>
+        </div>
+        <div class="markets-section">
+            <h3>Live Markets & Cryptonews</h3>
+            <div class="market-grid" id="marketGrid">
+                <div class="market-tile">
+                    <div class="top"><span class="symbol">SPLC / USD</span><span style="color: #10b981; font-size: 0.85rem;">+2.45%</span></div>
+                    <div class="price">$<span id="splcPrice">1.25</span></div>
+                    <div class="mcap">Market Cap: $<span id="splcMarketCap">1,250,000</span></div>
+                </div>
+                <div class="market-tile">
+                    <div class="top"><span class="symbol">BTC / USD</span><span style="color: #10b981; font-size: 0.85rem;">+0.85%</span></div>
+                    <div class="price">$<span id="btcPrice">65,000</span></div>
+                    <div class="mcap">Market Cap: $<span id="btcMarketCap">1,280,000,000</span></div>
+                </div>
+                <div class="market-tile">
+                    <div class="top"><span class="symbol">ETH / USD</span><span style="color: #10b981; font-size: 0.85rem;">+1.28%</span></div>
+                    <div class="price">$<span id="ethPrice">3,500</span></div>
+                    <div class="mcap">Market Cap: $<span id="ethMarketCap">420,000,000</span></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2026 SPIRALCOIN L.L.C. [DBA] SpiralCoin (SPLC). All rights reserved. Institutional Intelligence Platform.</p>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
